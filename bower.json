@@ -1,0 +1,21 @@
+{
+  "name": "mejorando",
+  "version": "0.0.0",
+  "homepage": "https://github.com/javdu/mejorando",
+  "authors": [
+    "javdu <javdu0113@gmail.com>"
+  ],
+  "main": "index.php",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4"
+  }
+}
