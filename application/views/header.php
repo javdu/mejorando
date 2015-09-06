@@ -6,7 +6,8 @@
                 <div class="intro-text">
                     <div class="intro-lead-in">Bienvenidos a nuestra encuesta online!</div>
                     <div class="intro-heading">MEJORANDO MENTES</div>
-                    <button style="width: 200px;" type="button" class="btn btn-default btn-lg center-block">Comenzar</button>
+                    <br />
+                    <button style="padding: 20px 40px; width: 200px; color: #0E6E8C;" type="button" class="btn btn-default btn-lg center-block">EMPEZAR</button>
                 </div>
             </div>
         </div>
