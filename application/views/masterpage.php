@@ -6,8 +6,7 @@
     <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <title>Fundación P.A.S.S.</title>
 </head>
-<body>
-    <div id="page-top"></div>
+<body id="page-top" class="index">
     <?php include 'navbar.php'; ?>
     <?php include 'header.php'; ?>
     <br />
