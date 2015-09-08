@@ -130,6 +130,34 @@ header .intro-text .intro-heading {
     border: 0;
 }
 
+#about {
+    color: #878787;
+}
+
+#about h2{
+    color: #666666;
+}
+
+#about hr {
+    border: 0; 
+    height: 5px; 
+    background-image: linear-gradient(to right, #fff, #666666, #fff);
+}
+
+#contact {
+    color: #878787;
+}
+
+#contact h2{
+    color: #666666;
+}
+
+#contact hr {
+    border: 0; 
+    height: 5px; 
+    background-image: linear-gradient(to right, #fff, #666666, #fff);
+}
+
 footer {
     color: #fff !important ;
 }

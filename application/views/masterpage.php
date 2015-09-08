@@ -7,6 +7,7 @@
     <title>Fundación P.A.S.S.</title>
 </head>
 <body>
+    <div id="page-top"></div>
     <?php include 'navbar.php'; ?>
     <?php include 'header.php'; ?>
     <br />
