@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#page-top">Fundación P.A.S.S.</a>
+            <a class="navbar-brand" href="inicio">Fundación P.A.S.S.</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

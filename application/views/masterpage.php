@@ -8,14 +8,8 @@
 </head>
 <body id="page-top" class="index">
     <?php include 'navbar.php'; ?>
-    <?php include 'header.php'; ?>
-    <br />
-    <br />
-<div class="container">
-    <?php include 'body.php'; ?>
-</div>  
-    <br />
-    <br />
+    <?= $header ?>
+    <?= $content ?>
     <?php include 'footer.php'; ?>
     
     <!-- jQuery -->
