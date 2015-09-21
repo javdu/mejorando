@@ -251,3 +251,15 @@ footer .footer-below {
 .scroll-top .btn:focus {
     outline: 0;
 }
+
+#poblacion {
+    padding: 100px 0 0 0;
+}
+
+#poblacion1 input[type="text"] {
+    border: 0px;
+    border-bottom: 1px solid #999999;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}

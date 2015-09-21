@@ -7,13 +7,13 @@
     <title>Fundación P.A.S.S.</title>
 </head>
 <body id="page-top" class="index">
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbar_view.php'; ?>
     <?= $header ?>
     <?= $content ?>
-    <?php include 'footer.php'; ?>
+    <?php include 'footer_view.php'; ?>
     
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="assets/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="assets/js/bootstrap.min.js"></script>
@@ -25,9 +25,23 @@
 
     <!-- Contact Form JavaScript -->
     <script src="assets/js/jqBootstrapValidation.js"></script>
-    <script src="assets/js/contact_me.js"></script>
+    <!--<script src="assets/js/contact_me.js"></script>-->
 
     <!-- Custom Theme JavaScript -->
     <script src="assets/js/freelancer.js"></script>
-</body>
+    
+    <script src="assets/js/jquery-ui.min.js"></script>
+    
+    <script>
+        $( document ).ready(function() {
+            $( "#poblacionForm" ).submit(function( event ) {
+                event.preventDefault();
+                $.ajax({url: "cuestionario/poblacion/guardar", success: function(result){
+                    $("#box-preguntas").html(result);
+                }});
+            });
+        });
+    </script>
+</
+body>
 </html>

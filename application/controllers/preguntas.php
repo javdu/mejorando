@@ -7,7 +7,7 @@ class Preguntas extends CI_Controller {
 	public function index()
 	{
         $header = '';
-        $content = $this->load->view('preguntas/main', '', true);
+        $content = $this->load->view('preguntas/main_view', '', true);
 		$this->load->view('masterpage', array('header' => $header, 'content' => $content));
 	}
 }
