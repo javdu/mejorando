@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-8 col-lg-offset-2">
-                <form name="poblacionForm" id="poblacionForm">
+                <form name="preguntas1Form" id="preguntas1Form">
                     <div class="panel panel-default">
                       <div class="title panel-heading text-center"><h5>¿Puede caminar sobre una línea recta?</h5></div>
                       <div class="panel-body" style="display: none;">
@@ -67,7 +67,7 @@
                     <div class="clearfix"></div>
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <div id='toolbar' style="display: none;">
+                            <div id='toolbar'>
                                 <div class='wrapper text-center'>
                                     <div class="btn-group btn-group-lg">
                                         <a href="preguntas" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
@@ -89,6 +89,19 @@
             $parent = $(this).parent();
             $panel = $parent.children('div.panel-body');
             $panel.toggle('slow');
+        });
+        
+        $('html, body').animate({ scrollTop: 0 }, 500);
+        
+        $( "#contanos" ).css('border', '0px');
+        
+        $( "#juga" ).css('border-bottom', '3px solid #2196F3');
+        
+        $( "#preguntas1Form" ).submit(function( event ) {
+            event.preventDefault();
+            $.ajax({url: "cuestionario/preguntas1/guardar", success: function(result){
+                $("#box-preguntas").html(result);
+            }});
         });
     });
 </script>

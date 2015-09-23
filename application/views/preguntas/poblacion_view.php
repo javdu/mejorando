@@ -51,3 +51,13 @@
         </div>
     </div>
 </section>
+<script>
+    $( document ).ready(function() {
+        $( "#poblacionForm" ).submit(function( event ) {
+            event.preventDefault();
+            $.ajax({url: "cuestionario/poblacion/guardar", success: function(result){
+                $("#box-preguntas").html(result);
+            }});
+        });
+    });
+</script>

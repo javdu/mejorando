@@ -5,16 +5,16 @@
     <link href="assets/css/my.css" rel="stylesheet" type="text/css">
     <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <title>Fundación P.A.S.S.</title>
+    
+    <!-- jQuery -->
+    <script src="assets/js/jquery.js"></script>
 </head>
 <body id="page-top" class="index">
     <?php include 'navbar_view.php'; ?>
     <?= $header ?>
     <?= $content ?>
     <?php include 'footer_view.php'; ?>
-    
-    <!-- jQuery -->
-    <script src="assets/js/jquery.js"></script>
-    
+        
     <!-- Bootstrap Core JavaScript -->
     <script src="assets/js/bootstrap.min.js"></script>
 
@@ -29,17 +29,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="assets/js/freelancer.js"></script>
-    
-    <script>
-        $( document ).ready(function() {
-            $( "#poblacionForm" ).submit(function( event ) {
-                event.preventDefault();
-                $.ajax({url: "cuestionario/poblacion/guardar", success: function(result){
-                    $("#box-preguntas").html(result);
-                }});
-            });
-        });
-    </script>
 </
 body>
 </html>
