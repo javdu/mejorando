@@ -1,4 +1,4 @@
-<section id="poblacion">
+<section id="preguntas">
     <div class="container">
         <div class="row">
             <div class="col-xs-8 col-lg-offset-2">
@@ -70,7 +70,7 @@
                             <div id='toolbar'>
                                 <div class='wrapper text-center'>
                                     <div class="btn-group btn-group-lg">
-                                        <a href="preguntas" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
+                                        <a href="poblacion" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
                                         <input type="submit" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;" value="GUARDAR Y CONTINUAR">
                                     </div>
                                 </div>
