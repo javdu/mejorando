@@ -34,6 +34,9 @@ header {
     text-align: center;
     color: #fff;
     background: #0E6E8C;
+    background-image:url(../img/fundacionPass_logoTipo.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 header .container {
