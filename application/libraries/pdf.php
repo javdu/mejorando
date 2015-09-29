@@ -14,7 +14,7 @@
     		
     		   // poner la informacion del documento
     		   parent::SetCreator( PDF_CREATOR );
-    		   parent::SetAuthor( 'PORTAL COMPRAS CONTRATACIONES' );
+    		   parent::SetAuthor( 'MENTES MEJORANDO' );
     	       parent::SetTitle( 'IMPRESION PUBLICACION' );
     		   parent::SetSubject( 'IMPRESION DE PUBLICACION' );
     		   parent::SetKeywords( 'PDF' );

@@ -1,4 +1,4 @@
-<section id="preguntas">
+<section id="resultados">
     <div class="container">
         <div class="row">
             <div class="col-xs-8 col-lg-offset-2">
@@ -12,7 +12,7 @@
                                 <div class='wrapper text-center'>
                                     <div class="btn-group btn-group-lg">
                                         <a href="preguntas1" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
-                                        <input type="submit" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;" value="IMPRIMIR Y FINALIZAR">
+                                        <input type="submit" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;" value="FINALIZAR">
                                     </div>
                                 </div>
                             </div>
@@ -31,6 +31,11 @@
         
         $( "#resultados" ).css('border-bottom', '3px solid #2196F3');
         
-        
+        $( "#resultadosForm" ).submit(function( event ) {
+            event.preventDefault();
+            $.ajax({url: "cuestionario/resultados/guardar", success: function(result){
+                $("#cuestionario").html(result);
+            }});
+        });               
     });
 </script>
