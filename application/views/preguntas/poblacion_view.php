@@ -8,20 +8,12 @@
                         <input type="text" class="form-control" id="name" placeholder="DNI">
                     </div>
                     <div class="form-group col-xs-12">
-                        <label>Nombre</label>
+                        <label>Apellido y Nombre</label>
                         <input type="text" class="form-control" id="email" placeholder="Nombre">
-                    </div>
-                    <div class="form-group col-xs-12">
-                        <label>Apellido</label>
-                        <input type="text" class="form-control" id="phone" placeholder="Apellido">
                     </div>
                     <div class="form-group col-xs-12">
                         <label>Fecha Nacimiento</label>
                         <input type="text" class="form-control" id="message" placeholder="Fecha Nacimiento">
-                    </div>
-                    <div class="form-group col-xs-12">
-                        <label>Parentesco</label>
-                        <input type="text" class="form-control" id="message" placeholder="¿Que parentesco tiene usted?">
                     </div>
                     <div class="form-group col-xs-12">
                         <label>Escuela</label>
@@ -38,8 +30,8 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group btn-group-lg">
-                                        <a href="preguntas" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
                                         <input type="submit" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;" value="GUARDAR Y CONTINUAR">
+                                        <a href="preguntas" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
                                     </div>
                                 </div>
                             </div>

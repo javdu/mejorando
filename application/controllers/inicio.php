@@ -6,8 +6,13 @@ class Inicio extends CI_Controller {
 
 	public function index()
 	{
-        $header = $this->load->view('header_view', '', true);
-        $content = $this->load->view('body_view', '', true);
-		$this->load->view('masterpage', array('header' => $header, 'content' => $content));
+        $aData = array(
+            'navbar' => $this->load->view('navbar_view', '', true),
+            'header' => $this->load->view('header_view', '', true),
+            'content' => $this->load->view('body_view', '', true),
+            'footer' => $this->load->view('footer_view', '', true)
+        );
+        
+        $this->load->view('masterpage', $aData);
 	}
 }

@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="inicio">Fundación P.A.S.S.</a>
+            <a class="navbar-brand" href="<?= base_url(); ?>inicio">Fundación P.A.S.S.</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -18,9 +18,9 @@
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
-                <li class="page-scroll">
+                <!--<li class="page-scroll">
                     <a href="#portfolio">Portfolio</a>
-                </li>
+                </li>-->
                 <li class="page-scroll">
                     <a href="#about">Nosotros</a>
                 </li>

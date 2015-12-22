@@ -1,107 +1,90 @@
 <section id="preguntas">
     <div class="container">
         <div class="row">
-            <div class="col-xs-8 col-lg-offset-2">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <form name="preguntas1Form" id="preguntas1Form">
-                    <div class="panel panel-default">
-                      <div class="title panel-heading text-center"><h5>¿Puede caminar sobre una línea recta?</h5></div>
-                      <div class="panel-body" style="display: none;">
-                            <div class="radio text-center">
+                    <ul class="list-group">
+                    <?php foreach($aPreg as $preg): ?>
+                            <a class="list-group-item boxpregunta">
+                                <h5 class="text-center"> ¿<?= $preg['vcpregnombre']; ?>?</h5>
                                 <div class="row">
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Siempre</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Algunas veces</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Nunca</label></div>
+                                    <?php foreach($preg['respuestas'] as $resp): ?>
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
+                                            <label class="label-pregunta">
+                                                <input type="radio" name="<?= $preg['idpregunta']; ?>" value="<?= $resp['idrespuesta'];?>" /> <?= $resp['vcrespnombre']; ?>
+                                            </label>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                            </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-default">
-                      <div class="title panel-heading text-center"><h5>¿Puede recortar figuras con tijera para niños?</h5></div>
-                      <div class="panel-body" style="display: none;">
-                            <div class="radio text-center">
-                                <div class="row">
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Siempre</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Algunas veces</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Nunca</label></div>
-                                </div>
-                            </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-default">
-                      <div class="title panel-heading text-center"><h5>¿Puede lavarse las manos sin ayuda?</h5></div>
-                      <div class="panel-body" style="display: none;">
-                            <div class="radio text-center">
-                                <div class="row">
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Siempre</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Algunas veces</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Nunca</label></div>
-                                </div>
-                            </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-default">
-                      <div class="title panel-heading text-center"><h5>¿Puede abrochar un botón?</h5></div>
-                      <div class="panel-body" style="display: none;">
-                            <div class="radio text-center">
-                                <div class="row">
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Siempre</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Algunas veces</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Nunca</label></div>
-                                </div>
-                            </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-default">
-                      <div class="title panel-heading text-center"><h5>¿Puede guardar solo sus cosas en su mochila?</h5></div>
-                      <div class="panel-body" style="display: none;">
-                            <div class="radio text-center">
-                                <div class="row">
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Siempre</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Algunas veces</label></div>
-                                    <div class="col-xs-4"><label><input type="radio" name="optradio">Nunca</label></div>
-                                </div>
-                            </div>
-                      </div>
-                    </div>
+                            </a>
+                    <?php endforeach; ?>
+                    </ul>
+                    <div class="text-center"><?= $this->pagination->create_links(); ?></div>
                     <br>
                     <div class="clearfix"></div>
                     <div class="row">
-                        <div class="form-group col-xs-12">
+                        <div class="form-group">
                             <div id='toolbar'>
                                 <div class='wrapper text-center'>
-                                    <div class="btn-group btn-group-lg">
-                                        <a href="poblacion" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">VOLVER</a>
-                                        <input type="submit" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;" value="GUARDAR Y CONTINUAR">
+                                    <div class="btn-group">
+                                        <input type="submit" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;" value="GUARDAR Y CONTINUAR">
+                                        <a href="preguntas" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VOLVER</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-                <hr />
             </div>
         </div>
     </div>
 </section>
 <script>
     $( document ).ready(function() {
-        $( ".title" ).bind( "click", function() {
-            $parent = $(this).parent();
-            $panel = $parent.children('div.panel-body');
-            $panel.toggle('slow');
+        /*
+        $( ".boxpregunta" ).bind( "click", function() {
+            $( ".boxpregunta" ).removeClass("active");
+            $(this).addClass("active");
+            
+        });*/
+        
+        $(':radio').change(function () {
+            $(':radio[name=' + this.name + ']').parent().css("font-weight", "normal");
+            $(':radio[name=' + this.name + ']').parent().css("font-size", "14px");
+            $(this).parent().css( "font-weight", "bold" );
+            $(this).parent().css( "font-weight", "bold" );
+            $(this).parent().css( "font-size", "15px" );
         });
         
         $('html, body').animate({ scrollTop: 0 }, 500);
         
-        $( "#contanos" ).css('border', '0px');
-        
-        $( "#juga" ).css('border-bottom', '3px solid #2196F3');
+        $( "#contanos" ).css('border-bottom', '5px solid #7f8c8d');
+        $( "#juga" ).css('border-bottom', '5px solid #2196F3');
+        $( "#resultados" ).css('border-bottom', '5px solid #7f8c8d');
         
         $( "#preguntas1Form" ).submit(function( event ) {
             event.preventDefault();
-            $.ajax({url: "cuestionario/preguntas1/guardar", success: function(result){
-                $("#box-preguntas").html(result);
-            }});
+            $.ajax({
+                url: "cuestionario/preguntas1/guardarcontinuar",
+                type: "post", 
+                data : $("#preguntas1Form").serialize(),
+                success: function(result){
+                    $("#box-preguntas").html(result);
+                }
+            });
+        });
+        
+        $( ".nropaginacion" ).bind( "click", function(event) {
+            event.preventDefault();
+            $link = $(this).children("a").attr('href');
+            $.ajax({
+                url: $link,
+                type: "post", 
+                data : $("#preguntas1Form").serialize(),
+                success: function(result){
+                    $("#box-preguntas").html(result);
+                }
+            });
         });
     });
 </script>

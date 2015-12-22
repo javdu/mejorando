@@ -2,7 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Poblacion extends CI_Controller {
+class Poblacion extends Ext_Controller {
+    function __construct()
+	{
+	   parent::__construct();
+	   $this->load->model('pregunta_model', 'preguntaModel');
+       $this->load->model('informe_model', 'informeModel');
+    }
 
 	public function index()
 	{
@@ -14,8 +20,22 @@ class Poblacion extends CI_Controller {
     
     public function guardar()
     {
-        $viewPreguntas1 = $this->load->view('preguntas/preguntas1_view', '', true);
+        $this->session->set_userdata('idalumno', $this->input->post('idalumno'));
+        if (((bool)$this->session->userdata('idinforme') == false)||($this->session->userdata('idinforme') == 0)) {
+            $aParams = array(
+                'dtinffecha' => date('Y-m-d'),
+                'boinfestado' => 1,
+                'idinfest' => 1,
+                'idencuesta' => 1,
+                'idalumno' => $this->session->userdata('idalumno'),
+                'idpersona' => $this->session->userdata('idpersona')
+            );
+            
+            $idinforme = $this->informeModel->guardar($aParams);
+            
+            $this->session->set_userdata('idinforme', $idinforme);   
+        }
         
-        echo $viewPreguntas1;
+        redirect('/cuestionario/preguntas1/formulario');
     }
 }

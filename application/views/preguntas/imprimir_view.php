@@ -1,19 +1,20 @@
-<section id="imprimir">
+<section id="imprimir" style="padding: 0px;">
     <div class="container">
         <div class="row">
-            <div class="col-xs-8 col-lg-offset-2">
+            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <div class="jumbotron">
                     <h2 class="text-center">Gracias por participar!</h2>
-                    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                    <!--<p>Mejorando Mentes.</p>-->
                 </div>
                 <br>
                 <div class="clearfix"></div>
                 <div class="row">
-                    <div class="form-group col-xs-12">
+                    <div class="form-group">
                         <div id='toolbar'>
                             <div class='wrapper text-center'>
-                                <div class="btn-group btn-group-lg">
-                                    <a href="cuestionario/resultados/imprimir" target="_blank" id="submitRespuestas" name="submitRespuestas" class="btn btn-default" style="padding: 20px 40px; width: 300px; color: #0E6E8C;">IMPRIMIR</a>
+                                <div class="btn-group">
+                                    <a href="cuestionario/resultados/imprimir" target="_blank" id="submitRespuestas" name="submitRespuestas" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VER RESULTADOS</a>
+                                    <a href="preguntas" id="otraEncuesta" name="otraEncuesta" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">INGRESAR OTRO</a>
                                 </div>
                             </div>
                         </div>
@@ -23,3 +24,8 @@
         </div>
     </div>
 </section>
+<script>
+    $( document ).ready(function() {
+        $('html, body').animate({ scrollTop: 0 }, 500);
+    });
+</script>
