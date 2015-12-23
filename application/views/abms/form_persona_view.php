@@ -54,13 +54,6 @@
                             echo form_dropdown('idescuelagrado', $aEscuelaGrados, $aReg['idescuelagrado'], array('class' => 'form-control')); 
                         ?>
                     </div>
-                    <div class="form-group col-xs-12">
-                        <label for="idparentesco">Parentesco</label>
-                        <?php
-                            $aParent = array('' => 'Seleccionar') + $aParent;
-                            echo form_dropdown('parentesco', $aParent, $aReg['parentesco'], array('class' => 'form-control')); 
-                        ?>
-                    </div>
                     <br>
                     <div class="clearfix"></div>
                     <div class="row">

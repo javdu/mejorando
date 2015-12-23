@@ -84,6 +84,7 @@ class Autenticacion extends CI_Controller {
             if ((bool) $aUsuario) {
                 $nuevosdatos = array(
                    'idpersona'  => $aUsuario['idpersona'],
+                   'idtutor'  => $aUsuario['idtutor'],
                    'vcpernombre'  => $aUsuario['vcpernombre'],
                    'vcusunombre'  => $aUsuario['vcusunombre'],
                    'ingresado' => TRUE

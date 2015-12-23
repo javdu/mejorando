@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3 col-lg-9 col-lg-offset-3">
-                                <a href="abms/persona" id="show_form_persona" name="show_form_persona">&raquo; Ingresar nuevo alumno.</a>
+                                <a href="abms/persona" id="show_form_persona" name="show_form_persona">&raquo; Registrar nuevo.</a>
                             </div>
                         </div>
                     </div>

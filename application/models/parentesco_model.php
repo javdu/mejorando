@@ -31,5 +31,18 @@
             
             return $resultSimple;
         }
+        
+        public function obtenerTodosNombRever()
+        {
+            $consulta = $this->db->get('tparentesco');
+            
+            $resultSimple = array();
+			foreach ($consulta->result() as $row){
+                $resultSimple[$row->idparentesco] = $row->vcparentnombrever;
+            }
+            
+            return $resultSimple;
+        }
+        
     }
 // EOF parentesco_model.php

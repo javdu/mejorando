@@ -12,6 +12,7 @@ class Persona extends Ext_Controller {
         $this->load->model('parentesco_model', 'parentescoModel');
         $this->load->model('escuela_Model', 'escuelaModel');
         $this->load->model('escuelagrado_Model', 'escuelagradoModel');
+        $this->load->model('TutAlum_Model', 'tutalumModel');
         
         $this->load->library('form_validation');
         
@@ -25,7 +26,7 @@ class Persona extends Ext_Controller {
                 array(
                      'field'   => 'vcpernombre',
                      'label'   => 'Nombre',
-                     'rules'   => 'trim|required|alpha'
+                     'rules'   => 'trim|required'
                   ),
                 array(
                      'field'   => 'dtperfechnac',
@@ -66,13 +67,14 @@ class Persona extends Ext_Controller {
                      'field'   => 'idescuelagrado',
                      'label'   => 'Grado',
                      'rules'   => 'required'
-                ),   
+                )
+            ),
+            'tutalum' => array(  
                 array(
-                     'field'   => 'parentesco',
+                     'field'   => 'idparentesco',
                      'label'   => 'Parentesco',
                      'rules'   => 'required'
                 )
-                
             ),
             'buscarPersona' => array(
                 array(
@@ -82,7 +84,7 @@ class Persona extends Ext_Controller {
                 )
             )
         );
-    }    
+    }
 
 	public function index()
 	{
@@ -99,7 +101,7 @@ class Persona extends Ext_Controller {
                 ),
                 'aEscuelas' => $this->escuelaModel->obtenerTodos(),
                 'aEscuelaGrados' => $this->escuelagradoModel->obtenerTodos(),
-                'aParent' => $this->parentescoModel->obtenerTodos()
+                'aParent' => $this->parentescoModel->obtenerTodosNombRever()
             ), 
             false
         );
@@ -194,6 +196,15 @@ class Persona extends Ext_Controller {
             $idAlumno = $this->alumnoModel->guardar($aData);
             
             $aData = array(
+                'botutalumestado' => 1,
+                'idtutor' => $this->input->post('idescuela'),
+                'idalumno' => $this->input->post('idalumno'),
+                'idparentesco' => $this->input->post('idparentesco')
+            );
+            
+            $idTutAlum = $this->tutalumModel->guardar($aData);
+            
+            $aData = array(
                 'idalumno' => $idAlumno,
                 'vcpernombre' => $this->input->post('vcpernombre'),
                 'inperdni' => $this->input->post('inperdni')
@@ -203,6 +214,23 @@ class Persona extends Ext_Controller {
             
             echo $viewPersona;
         }
+    }
+    
+    public function guardartutalum()
+    {
+        $this->form_validation->set_rules($this->aReglas['tutalum']);
+        if ($this->form_validation->run() == FALSE) {
+            $aData = $this->input->post();
+            $aAlumno = $this->alumnoModel->obtenerUno($aData);
+            $aData['aParent'] = $this->parentescoModel->obtenerTodos();
+            $aData['aReg'] = $aAlumno;
+            $aData['idparentesco'] = null;
+            $viewPersona = $this->load->view('abms/formasociaralumno_view', $aData, true);
+        } else {
+            
+        }
+        
+        echo $viewPersona;
     }
     
     public function buscarPersona()
@@ -218,15 +246,26 @@ class Persona extends Ext_Controller {
         else
         {
             $aData = $this->input->post();
-            $aAlumno = $this->alumnoModel->obtenerUno($aData);
-        
+            $aData['idtutor'] = $this->session->userdata('idtutor');
+            $aAlumno = $this->alumnoModel->obtenerFamiliarACargo($aData);
             if ( isset($aAlumno) ) {
                 $viewPersona = $this->load->view('abms/mostrarpersona_view', array('aAlumno' => $aAlumno), true);
             } else {
-                $aData = array(
-                    'msj' => '<div class="alert alert-info"><p>El niño no se encuentra registrado.</p></div>'
-                );
-                $viewPersona = $this->load->view('preguntas/buscadorninio_view', $aData, true);
+                $aData = $this->input->post();
+                $aAlumno = $this->alumnoModel->obtenerUno($aData);
+                if ( isset($aAlumno) ) {
+                    
+                    $aData['aParent'] = $this->parentescoModel->obtenerTodos();
+                    $aData['aReg'] = $aAlumno;
+                    $aData['idparentesco'] = null;
+                    $viewPersona = $this->load->view('abms/formasociaralumno_view', $aData, true);
+                } else {
+                    $aData = array(
+                        'msj' => '<div class="alert alert-info"><p>El niño no se encuentra registrado.</p></div>',
+                        'inperdni' => ((bool) $this->input->post('inperdni'))? $this->input->post('inperdni') : ''
+                    );
+                    $viewPersona = $this->load->view('preguntas/buscadorninio_view', $aData, true);   
+                }
             }
         }
         

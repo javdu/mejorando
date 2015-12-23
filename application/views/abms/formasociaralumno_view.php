@@ -4,31 +4,33 @@
     $errores = (!empty($errores))? '<div class="alert alert-danger" role="alert">'.$errores.'</div>' : ''; 
 ?>
 <section id="poblacion">
-    <div class="container" style="margin-top: 30px;">
+    <div class="container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
                 <?= $msj; ?>
-                <ol class="breadcrumb">
-                    <li>Registrarme</li>
-                    <li>Datos Usuario</li>                    
-                </ol>
-                <form name="formUsuario" id="formUsuario" method="post">
-                    <div class="form-group">
-                        <label for="vcusunombre">Usuario (DNI)</label>
-                        <input type="text" class="form-control" id="vcusunombre" name="vcusunombre" placeholder="DNI" value="<?= $aReg['vcusunombre']; ?>">
+                <p style="text-align: center;">¿Que parentesco tiene con el alumno?</p>
+                <form name="poblacionForm" id="poblacionForm" method="post">
+                    <div class="form-group col-xs-12">
+                        <label for="inperdni">DNI</label>
+                        <input type="text" class="form-control" id="inperdni" name="inperdni" placeholder="DNI" value="<?= $aReg['inperdni']; ?>" />
                     </div>
-                    <div class="form-group">
-                        <label for="vcusuclave">Clave</label>
-                        <input type="text" class="form-control" id="vcusuclave" name="vcusuclave" placeholder="Clave" value="<?= $aReg['vcusuclave']; ?>">
+                    <div class="form-group col-xs-12">
+                        <label for="vcpernombre">Apellido y Nombre</label>
+                        <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" placeholder="Apellido y Nombre" style="text-transform: uppercase;" value="<?= $aReg['vcpernombre']; ?>" />
                     </div>
-                    <div class="form-group">
-                        <label for="vcusuemail">Email</label>
-                        <input type="text" class="form-control" id="vcusuemail" name="vcusuemail" placeholder="Email" value="<?= $aReg['vcusuemail']; ?>">
+                    <div class="form-group col-xs-12">
+                        <label for="vcperdom">Domicilio</label>
+                        <input type="text" class="form-control" id="vcperdom" name="vcperdom" placeholder="Domicilio" value="<?= $aReg['vcperdom']; ?>" />
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label for="idparentesco">Parentesco</label>
+                        <?php
+                            $aParent = array('' => 'Seleccionar') + $aParent;
+                            echo form_dropdown('idparentesco', $aParent, $idparentesco, array('class' => 'form-control')); 
+                        ?>
                     </div>
                     <br>
-                    <input type="hidden" name="form-usuario" value="form-usuario">
-                    <input type="hidden" name="idpersona" value="<?= $aReg['idpersona']; ?>>
                     <div class="clearfix"></div>
                     <div class="row">
                         <div class="form-group col-xs-12">
@@ -53,14 +55,14 @@
         
         $('html, body').animate({ scrollTop: 0 }, 500);
         
-        $( "#formUsuario" ).submit(function( event ) {
+        $( "#poblacionForm" ).submit(function( event ) {
             event.preventDefault();
             $.ajax({ 
-                url: "abms/usuario/guardarusuario", 
+                url: "abms/persona/guardartutalum", 
                 type: "post", 
-                data : $("#formUsuario").serialize(),
+                data : $("#poblacionForm").serialize(),
                 success: function(result){
-                    $("#box-main").html(result);
+                    $("#box-preguntas").html(result);
                 }
             });
         });

@@ -16,11 +16,13 @@
                 tusuario.idusuario, 
                 tusuario.vcusunombre, 
                 tusuario.vcusuclave, 
-                tusuario.vcusuemail'
+                tusuario.vcusuemail,
+                ttutor.idtutor'
             );
             $this->db->from('tusuario');
             $this->db->where($aParams);
-            $this->db->join('tpersona', 'tpersona.inperdni = tusuario.vcusunombre');
+            $this->db->join('tpersona', 'tpersona.idpersona = tusuario.idpersona');
+            $this->db->join('ttutor', 'ttutor.idpersona = tpersona.idpersona');
             $result = $this->db->get()->result_array();
             
             return array_shift($result);

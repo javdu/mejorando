@@ -16,6 +16,7 @@ class Usuario extends CI_Controller {
         $this->load->model('docesc_model', 'docEscModel');
         $this->load->model('usuario_model', 'usuarioModel');
         $this->load->model('tutalum_model', 'tutAlumModel');
+        $this->load->model('tutor_model', 'tutorModel');
                 
         $this->load->library('form_validation');
         $this->load->library('encrypt');
@@ -35,7 +36,7 @@ class Usuario extends CI_Controller {
                 array(
                      'field'   => 'vcpernombre',
                      'label'   => 'Nombre',
-                     'rules'   => 'trim|required|alpha'
+                     'rules'   => 'trim|required'
                   ),
                 array(
                      'field'   => 'dtperfechnac',
@@ -149,10 +150,10 @@ class Usuario extends CI_Controller {
     
     public function iniRegUsuario()
     {
-        if ((bool)$this->input->post()) {
+        if ((bool)$this->input->post('form-usuario')) {
             $this->aReg = array(
                 'vcusunombre' => $this->input->post('vcusunombre'),
-                'vcusuclave' => md5($this->input->post('vcusuclave')),
+                'vcusuclave' => $this->input->post('vcusuclave'),
                 'vcusuemail' => $this->input->post('vcusuemail'),
                 'bousuestado' => 1
             );
@@ -239,6 +240,25 @@ class Usuario extends CI_Controller {
             $aData = $this->iniReg();
             $idPersona = $this->personaModel->guardar($aData);
             
+            $aData = array(
+                'dttutfecha' => date("Y-m-d"),
+                'botutestado' => 1,
+                'idpersona' => $idPersona
+            );
+            $idTutor = $this->tutorModel->guardar($aData);
+            
+            $aReg = array();
+            $aReg = $this->iniRegUsuario();
+            $aReg['idPersona'] = $idPersona;
+            $view = $this->load->view(
+                'abms/formusuario_view', 
+                array(
+                    'aReg' => $aReg
+                ), 
+                true
+            );
+            
+            /*
             switch ($this->input->post('idrol')) {
                 case 2:
                     $aEscuelas = $this->escuelaModel->obtenerTodos();
@@ -270,7 +290,7 @@ class Usuario extends CI_Controller {
                         true
                     );
                     break;
-            }
+            }*/
         }
         
         echo $view;
@@ -350,6 +370,8 @@ class Usuario extends CI_Controller {
             );
         } else {
             $aParams = $this->iniRegUsuario();
+            $aParams['vcusuclave'] = md5($aParams['vcusuclave']);
+            $aParams['idPersona'] = $this->input->post('idPersona');
             $this->usuarioModel->guardar($aParams);
             
             $aData = array(
