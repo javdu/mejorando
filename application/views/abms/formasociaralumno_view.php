@@ -13,15 +13,15 @@
                 <form name="poblacionForm" id="poblacionForm" method="post">
                     <div class="form-group col-xs-12">
                         <label for="inperdni">DNI</label>
-                        <input type="text" class="form-control" id="inperdni" name="inperdni" placeholder="DNI" value="<?= $aReg['inperdni']; ?>" />
+                        <input type="text" class="form-control" id="inperdni" name="inperdni" placeholder="DNI" value="<?= $aReg['inperdni']; ?>" readonly />
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcpernombre">Apellido y Nombre</label>
-                        <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" placeholder="Apellido y Nombre" style="text-transform: uppercase;" value="<?= $aReg['vcpernombre']; ?>" />
+                        <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" placeholder="Apellido y Nombre" style="text-transform: uppercase;" value="<?= $aReg['vcpernombre']; ?>" readonly />
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcperdom">Domicilio</label>
-                        <input type="text" class="form-control" id="vcperdom" name="vcperdom" placeholder="Domicilio" value="<?= $aReg['vcperdom']; ?>" />
+                        <input type="text" class="form-control" id="vcperdom" name="vcperdom" placeholder="Domicilio" value="<?= $aReg['vcperdom']; ?>" readonly />
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="idparentesco">Parentesco</label>
@@ -30,6 +30,7 @@
                             echo form_dropdown('idparentesco', $aParent, $idparentesco, array('class' => 'form-control')); 
                         ?>
                     </div>
+                    <input type="hidden" name="idalumno" value="<?= $aReg['idalumno']; ?>">
                     <br>
                     <div class="clearfix"></div>
                     <div class="row">

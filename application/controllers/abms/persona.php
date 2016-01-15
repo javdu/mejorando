@@ -227,7 +227,25 @@ class Persona extends Ext_Controller {
             $aData['idparentesco'] = null;
             $viewPersona = $this->load->view('abms/formasociaralumno_view', $aData, true);
         } else {
+            $aData['botutalumestado'] = 1;
+            $aData['idtutor'] = $this->session->userdata('idtutor');
+            $aData['idalumno'] = $this->input->post('idalumno');
+            $aData['idparentesco'] = $this->input->post('idparentesco');
             
+            $this->tutalumModel->guardar($aData);
+            
+            $aData = array();
+            $aData['inperdni'] = $this->input->post('inperdni');
+            $aData['idtutor'] = $this->session->userdata('idtutor');
+            
+            $aAlumno = $this->alumnoModel->obtenerFamiliarACargo($aData);
+            $viewPersona = $this->load->view('abms/mostrarpersona_view', array('aAlumno' => $aAlumno), true);
+            
+            /*
+            $aData['idtutor'] = $this->session->userdata('idtutor');
+            $aAlumno = $this->alumnoModel->obtenerFamiliarACargo($aData);
+            $viewPersona = $this->load->view('abms/mostrarpersona_view', array('aAlumno' => $aAlumno), true);
+            */
         }
         
         echo $viewPersona;
@@ -254,7 +272,6 @@ class Persona extends Ext_Controller {
                 $aData = $this->input->post();
                 $aAlumno = $this->alumnoModel->obtenerUno($aData);
                 if ( isset($aAlumno) ) {
-                    
                     $aData['aParent'] = $this->parentescoModel->obtenerTodos();
                     $aData['aReg'] = $aAlumno;
                     $aData['idparentesco'] = null;

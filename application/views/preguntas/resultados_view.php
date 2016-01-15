@@ -1,13 +1,13 @@
 <section id="resultados">
     <div class="container">
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+            <div class="col-xs-9 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <form name="resultadosForm" id="resultadosForm" action="cuestionario/resultados/guardar">
-                    <div id="chart" name="chart" style="width:100%; height:400px; border: 1px solid #000; margin: 10px;"></div>
-                    <div id="chart1" name="chart1" style="width:100%; height:400px; border: 1px solid #000; margin: 10px;"></div>
-                    <div id="chart2" name="chart2" style="width:100%; height:400px; border: 1px solid #000; margin: 10px;"></div>
-                    <div id="chart3" name="chart3" style="width:100%; height:400px; border: 1px solid #000; margin: 10px;"></div>
-                    <div id="basicline" name="basicline" style="width:100%; height:400px; border: 1px solid #000; margin: 10px;"></div>
+                    <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart" name="chart"></div></div>
+                    <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart1" name="chart1"></div></div>
+                    <div style=" border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart2" name="chart2"></div></div>
+                    <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart3" name="chart3"></div></div>
+                    <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="basicline" name="basicline"></div></div>
                     <br>
                     <div class="clearfix"></div>
                     <div class="row">
