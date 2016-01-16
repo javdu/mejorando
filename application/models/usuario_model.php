@@ -13,5 +13,16 @@
             
             return $this->db->insert_id();
         }
+        
+        public function obtenerUno($aData)
+        {
+            $this->db->select('*');
+            $this->db->from('tusuario');
+            $this->db->where('idpersona', $aData['idpersona']);
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
+        }
     }
 // EOF parentesco_model.php

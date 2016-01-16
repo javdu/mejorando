@@ -10,6 +10,7 @@ class Preguntas1 extends Ext_Controller {
 	   $this->load->model('pregunta_model', 'preguntaModel');
        $this->load->model('informe_model', 'informeModel');
        $this->load->model('infresp_Model', 'infrespModel');
+       $this->load->model('usuario_Model', 'usuarioModel');
        
        $this->load->library('pagination');          
     }
@@ -69,6 +70,8 @@ class Preguntas1 extends Ext_Controller {
         
         echo $viewPreguntas1;
     }
+    
+    
     
     public function guardar()
     {

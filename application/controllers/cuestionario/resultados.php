@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Resultados extends Ext_Controller {
+    var $nombre_archivo = '';
     
     function __construct()
 	{
@@ -13,7 +14,7 @@ class Resultados extends Ext_Controller {
        $this->load->model('grafico_model', 'graficoModel');
        $this->load->model('factor_Model', 'factorModel');
        $this->load->model('inffacindice_Model', 'inffacindiceModel');
-       
+       $this->load->model('usuario_Model', 'usuarioModel');
     }
 
 	public function index()
@@ -105,10 +106,51 @@ class Resultados extends Ext_Controller {
     {
         $this->session->set_userdata('idinforme', 0);
         
+        $this->hacerPDF();
+        
+        $this->sendMailGmail();
+        
         $viewImprimir = $this->load->view('preguntas/imprimir_view', '', true);
         
         echo $viewImprimir;
     }
+    
+    public function sendMailGmail()
+	{
+		//cargamos la libreria email de ci
+		$this->load->library("email");
+ 
+		//configuracion para gmail
+		$configGmail = array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.gmail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'javdu1301@gmail.com',
+			'smtp_pass' => 'volume436649',
+			'mailtype' => 'html',
+			'charset' => 'utf-8',
+			'newline' => "\r\n"
+		);    
+ 
+		//cargamos la configuración para enviar con gmail
+		$this->email->initialize($configGmail);
+        $this->email->attach($this->nombre_archivo, "inline");
+		$this->email->from('javdu0113@gmail.com');
+        
+        $aUsuario = $this->usuarioModel->obtenerUno(array('idpersona' => $this->session->userdata('idpersona')));
+        $this->email->to($aUsuario['vcusuemail']);
+		$this->email->subject('Mentes Mejorando - '.$this->session->userdata('vcpernombre').' '.date("d/m/Y H:i"));
+        
+        $aData = array(
+            'fecha' => date("d/m/Y H:i"),
+            'vcpernombre' => $this->session->userdata('vcpernombre')
+        );
+		$this->email->message($this->load->view('message_view', $aData, true));
+		$this->email->send();
+		//con esto podemos ver el resultado
+		//var_dump($this->email->print_debugger());
+        
+	}
     
     private function _calculaEdad($fecha)
     {
@@ -120,7 +162,7 @@ class Resultados extends Ext_Controller {
         return $edad;
     }
     
-    function imprimir()
+    function hacerPDF()
     {
         $this->load->library('Reporte');
         
@@ -158,8 +200,15 @@ class Resultados extends Ext_Controller {
     	// ---------------------------------------------------------
     	// Cerrar el documento PDF y preparamos la salida
     	// Este mtodo tiene varias opciones, consulte la documentacin para ms informacin.
-    	$nombre_archivo = utf8_decode("Resultados Mentes Mejorando.pdf");
-
-    	$pdf->Output($nombre_archivo, 'I');
+    	$this->nombre_archivo = __DIR__."\..\..\..\assets\pdf\Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_His").".pdf";
+        //file_put_contents(base_url()."assets/pdf/Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_Hi").".pdf", null);
+    	$pdf->Output($this->nombre_archivo, 'F');
+    }
+    
+    function verPDF()
+    {
+        header('Content-type: application/pdf');
+        header('Content-Disposition: inline; filename="'.$this->nombre_archivo.'"');
+        readfile($this->nombre_archivo);
     }
 }

@@ -13,7 +13,7 @@
                         <div id='toolbar'>
                             <div class='wrapper text-center'>
                                 <div class="btn-group">
-                                    <a href="cuestionario/resultados/imprimir" target="_blank" id="submitRespuestas" name="submitRespuestas" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VER RESULTADOS</a>
+                                    <a href="cuestionario/resultados/verpdf" target="_blank" id="submitRespuestas" name="submitRespuestas" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VER RESULTADOS</a>
                                     <a href="preguntas" id="otraEncuesta" name="otraEncuesta" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">INGRESAR OTRO</a>
                                 </div>
                             </div>

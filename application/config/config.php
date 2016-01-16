@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/javdu/mejorando';
+$config['base_url'] = 'http://localhost/mejorando';
 
 /*
 |--------------------------------------------------------------------------

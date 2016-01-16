@@ -9,7 +9,7 @@
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
                 <?= $msj; ?>
-                <p style="text-align: center;">¿Que parentesco tiene con el alumno?</p>
+                <p style="text-align: center;">¿Que vínculo tiene con el alumno?</p>
                 <form name="poblacionForm" id="poblacionForm" method="post">
                     <div class="form-group col-xs-12">
                         <label for="inperdni">DNI</label>

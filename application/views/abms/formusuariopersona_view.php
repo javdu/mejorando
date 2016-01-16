@@ -15,7 +15,7 @@
                 </ol>
                 <form name="personaForm" id="personaForm" method="post">
                     <div class="form-group">
-                        <label for="idrol">Parentesco con el/los niños</label>
+                        <label for="idrol">Vínculo con el/los niños</label>
                         <?php
                             $aRol = array('' => 'Seleccionar') + $aRol;
                             echo form_dropdown('idrol', $aRol, $aReg['idrol'], array('class' => 'form-control')); 
