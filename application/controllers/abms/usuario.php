@@ -238,18 +238,18 @@ class Usuario extends CI_Controller {
         else
         {
             $aData = $this->iniReg();
-            $idPersona = $this->personaModel->guardar($aData);
+            $idpersona = $this->personaModel->guardar($aData);
             
             $aData = array(
                 'dttutfecha' => date("Y-m-d"),
                 'botutestado' => 1,
-                'idpersona' => $idPersona
+                'idpersona' => $idpersona
             );
             $idTutor = $this->tutorModel->guardar($aData);
             
             $aReg = array();
             $aReg = $this->iniRegUsuario();
-            $aReg['idPersona'] = $idPersona;
+            $aReg['idpersona'] = $idpersona;
             $view = $this->load->view(
                 'abms/formusuario_view', 
                 array(
@@ -361,17 +361,19 @@ class Usuario extends CI_Controller {
         $this->form_validation->set_rules($this->aReglas['usuario']);
         
         if ($this->form_validation->run() == FALSE) {
+            $aReg = $this->iniRegUsuario();
+            $aReg['idpersona'] = $this->input->post('idpersona');
             $view = $this->load->view(
                 'abms/formusuario_view', 
                 array(
-                    'aReg' => $this->iniRegUsuario()
+                    'aReg' => $aReg
                 ), 
                 true
             );
         } else {
             $aParams = $this->iniRegUsuario();
             $aParams['vcusuclave'] = md5($aParams['vcusuclave']);
-            $aParams['idPersona'] = $this->input->post('idPersona');
+            $aParams['idpersona'] = $this->input->post('idpersona');
             $this->usuarioModel->guardar($aParams);
             
             $aData = array(

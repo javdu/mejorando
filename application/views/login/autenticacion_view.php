@@ -8,7 +8,7 @@
         <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
             <?= $errores; ?>
             <?= $msj; ?>
-            <?= $this->session->userdata('vcpernombre') ?>
+            <?= ''//$this->session->userdata('vcpernombre') ?>
             <div class="panel panel-default">
               <div class="panel-heading">Inicio Sesión</div>
               <div class="panel-body">

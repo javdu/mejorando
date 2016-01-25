@@ -177,7 +177,7 @@ class Resultados extends Ext_Controller {
         $aInforme = $this->informeModel->obtener(array('idinforme' => $this->session->userdata('idinforme')));
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));
         $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $this->session->userdata('idpersona')));
-        $aAlumno = $this->alumnoModel->obtenerUno(array('idalumno' => $this->session->userdata('idalumno')));
+        $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $this->session->userdata('idalumno')));
         $aAlumno['dtedad'] = $this->_calculaEdad($aAlumno['dtperfechnac']);
         $aAlumno['dtperfechnac'] = date("d/m/Y", strtotime($aAlumno['dtperfechnac']));
         
@@ -197,6 +197,7 @@ class Resultados extends Ext_Controller {
 
     	//$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
         $pdf->writeHTML($html, true, false, true, false, '');
+        
     	// ---------------------------------------------------------
     	// Cerrar el documento PDF y preparamos la salida
     	// Este mtodo tiene varias opciones, consulte la documentacin para ms informacin.

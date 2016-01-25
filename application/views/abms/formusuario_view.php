@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
-                <?= $msj; ?>
+                <?= $msj; ?>    
                 <ol class="breadcrumb">
                     <li>Registrarme</li>
                     <li>Datos Usuario</li>                    
@@ -27,8 +27,8 @@
                         <input type="text" class="form-control" id="vcusuemail" name="vcusuemail" placeholder="Email" value="<?= $aReg['vcusuemail']; ?>">
                     </div>
                     <br>
-                    <input type="hidden" name="form-usuario" value="form-usuario">
-                    <input type="hidden" name="idpersona" value="<?= $aReg['idpersona']; ?>>
+                    <input type="hidden" name="form-usuario" value="form-usuario" />
+                    <input type="hidden" name="idpersona" value="<?= $aReg['idpersona']; ?>" />
                     <div class="clearfix"></div>
                     <div class="row">
                         <div class="form-group col-xs-12">
@@ -55,9 +55,9 @@
         
         $( "#formUsuario" ).submit(function( event ) {
             event.preventDefault();
-            $.ajax({ 
-                url: "abms/usuario/guardarusuario", 
-                type: "post", 
+            $.ajax({
+                url: "abms/usuario/guardarusuario",
+                type: "post",
                 data : $("#formUsuario").serialize(),
                 success: function(result){
                     $("#box-main").html(result);

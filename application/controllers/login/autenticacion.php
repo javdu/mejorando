@@ -49,7 +49,6 @@ class Autenticacion extends CI_Controller {
     
 	public function index()
 	{
-        $header = '';
         $aData = array(
             'footer' => $this->load->view('backend/footer_view', '', true),
             'navbar' => $this->load->view(
@@ -72,7 +71,22 @@ class Autenticacion extends CI_Controller {
         $this->form_validation->set_rules($this->aReglas['login']);
         if ($this->form_validation->run() == FALSE) {
             $aReg = $this->iniReg();
-            echo $this->load->view('login/autenticacion_view', array('aReg' => $aReg), true);
+            
+            $aData = array(
+                'footer' => $this->load->view('backend/footer_view', '', true),
+                'navbar' => $this->load->view(
+                    'backend/navbar_view', 
+                    array('vcusunombre' => $this->session->userdata('vcusunombre')),
+                    true
+                ),
+                'content' => $this->load->view(
+                    'login/autenticacion_view', 
+                    array('aReg' => $aReg),
+                    true
+                )
+            );
+        
+            $this->load->view('masterpage', $aData);
         }
         else {
             $aUsuario = $this->autenticacionModel->login(

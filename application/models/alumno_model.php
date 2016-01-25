@@ -9,9 +9,7 @@
         
         public function guardar($data)
         {
-            $this->db->trans_start();
             $this->db->insert('talumno', $data);
-            $this->db->trans_complete();
             
             return $this->db->insert_id();
         }
@@ -21,6 +19,19 @@
             $this->db->select('*');
             $this->db->from('talumno');
             $this->db->where('inperdni', $aData['inperdni']);
+            $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
+            $this->db->join('tescuela', 'tescuela.idescuela = talumno.idescuela');
+            $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');
+            
+            $result = $this->db->get()->result_array();
+            return array_shift($result);
+        }
+        
+        public function obtenerUnoIdAlumno($aData)
+        {
+            $this->db->select('*');
+            $this->db->from('talumno');
+            $this->db->where('idalumno', $aData['idalumno']);
             $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
             $this->db->join('tescuela', 'tescuela.idescuela = talumno.idescuela');
             $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');

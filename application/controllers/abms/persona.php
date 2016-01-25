@@ -96,7 +96,7 @@ class Persona extends Ext_Controller {
                     array(
                         'idescuela' => $this->input->post('idescuela'),
                         'idescuelagrado' => $this->input->post('idescuelagrado'),
-                        'parentesco' => $this->input->post('parentesco')
+                        'idparentesco' => $this->input->post('idparentesco')
                     )
                 ),
                 'aEscuelas' => $this->escuelaModel->obtenerTodos(),
@@ -121,6 +121,7 @@ class Persona extends Ext_Controller {
                 'vcpertel' => $this->input->post('vcpertel'),
                 'vcpercelcodarea' => $this->input->post('vcpercelcodarea'),
                 'vcpercel' => $this->input->post('vcpercel'),
+                'idrol' => 1,
                 'boperestado' => 1
             );
         } else {
@@ -133,6 +134,7 @@ class Persona extends Ext_Controller {
                 'vcpertel' => '',
                 'vcpercelcodarea' => '',
                 'vcpercel' => '',
+                'idrol' => 1,
                 'boperestado' => 1
             );
         }
@@ -174,7 +176,7 @@ class Persona extends Ext_Controller {
                     array(
                         'idescuela' => $this->input->post('idescuela'),
                         'idescuelagrado' => $this->input->post('idescuelagrado'),
-                        'parentesco' => $this->input->post('parentesco')
+                        'idparentesco' => $this->input->post('idparentesco')
                     )
                 ),
                 'aEscuelas' => $this->escuelaModel->obtenerTodos(),
@@ -197,8 +199,8 @@ class Persona extends Ext_Controller {
             
             $aData = array(
                 'botutalumestado' => 1,
-                'idtutor' => $this->input->post('idescuela'),
-                'idalumno' => $this->input->post('idalumno'),
+                'idtutor' => $this->session->userdata('idtutor'),
+                'idalumno' => $idAlumno,
                 'idparentesco' => $this->input->post('idparentesco')
             );
             
