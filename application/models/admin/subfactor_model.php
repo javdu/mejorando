@@ -11,16 +11,21 @@
         {
             $this->db->select('*');
             $this->db->from('tsubfactor');
-            $this->db->order_by('idfactor, vcsubfactnombre');
+            $this->db->order_by('vcsubfactnombre');
      
             $result = $this->db->get()->result_array();
             
             return $result;
         }
         
-        public function selectTodos()
+        public function selectTodos($aData )
         {
-            $consulta = $this->db->get('tsubfactor');
+            $this->db->select('*');
+            $this->db->from('tsubfactor');
+            $this->db->where('idfactor', $aData['idfactor']);
+            $this->db->order_by("vcsubfactnombre"); 
+            
+            $consulta = $this->db->get();
             
             $resultSimple = array();
 			foreach ($consulta->result() as $row){

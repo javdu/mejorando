@@ -5,7 +5,36 @@
                 <h3>Eliminar Pregunta</h3>
                 <h3><small>En este modulo se elimina una pregunta.</small></h3>
                 <hr />
-                
+                <form action="admin/pregunta/eliminar" method="post">
+                    <div class="form-group col-xs-12">
+                        <label>Factor</label>
+                        <input type="text" class="form-control" id="vcfactnombre" name="vcfactnombre" value="<?= $aReg['vcfactnombre']; ?>" />
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label>Subfactor</label>
+                        <input type="text" class="form-control" id="vcsubfactnombre" name="vcsubfactnombre" value="<?= $aReg['vcsubfactnombre']; ?>"/>
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label for="vcpregnombre">Nombre</label>
+                        <input type="text" class="form-control" id="vcpregnombre" name="vcpregnombre" value="<?= $aReg['vcpregnombre']; ?>" />
+                    </div>
+                    <input type="hidden" name="idpregunta" id="idpregunta" value="<?= $aReg['idpregunta']; ?>" />
+                    <br/>
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <div id='toolbar' style="padding: 40px 15px;">
+                                <div class='wrapper text-center'>
+                                    <div class="btn-group">
+                                        <a class="btn btn-default" href="admin/pregunta/index">Cancelar</a>
+                                        <input class="btn btn-default" type="submit" value="Eliminar">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
             </div>
         </div>
     </div>

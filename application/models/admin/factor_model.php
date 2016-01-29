@@ -11,6 +11,7 @@
         {
             $this->db->select('*');
             $this->db->from('tfactor');
+            $this->db->order_by("vcfactnombre"); 
      
             $result = $this->db->get()->result_array();
             
@@ -19,7 +20,11 @@
         
         public function selectTodos()
         {
-            $consulta = $this->db->get('tfactor');
+            $this->db->select('*');
+            $this->db->from('tfactor');
+            $this->db->order_by("vcfactnombre"); 
+            
+            $consulta = $this->db->get();
             
             $resultSimple = array();
 			foreach ($consulta->result() as $row){

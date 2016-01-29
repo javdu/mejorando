@@ -14,7 +14,12 @@
                                 <h4 style="color: #E08283;"><?= $elemSubfactor['vcsubfactnombre']; ?></h4>
                                 <?php foreach($elemSubfactor['pregunta'] AS $aPregunta): ?>
                                     <?php foreach($aPregunta AS $elemPregunta): ?>
-                                        <p><a href="admin/pregunta/editar/<?= $elemPregunta['idpregunta']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a> <a href="admin/pregunta/eliminar/<?= $elemPregunta['idpregunta']; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <?= $elemPregunta['vcpregnombre']; ?></p>
+                                        <p>
+                                            <a href="admin/pregunta/editar/<?= $elemPregunta['idpregunta']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a>
+                                            <a href="admin/pregunta/baja/<?= $elemPregunta['idpregunta']; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> 
+                                            <a href="admin/pregunta/respuesta/<?= $elemPregunta['idpregunta']; ?>"><i class="fa fa-share"></i></a>
+                                            <?= $elemPregunta['vcpregnombre']; ?>
+                                        </p>
                                     <?php endforeach; ?>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
