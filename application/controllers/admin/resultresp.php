@@ -7,18 +7,33 @@ class ResultResp extends Ext_Controller
     function __construct()
 	{
 	   parent::__construct();
-	   $this->load->model('resultresp_model', 'resultrespModel');
-       $this->load->model('subfactor_model', 'subfactorModel');
-       $this->load->model('resultado_model', 'resultadoModel');
-       $this->load->model('respuesta_model', 'respuestaModel');
+	   $this->load->model('admin/Factor_model', 'factorModel');
+       $this->load->model('admin/Subfactor_model', 'subfactorModel');
+       $this->load->model('ResultResp_model', 'resultrespModel');
+       $this->load->model('Respuesta_model', 'respuestaModel');
+       $this->load->model('Resultado_model', 'resultadoModel');
+    }
+    
+    public function index($idsubfactor = 0)
+	{
+	   
+       $aResultResp = $this->resultrespModel->obtenerTodos($idsubfactor);
+	   $aData = array(
+            'aResultResp' => $aResultResp
+        );
+        $header = '';
+        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $content = $this->load->view('admin/lstresultresp_view', $aData, true);
+		
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
 
-	public function index()
+	public function index1($idpregunta = 0)
 	{
 	    $aReg = $this->iniReg();
         $aSubFactor = $this->subfactorModel->obtenerTodos();
-        $aResultado = $this->resultadoModel->obtenerTodos();
         $aRespuesta = $this->respuestaModel->obtenerTodos();
+        $aResultado = $this->resultadoModel->obtenerTodos();
         $aCombinacion = $this->resultrespModel->obtenerMaxCombinacion();
         $aReg['idcombinacion'] = $aCombinacion['idcombinacion'] + 1;
         $aData = array(

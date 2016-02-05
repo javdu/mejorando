@@ -7,6 +7,18 @@
     		parent::__construct();
     	}
         
+        public function obtenerUno($idsubfactor)
+        {
+            $this->db->select('*');
+            $this->db->from('tsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('idsubfactor', $idsubfactor);
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
+        }
+        
         public function obtenerTodos()
         {
             $this->db->select('*');
@@ -33,6 +45,27 @@
             }
             
             return $resultSimple;
+        }
+        
+        public function guardar($aData)
+        {
+            $aReg = $aData['aReg'];
+            $idsubfactor = $aReg['idsubfactor'];
+            unset($aReg['idsubfactor']);
+            if ($idsubfactor == 0) {
+                $this->db->insert('tsubfactor', $aReg);
+            } else {
+                $this->db->where('idsubfactor', $idsubfactor);
+                $this->db->update('tsubfactor', $aReg); 
+            }
+        }
+        
+        public function eliminar($idsubfactor)
+        {
+            $this->db->where('idsubfactor', $idsubfactor);
+            $this->db->delete('tsubfactor');
+            
+            return $this->db->affected_rows();
         }
     }
 // EOF parentesco_model.php

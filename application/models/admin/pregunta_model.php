@@ -58,6 +58,7 @@
             $this->db->from('tpregresp');
             $this->db->join('trespuesta', 'trespuesta.idrespuesta = tpregresp.idrespuesta');
             $this->db->where('tpregresp.idpregunta', $idpregunta);
+            $this->db->order_by('vcrespnombre');
             
             $result = $this->db->get()->result_array();
             

@@ -7,16 +7,18 @@
     		parent::__construct();
     	}
         
-        public function obtenerTodos()
+        public function obtenerTodos($idsubfactor = 0)
         {
-            $consulta = $this->db->get('trol');
+            $this->db->select('*');
+            $this->db->from('tresultresp');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tresultresp.idsubfactor');
+            $this->db->join('tresultado', 'tresultado.idresultado = tresultresp.idresultado');
+            $this->db->join('trespuesta', 'trespuesta.idrespuesta = tresultresp.idrespuesta');
+            $this->db->where('tresultresp.idsubfactor', $idsubfactor);
             
-            $resultSimple = array();
-			foreach ($consulta->result() as $row){
-                $resultSimple[$row->idrol] = $row->vcrolnombre;
-            }
+            $result = $this->db->get()->result_array();
             
-            return $resultSimple;
+            return $result;
         }
         
         public function guardar($data)

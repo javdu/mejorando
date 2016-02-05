@@ -49,7 +49,7 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <a href="preguntas" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">CANCELAR</a>
+                                        <a href="admin/pregunta/index" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">CANCELAR</a>
                                         <input type="submit" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;" value="GUARDAR">
                                     </div>
                                 </div>

@@ -14,5 +14,28 @@
             
             return $this->db->affected_rows();
         }
+        
+        public function guardar($aReg)
+        {
+            $idpregresp = $aReg['idpregresp'];
+            unset($aReg['idpregresp']);
+            if ($idpregresp == 0) {
+                $this->db->insert('tpregresp', $aReg);
+            } else {
+                $this->db->where('idpregresp', $idpregresp);
+                $this->db->update('tpregresp', $aReg);
+            }
+        }
+        
+        public function existe($aReg)
+        {
+            $this->db->select('idpregresp');
+            $this->db->from('tpregresp');
+            $this->db->where($aReg);
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
+        }
     }
 // EOF parentesco_model.php

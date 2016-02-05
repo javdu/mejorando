@@ -9,7 +9,11 @@
         
         public function obtenerTodos()
         {
-            $consulta = $this->db->get('trespuesta');
+            $this->db->select('*');
+            $this->db->from('trespuesta');
+            $this->db->order_by('vcrespnombre');
+            
+            $consulta = $this->db->get();
             
             $resultSimple = array();
 			foreach ($consulta->result() as $row){

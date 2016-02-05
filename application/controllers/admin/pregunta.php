@@ -197,17 +197,6 @@ EOT;
     
     public function respuesta($idpregunta)
     {
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        $aRespuestas = $this->respuestaModel->obtenerTodos();
-        $aPregResp = $this->preguntaModel->obtenerRespuestas($idpregunta);
-        
-        $aData = array(
-            'aRespuestas' => $aRespuestas,
-            'aPregResp' => $aPregResp
-        );
-        $content = $this->load->view('admin/pregresp_view', $aData, true);
-        
-        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+         redirect('/admin/pregresp/index/'.$idpregunta, 'location');
     }
 }
