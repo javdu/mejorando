@@ -15,6 +15,7 @@
             $this->db->join('tresultado', 'tresultado.idresultado = tresultresp.idresultado');
             $this->db->join('trespuesta', 'trespuesta.idrespuesta = tresultresp.idrespuesta');
             $this->db->where('tresultresp.idsubfactor', $idsubfactor);
+            $this->db->order_by('tresultresp.idcombinacion');
             
             $result = $this->db->get()->result_array();
             

@@ -17,14 +17,43 @@ class ResultResp extends Ext_Controller
     public function index($idsubfactor = 0)
 	{
 	   
-       $aResultResp = $this->resultrespModel->obtenerTodos($idsubfactor);
-	   $aData = array(
-            'aResultResp' => $aResultResp
+        $aResultResp = $this->resultrespModel->obtenerTodos($idsubfactor);
+        $tam = count($aResultResp);
+        $aAux = array();
+        $aAuxList = array();
+        $aElem = $aResultResp[0];
+        $idCombinacion = $aElem['idcombinacion'];
+        $aResultados = array();
+        $aElemResult = array();
+        $aElemResult['vcresultinfobt'] = $aElem['vcresultinfobt'];
+        $aElemResult['vcresultsugprof'] = $aElem['vcresultsugprof'];
+        $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];
+        foreach($aResultResp AS $aElem) {
+            if ($idCombinacion == $aElem['idcombinacion']) {
+                $aAux[] = $aElem;
+                $aElemResult['opciones'][] = $aElem;
+            } else {
+                $aAuxList[] = $aAux;
+                $aResultados[] = $aElemResult;
+                $aAux = array();
+                $aElemResult = array();
+                $idCombinacion = $aElem['idcombinacion'];
+                $aElemResult['vcresultinfobt'] = $aElem['vcresultinfobt'];
+                $aElemResult['vcresultsugprof'] = $aElem['vcresultsugprof'];
+                $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];	
+                $aElemResult['opciones'][] = $aElem;
+            }
+        }
+        $aResultados[] = $aElemResult;
+        
+        $aData = array(
+            'aResultResp' => $aAuxList,
+            'aResultados' => $aResultados
         );
         $header = '';
         $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         $content = $this->load->view('admin/lstresultresp_view', $aData, true);
-		
+        
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
 

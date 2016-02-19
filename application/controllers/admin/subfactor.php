@@ -21,8 +21,8 @@ class SubFactor extends Ext_Controller
                   ),
                 array(
                      'field'   => 'vcsubfactdescrip',
-                     'label'   => 'Descaripción',
-                     'rules'   => 'trim|required'
+                     'label'   => 'Descripción',
+                     'rules'   => 'trim'
                   ),
                 array(
                      'field'   => 'idfactor',

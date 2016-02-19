@@ -7,8 +7,19 @@
                 <hr />
                 <div class="form-group col-xs-12">
                     <table class="table table-striped">
-                    <?php foreach($aResultResp AS $elemResultResp):?>
-                        <tr><td><a href="admin/resultresp/eliminar/<?= $elemResultResp['idresultresp']; ?>"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <?= $elemResultResp['vcresultinfobt']; ?></td></tr>
+                    <?php foreach($aResultados AS $elemResultados):?>
+                        <tr>
+                            <td>
+                                <a href="admin/subfactor/baja/<?= null; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                <p style="font-size: 11pt;"><?= $elemResultados['vcresultinfobt']; ?></p>
+                                <!--<textarea rows="5" style="width: 100%;"><?= $elemResultados['vcresultsugprof']; ?></textarea>
+                                <textarea rows="5" style="width: 100%;"><?= $elemResultados['vcresultejepot']; ?></textarea>
+                                -->
+                                <?php foreach($elemResultados['opciones'] AS $elemOpciones):?>
+                                    <p style="font-size: 11pt;"><?= $elemOpciones['idresultrespcontador']; ?> - <?= $elemOpciones['vcrespnombre']; ?></p>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                     </table>
                 </div>
