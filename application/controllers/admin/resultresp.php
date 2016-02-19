@@ -28,6 +28,7 @@ class ResultResp extends Ext_Controller
         $aElemResult['vcresultinfobt'] = $aElem['vcresultinfobt'];
         $aElemResult['vcresultsugprof'] = $aElem['vcresultsugprof'];
         $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];
+        $aElemResult['idresultado'] = $aElem['idresultado'];
         foreach($aResultResp AS $aElem) {
             if ($idCombinacion == $aElem['idcombinacion']) {
                 $aAux[] = $aElem;
@@ -40,19 +41,93 @@ class ResultResp extends Ext_Controller
                 $idCombinacion = $aElem['idcombinacion'];
                 $aElemResult['vcresultinfobt'] = $aElem['vcresultinfobt'];
                 $aElemResult['vcresultsugprof'] = $aElem['vcresultsugprof'];
-                $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];	
+                $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];
+                $aElemResult['idresultado'] = $aElem['idresultado'];
                 $aElemResult['opciones'][] = $aElem;
             }
         }
         $aResultados[] = $aElemResult;
+        echo '<pre>';
+        var_dump($aResultados);
         
         $aData = array(
+            'idsubfactor' => $idsubfactor,
             'aResultResp' => $aAuxList,
             'aResultados' => $aResultados
         );
         $header = '';
         $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         $content = $this->load->view('admin/lstresultresp_view', $aData, true);
+        
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+    }
+    
+    public function iniRegResultados()
+    {
+        if ((bool)$this->input->post()) {
+            $this->aReg = array(
+                'idresultado' => $this->input->post('idresultado'),
+                'vcresultestninio' => $this->input->post('vcresultestninio'),
+                'vcresultinfobt' => $this->input->post('vcresultinfobt'),
+                'vcresultsugprof' => $this->input->post('vcresultsugprof'),
+                'vcresultejepot' => $this->input->post('vcresultejepot'),
+                'vcresultorientadult' => $this->input->post('vcresultorientadult'),
+                'idsubfactor' => $this->input->post('idsubfactor'),
+                'boresultestado' => 1
+            );
+        } else {
+            $this->aReg = array(
+                'idresultado' => 0,
+                'vcresultestninio' => null,
+                'vcresultinfobt' => null,
+                'vcresultsugprof' => null,
+                'vcresultejepot' => null,
+                'vcresultorientadult' => null,
+                'idsubfactor' => null,
+                'boresultestado' => 1
+            );
+        }
+        
+        return $this->aReg;
+    }
+    
+    public function iniRegResultResp()
+    {
+        if ((bool)$this->input->post()) {
+            $this->aReg = array(
+                'idresultresp' => $this->input->post('idresultado'),
+                'idresultrespcontador' => $this->input->post('vcresultestninio'),
+                'idsubfactor' => $this->input->post('vcresultinfobt'),
+                'idresultado' => $this->input->post('vcresultejepot'),
+                'idrespuesta' => $this->input->post('vcresultorientadult'),
+                'idcombinacion' => $this->input->post('idsubfactor'),
+                'boresultrespestado' => 1
+            );
+        } else {
+            $this->aReg = array(
+                'idresultresp' => $this->input->post('idresultado'),
+                'idresultrespcontador' => $this->input->post('vcresultestninio'),
+                'idsubfactor' => $this->input->post('vcresultinfobt'),
+                'idresultado' => $this->input->post('vcresultejepot'),
+                'idrespuesta' => $this->input->post('vcresultorientadult'),
+                'idcombinacion' => $this->input->post('idsubfactor'),
+                'boresultrespestado' => 1
+            );
+        }
+        
+        return $this->aReg;
+    }
+    
+    public function formulario($idsubfactor = 0)
+    {
+        $header = '';
+        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $aData = array(
+            'accion' => 'Nuevo',
+            'idsubfactor' => $idsubfactor,
+            'aRespuesta' => $this->respuestaModel->obtenerTodos()
+        );
+        $content = $this->load->view('admin/frmresultresp_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
