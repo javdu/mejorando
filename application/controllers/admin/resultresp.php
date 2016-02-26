@@ -15,6 +15,36 @@ class ResultResp extends Ext_Controller
     }
     
     public function index($idsubfactor = 0)
+    {
+        
+        $aResultado = $this->resultadoModel->obtenerTodosElementos($idsubfactor);
+        $aResultResp = $this->resultrespModel->obtenerTodos($idsubfactor);
+        $aAuxList = array();
+        $aAuxElem = array();
+        
+        foreach ($aResultado AS $aResultElem) {
+            $aAuxElem = $aResultElem;
+            foreach ($aResultResp AS $aResultRespElem) {
+                if ($aResultElem['idresultado'] == $aResultRespElem['idresultado']) {
+                    $aAuxElem['respuestas'][] = $aResultRespElem;
+                }
+            }
+            $aAuxList[] = $aAuxElem;
+            $aAuxElem = array();
+        }
+        
+        $aData = array(
+            'idsubfactor' => $idsubfactor,
+            'aResultResp' => $aAuxList
+        );
+        $header = '';
+        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $content = $this->load->view('admin/lstresultresp_view', $aData, true);
+        
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+    }
+    
+    public function index2($idsubfactor = 0)
 	{
 	   
         $aResultResp = $this->resultrespModel->obtenerTodos($idsubfactor);
@@ -28,6 +58,7 @@ class ResultResp extends Ext_Controller
         $aElemResult['vcresultinfobt'] = $aElem['vcresultinfobt'];
         $aElemResult['vcresultsugprof'] = $aElem['vcresultsugprof'];
         $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];
+        $aElemResult['idcombinacion'] = $aElem['idcombinacion'];
         $aElemResult['idresultado'] = $aElem['idresultado'];
         foreach($aResultResp AS $aElem) {
             if ($idCombinacion == $aElem['idcombinacion']) {
@@ -42,13 +73,12 @@ class ResultResp extends Ext_Controller
                 $aElemResult['vcresultinfobt'] = $aElem['vcresultinfobt'];
                 $aElemResult['vcresultsugprof'] = $aElem['vcresultsugprof'];
                 $aElemResult['vcresultejepot'] = $aElem['vcresultejepot'];
+                $aElemResult['idcombinacion'] = $aElem['idcombinacion'];
                 $aElemResult['idresultado'] = $aElem['idresultado'];
                 $aElemResult['opciones'][] = $aElem;
             }
         }
         $aResultados[] = $aElemResult;
-        echo '<pre>';
-        var_dump($aResultados);
         
         $aData = array(
             'idsubfactor' => $idsubfactor,
@@ -118,11 +148,46 @@ class ResultResp extends Ext_Controller
         return $this->aReg;
     }
     
-    public function formulario($idsubfactor = 0)
+    public function addRespuesta()
+    {
+        $aRespuesta = $this->respuestaModel->obtenerTodos();
+        $aRespuesta = array('' => 'Seleccionar') + $aRespuesta;
+        $select =  form_dropdown('idrespuesta[]', $aRespuesta, null, array('class' => 'form-control'));
+echo <<<EOT
+<div class="box-respuestaa form-group col-xs-12">
+    <label for="idresultrespcontador">Contador</label>
+    <input type="text" class="form-control" id="idresultrespcontador" name="idresultrespcontador[]" value="" placeholder="Contador">
+    <label>Respuesta</label>
+    {$select}
+    <br />
+    <a class="eliminar-respuesta btn btn-default">Eliminar respuesta</a>
+    <hr />
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+        $( ".eliminar-respuesta" ).click(function( event ) {
+          event.preventDefault();
+          $(this).parent(".box-respuestaa").remove();
+        });
+    });
+</script>
+EOT;
+    }
+    
+    public function formulario($idsubfactor = 0, $idresultado = 0)
     {
         $header = '';
         $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        
+        if ($idresultado > 0) {
+            $aResultado = $this->resultadoModel->obtenerUno($idresultado);
+        } else {
+            $aResultado = $this->iniRegResultados();
+        }
+        $aRespuestas = $this->resultrespModel->obtenerRespuestas($idresultado);
         $aData = array(
+            'aReg' => $aResultado,
+            'aRespuestas' => $aRespuestas,
             'accion' => 'Nuevo',
             'idsubfactor' => $idsubfactor,
             'aRespuesta' => $this->respuestaModel->obtenerTodos()
@@ -182,6 +247,54 @@ class ResultResp extends Ext_Controller
     }
     
     public function guardar()
+    {
+        $aReg = $this->iniRegResultados(); 
+        $aResultRespCont = $this->input->post('idresultrespcontador');
+        $aResp = $this->input->post('idrespuesta');
+        $idresultado = $this->input->post('idresultado');
+        if ($idresultado == 0) {
+            $idresultado = $this->resultadoModel->guardar($aReg);
+            $tam = count($aResp);
+            
+            $i = 0;
+            while ($i < $tam) {
+                $idresultresp = $this->resultrespModel->guardar(
+                    array(
+                        'idrespuesta' => $aResp[$i],
+                        'idresultrespcontador' => $aResultRespCont[$i],
+                        'idsubfactor' => $aReg['idsubfactor'],
+                        'idresultado' => $idresultado,
+                        'idcombinacion' => $this->input->post('idcombinacion'),
+                        'boresultrespestado' => 1
+                    )
+                );
+                $i++;
+            }
+        } else {
+            $idresultado = $this->resultadoModel->guardar($aReg);
+            $tam = count($aResp);
+            $i = 0;
+            $this->resultrespModel->eliminarSubFactor($aReg['idsubfactor'], $this->input->post('idcombinacion'));
+            while ($i < $tam) {
+                $idresultado = $this->resultrespModel->guardar(
+                    array(
+                        'idrespuesta' => $aResp[$i],
+                        'idresultrespcontador' => $aResultRespCont[$i],
+                        'idsubfactor' => $aReg['idsubfactor'],
+                        'idresultado' => $aReg['idresultado'],
+                        'idcombinacion' => $this->input->post('idcombinacion'),
+                        'boresultrespestado' => 1
+                    )
+                );
+                $i++;
+            }
+        }
+        
+        
+        $this->index($aReg['idsubfactor']);
+    }
+    
+    public function guardar1()
     {
         $aReg = $this->iniReg();
         $aData = array(

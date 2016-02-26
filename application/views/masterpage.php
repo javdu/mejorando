@@ -40,6 +40,5 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="<?= base_url(); ?>assets/js/freelancer.js"></script>
-</
-body>
+</body>
 </html>

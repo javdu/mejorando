@@ -10,10 +10,10 @@
                 <br />
                 <br />
                     <table class="table table-striped">
-                    <?php foreach($aResultados AS $elemResultados):?>
+                    <?php foreach($aResultResp AS $elemResultados):?>
                         <tr>
                             <td>
-                                <a href="admin/resultresp/formulario/<?= $idsubfactor; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a>
+                                <a href="admin/resultresp/formulario/<?= $idsubfactor; ?>/<?= $elemResultados['idresultado']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a>
                                 <a href="admin/resultresp/baja/<?= $idsubfactor; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                             </td>
                             <td>
@@ -21,7 +21,7 @@
                                 <!--<textarea rows="5" style="width: 100%;"><?= $elemResultados['vcresultsugprof']; ?></textarea>
                                 <textarea rows="5" style="width: 100%;"><?= $elemResultados['vcresultejepot']; ?></textarea>
                                 -->
-                                <?php foreach($elemResultados['opciones'] AS $elemOpciones):?>
+                                <?php foreach($elemResultados['respuestas'] AS $elemOpciones):?>
                                     <?= $elemOpciones['idresultrespcontador']; ?> - <?= $elemOpciones['vcrespnombre']; ?>
                                 <?php endforeach; ?>
                             </td>

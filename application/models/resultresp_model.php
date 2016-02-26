@@ -15,7 +15,7 @@
             $this->db->join('tresultado', 'tresultado.idresultado = tresultresp.idresultado');
             $this->db->join('trespuesta', 'trespuesta.idrespuesta = tresultresp.idrespuesta');
             $this->db->where('tresultresp.idsubfactor', $idsubfactor);
-            $this->db->order_by('tresultresp.idcombinacion');
+            $this->db->order_by('trespuesta.vcrespnombre');
             
             $result = $this->db->get()->result_array();
             
@@ -38,6 +38,37 @@
             $aResult = array_shift($aResult);
             
             return $aResult;
+        }
+        
+        public function obtenerRespuestas($idresultado = 0)
+        {
+            $this->db->select('*');
+            $this->db->from('tresultresp');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tresultresp.idsubfactor');
+            $this->db->join('trespuesta', 'trespuesta.idrespuesta = tresultresp.idrespuesta');
+            $this->db->where('tresultresp.idresultado', $idresultado);
+            $this->db->order_by('trespuesta.vcrespnombre');
+            
+            $result = $this->db->get()->result_array();
+            
+            return $result;
+        }
+        
+        public function obtenerMaxComb()
+        {
+            $this->db->select_max('idcombinacion');
+            $this->db->from('tresultresp');
+            
+            $maxElem = $this->db->get();
+            
+            return $maxElem;
+        }
+        
+        public function eliminarSubFactor($idsubfactor, $idcombinacion)
+        {
+            $this->db->where('idsubfactor', $idsubfactor);
+            $this->db->where('idcombinacion', $idcombinacion);
+            $this->db->delete('tresultresp'); 
         }
     }
 // EOF parentesco_model.php
