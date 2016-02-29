@@ -70,5 +70,13 @@
             $this->db->where('idcombinacion', $idcombinacion);
             $this->db->delete('tresultresp'); 
         }
+        
+        public function eliminar($idresultado)
+        {
+            $this->db->where('idresultado', $idresultado);
+            $this->db->delete('tresultresp');
+            
+            return $this->db->affected_rows();
+        }
     }
 // EOF parentesco_model.php

@@ -72,5 +72,13 @@
             
             return $this->db->insert_id();
         }
+        
+        public function eliminar($idresultado)
+        {
+            $this->db->where('idresultado', $idresultado);
+            $this->db->delete('tresultado');
+            
+            return $this->db->affected_rows();
+        }
     }
 // EOF parentesco_model.php

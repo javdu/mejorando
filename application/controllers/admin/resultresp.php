@@ -38,7 +38,7 @@ class ResultResp extends Ext_Controller
             'aResultResp' => $aAuxList
         );
         $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/lstresultresp_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
@@ -195,6 +195,34 @@ EOT;
         $content = $this->load->view('admin/frmresultresp_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+    }
+    
+    public function baja($idsubfactor = 0, $idresultado = 0)
+    {
+        $header = '';
+        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        
+        $aResultado = $this->resultadoModel->obtenerUno($idresultado);
+        $aRespuestas = $this->resultrespModel->obtenerRespuestas($idresultado);
+        
+        $aData = array(
+            'aReg' => $aResultado,
+            'aRespuestas' => $aRespuestas,
+            'accion' => 'Eliminar',
+            'idsubfactor' => $idsubfactor,
+            'aRespuesta' => $this->respuestaModel->obtenerTodos()
+        );
+        $content = $this->load->view('admin/eliminarresultresp_view', $aData, true);
+        
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+    }
+    
+    public function eliminar($idsubfactor = 0, $idresultado = 0)
+    {
+        $aReg = $this->resultadoModel->eliminar($idresultado);
+        $aReg = $this->resultrespModel->eliminar($idresultado);
+        
+        $this->index($idsubfactor);
     }
 
 	public function index1($idpregunta = 0)

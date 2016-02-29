@@ -14,7 +14,7 @@
                         <tr>
                             <td>
                                 <a href="admin/resultresp/formulario/<?= $idsubfactor; ?>/<?= $elemResultados['idresultado']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a>
-                                <a href="admin/resultresp/baja/<?= $idsubfactor; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                <a href="admin/resultresp/baja/<?= $idsubfactor; ?>/<?= $elemResultados['idresultado']; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                             </td>
                             <td>
                                 <p style="font-size: 11pt;"><?= $elemResultados['vcresultinfobt']; ?></p>
