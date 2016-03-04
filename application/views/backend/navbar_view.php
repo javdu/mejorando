@@ -12,7 +12,22 @@
                 </button>
                 <h4 style="margin-top: 15px; vertical-align: middle;">MENTES MEJ<i class="fa fa-smile-o"></i>RAND<i class="fa fa-smile-o"></i> <i class="fa fa-smile-o"></i>N-LINE</h4>
             </div>
-    
+            <ul class="nav navbar-nav">
+                <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
+                <!-- <li><a href="#">Link</a></li> -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administración<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="admin/pregunta">Preguntas</a></li>
+                        <li><a href="admin/subfactor">subfactor</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">

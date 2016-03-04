@@ -58,8 +58,8 @@ class SubFactor extends Ext_Controller
             'aFactor' => $aFactor
         );
         $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         $content = $this->load->view('admin/listsubfactor_view', $aData, true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
 		
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
 	}

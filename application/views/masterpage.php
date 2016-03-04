@@ -5,7 +5,7 @@
    $footer = (isset($footer))? $footer : '';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100% !important;">
 <head>
     <base href="<?= base_url(); ?>" />
     <link href="<?= base_url(); ?>assets/css/vendor.css" rel="stylesheet" type="text/css">
@@ -18,27 +18,30 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
 </head>
-<body id="page-top" class="index">
-    <?= $navbar ?>
-    <div id="box-main">
-        <?= $header ?>
-        <?= $content ?>
+<body id="page-top" class="index" style="margin:0; padding:0; height:100%;">
+    <div style="min-height:100%; position:relative; ">
+        <?= $navbar ?>
+        <div id="box-main">
+            <?= $header ?>
+            <?= $content ?>
+        </div>
+        <div class="clearfloat"></div>
+        <?= $footer ?>
+            
+        <!-- Bootstrap Core JavaScript -->
+        <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
+    
+        <!-- Plugin JavaScript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+        <script src="<?= base_url(); ?>assets/js/classie.js"></script>
+        <script src="<?= base_url(); ?>assets/js/cbpAnimatedHeader.js"></script>
+    
+        <!-- Contact Form JavaScript -->
+        <script src="<?= base_url(); ?>assets/js/jqBootstrapValidation.js"></script>
+        <!--<script src="assets/js/contact_me.js"></script>-->
+    
+        <!-- Custom Theme JavaScript -->
+        <script src="<?= base_url(); ?>assets/js/freelancer.js"></script>
     </div>
-    <?= $footer ?>
-        
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="<?= base_url(); ?>assets/js/classie.js"></script>
-    <script src="<?= base_url(); ?>assets/js/cbpAnimatedHeader.js"></script>
-
-    <!-- Contact Form JavaScript -->
-    <script src="<?= base_url(); ?>assets/js/jqBootstrapValidation.js"></script>
-    <!--<script src="assets/js/contact_me.js"></script>-->
-
-    <!-- Custom Theme JavaScript -->
-    <script src="<?= base_url(); ?>assets/js/freelancer.js"></script>
 </body>
 </html>
