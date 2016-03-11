@@ -17,7 +17,7 @@
             
             $resultSimple = array();
 			foreach ($consulta->result() as $row){
-                $resultSimple[$row->idrespuesta] = $row->idrespuesta.' - '.$row->vcrespnombre;
+                $resultSimple[$row->idrespuesta] = $row->vcrespnombre;
             }
             
             return $resultSimple;

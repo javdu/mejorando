@@ -153,7 +153,9 @@ class SubFactor extends Ext_Controller
         } else {
             $aReg = $this->iniReg();
             $this->subfactorModel->guardar(array('aReg' => $aReg));
-            $this->index();
+            
+            //$this->index();
+            redirect('/admin/pregunta/index', 'location');
         }
     }
     
@@ -174,6 +176,7 @@ class SubFactor extends Ext_Controller
     {
         $this->subfactorModel->eliminar($this->input->post('idsubfactor'));
         
-        $this->index();
+        //$this->index();
+        redirect('/admin/pregunta/index', 'location');
     }
 }

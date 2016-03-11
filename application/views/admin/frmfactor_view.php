@@ -9,26 +9,19 @@
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
                 <?= $msj; ?>
-                <h3><?= $accion; ?> Subfactor</h3>
-                <h3><small>En este modulo se crea un subfactor nuevo.</small></h3>
+                <h3><?= $accion; ?> Factor</h3>
+                <h3><small>En este modulo se <?= $accion; ?> un factor.</small></h3>
                 <hr />
-                <form action="admin/subfactor/guardar" method="post">
+                <form action="admin/factor/guardar" method="post">
                     <div class="form-group col-xs-12">
-                        <label>Factor</label>
-                        <?php
-                            $aFactor = array('' => 'Seleccionar') + $aFactor;
-                            echo form_dropdown('idfactor', $aFactor, $aReg['idfactor'], array('class' => 'form-control', 'id' =>'idfactor')); 
-                        ?>
+                        <label for="vcfactnombre">Nombre</label>
+                        <input type="text" class="form-control" id="vcfactnombre" name="vcfactnombre" value="<?= $aReg['vcfactnombre']; ?>" placeholder="Nombre">
                     </div>
                     <div class="form-group col-xs-12">
-                        <label for="vcsubfactnombre">Nombre</label>
-                        <input type="text" class="form-control" id="vcsubfactnombre" name="vcsubfactnombre" value="<?= $aReg['vcsubfactnombre']; ?>" placeholder="Nombre">
+                        <label for="vcfactdescrip">Descripción</label>
+                        <input type="text" class="form-control" id="vcfactdescrip" name="vcfactdescrip" value="<?= $aReg['vcfactdescrip']; ?>" placeholder="Descripción">
                     </div>
-                    <div class="form-group col-xs-12">
-                        <label for="vcsubfactdescrip">Descripción</label>
-                        <input type="text" class="form-control" id="vcsubfactdescrip" name="vcsubfactdescrip" value="<?= $aReg['vcsubfactdescrip']; ?>" placeholder="Nombre">
-                    </div>
-                    <input type="hidden" name="idsubfactor" id="idsubfactor" value="<?= $aReg['idsubfactor']; ?>">
+                    <input type="hidden" name="idfactor" id="idfactor" value="<?= $aReg['idfactor']; ?>">
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">

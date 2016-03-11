@@ -21,9 +21,11 @@
                                 <!--<textarea rows="5" style="width: 100%;"><?= $elemResultados['vcresultsugprof']; ?></textarea>
                                 <textarea rows="5" style="width: 100%;"><?= $elemResultados['vcresultejepot']; ?></textarea>
                                 -->
-                                <?php foreach($elemResultados['respuestas'] AS $elemOpciones):?>
-                                    <?= $elemOpciones['idresultrespcontador']; ?> - <?= $elemOpciones['vcrespnombre']; ?>
-                                <?php endforeach; ?>
+                                <?php if(isset($elemResultados['respuestas'])):?>
+                                    <?php foreach($elemResultados['respuestas'] AS $elemOpciones):?>
+                                        <p style="font-size: 9pt;"><?= $elemOpciones['idresultrespcontador']; ?> - <?= $elemOpciones['vcrespnombre']; ?></p>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -35,7 +37,7 @@
                 <div id='toolbar' style="padding: 40px 15px;">
                     <div class='wrapper text-center'>
                         <div class="btn-group">
-                            <a class="btn btn-default" href="admin/subfactor/index">Volver</a>
+                            <a class="btn btn-default" href="admin/pregunta/index">Volver</a>
                         </div>
                     </div>
                 </div>

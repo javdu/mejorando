@@ -5,7 +5,7 @@
    $footer = (isset($footer))? $footer : '';
 ?>
 <!DOCTYPE html>
-<html lang="en" style="height: 100% !important;">
+<html lang="en">
 <head>
     <base href="<?= base_url(); ?>" />
     <link href="<?= base_url(); ?>assets/css/vendor.css" rel="stylesheet" type="text/css">
@@ -18,17 +18,18 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
 </head>
-<body id="page-top" class="index" style="margin:0; padding:0; height:100%;">
-    <div style="min-height:100%; position:relative; ">
+<body id="page-top" class="index" style="margin:0; padding:0;">
+<div style="margin:0; padding:0; position:relative;">
         <?= $navbar ?>
-        <div id="box-main">
+        <div id="box-main" style="padding-bottom: 100px;">
             <?= $header ?>
             <?= $content ?>
         </div>
-        <div class="clearfloat"></div>
-        <?= $footer ?>
-            
-        <!-- Bootstrap Core JavaScript -->
+        <div style="position:absolute !important; bottom:0 !important; width: 100%;">
+            <?= $footer ?>
+        </div>
+</div>
+<!-- Bootstrap Core JavaScript -->
         <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
     
         <!-- Plugin JavaScript -->
@@ -42,6 +43,5 @@
     
         <!-- Custom Theme JavaScript -->
         <script src="<?= base_url(); ?>assets/js/freelancer.js"></script>
-    </div>
 </body>
 </html>

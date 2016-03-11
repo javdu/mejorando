@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcresultsugprof">Sugerencia profesional:</label>
-                        <textarea name="vcresultsugprof" id="vcresultsugprof" class="form-control" rows="3"<?= $aReg['vcresultsugprof']; ?>></textarea>
+                        <textarea name="vcresultsugprof" id="vcresultsugprof" class="form-control" rows="3"><?= $aReg['vcresultsugprof']; ?></textarea>
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcresultejepot">Ejercicio de potenciamiento:</label>

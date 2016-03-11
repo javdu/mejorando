@@ -33,5 +33,36 @@
             
             return $resultSimple;
         }
+        
+        public function obtenerUno($idfactor)
+        {
+            $this->db->select('*');
+            $this->db->from('tfactor');
+            $this->db->where('idfactor', $idfactor);
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
+        }
+        
+        public function guardar($aData)
+        {
+            $idfactor = $aData['idfactor'];
+            unset($aData['idfactor']);
+            if ($idfactor == 0) {
+                $this->db->insert('tfactor', $aData);
+            } else {
+                $this->db->where('idfactor', $idfactor);
+                $this->db->update('tfactor', $aData); 
+            }
+        }
+        
+        public function eliminar($idfactor)
+        {
+            $this->db->where('idfactor', $idfactor);
+            $this->db->delete('tfactor');
+            
+            return $this->db->affected_rows();
+        }
     }
 // EOF parentesco_model.php

@@ -184,6 +184,7 @@ EOT;
         } else {
             $aResultado = $this->iniRegResultados();
         }
+        
         $aRespuestas = $this->resultrespModel->obtenerRespuestas($idresultado);
         $aData = array(
             'aReg' => $aResultado,

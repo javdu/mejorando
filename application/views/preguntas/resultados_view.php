@@ -101,9 +101,16 @@
                 series: [{
                     name: 'Estado Actual',
                     data: [<?php echo join($aAuxPorcentaje, ',') ?>]
-                }]
+                }],
+                exporting: {
+                    enabled: true,
+                    filename: "chart",
+                    type: "image/png",
+                    url: 'http://localhost:8080/mejorando/assets/img',
+                    allowHTML: false,
+                    fallbackToExportServer: true
+                  }
             });
-            
             // the button handler
             $('#save_img').click(function () {
                 var chart = $('#chart').highcharts();

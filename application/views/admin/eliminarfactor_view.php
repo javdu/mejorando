@@ -1,24 +1,27 @@
+<?php
+    $msj = (isset($msj))? $msj : '';
+    $errores = validation_errors();
+    $errores = (!empty($errores))? '<div class="alert alert-danger" role="alert">'.$errores.'</div>' : ''; 
+?>
 <section id="resultresp">
     <div class="container">
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-                <h3>Eliminar Subfactor</h3>
-                <h3><small>En este modulo se elimina un subfactor.</small></h3>
+                <?= $errores; ?>
+                <?= $msj; ?>
+                <h3>Eliminar Factor</h3>
+                <h3><small>En este modulo se elimina un factor.</small></h3>
                 <hr />
-                <form action="admin/subfactor/eliminar" method="post">
+                <form action="admin/factor/eliminar" method="post">
                     <div class="form-group col-xs-12">
-                        <label>Factor</label>
-                        <input type="text" class="form-control" id="vcfactnombre" name="vcfactnombre" value="<?= $aReg['vcfactnombre']; ?>" />
+                        <label for="vcfactnombre">Nombre</label>
+                        <input type="text" class="form-control" id="vcfactnombre" name="vcfactnombre" value="<?= $aReg['vcfactnombre']; ?>" placeholder="Nombre">
                     </div>
                     <div class="form-group col-xs-12">
-                        <label>Subfactor</label>
-                        <input type="text" class="form-control" id="vcsubfactnombre" name="vcsubfactnombre" value="<?= $aReg['vcsubfactnombre']; ?>"/>
+                        <label for="vcfactdescrip">Descripción</label>
+                        <input type="text" class="form-control" id="vcfactdescrip" name="vcfactdescrip" value="<?= $aReg['vcfactdescrip']; ?>" placeholder="Descripción">
                     </div>
-                    <div class="form-group col-xs-12">
-                        <label>Descripción</label>
-                        <input type="text" class="form-control" id="vcsubfactdescrip" name="vcsubfactdescrip" value="<?= $aReg['vcsubfactdescrip']; ?>" />
-                    </div>
-                    <input type="hidden" name="idsubfactor" id="idsubfactor" value="<?= $aReg['idsubfactor']; ?>" />
+                    <input type="hidden" name="idfactor" id="idfactor" value="<?= $aReg['idfactor']; ?>">
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -33,8 +36,8 @@
                             </div>
                         </div>
                     </div>
-                    
                 </form>
+                
             </div>
         </div>
     </div>

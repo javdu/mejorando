@@ -63,11 +63,14 @@ class Pregunta extends Ext_Controller {
         foreach($aAux AS $idAux => $elemAux) {
             $aFactor[$idAux]['subfactor'][] = $elemAux;
         }
+        
+        //echo '<pre>';
+        //var_dump($aFactor);
         $aData = array(
             'aFactor' => $aFactor
         );
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $header = $this->load->view('backend/navbar_view', array(), true);;
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/listpregunta_view', $aData, true);
 		
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
