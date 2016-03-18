@@ -9,14 +9,3 @@
         </div>
     </div>
 </div>
-<script>
-    $( document ).ready(function() {
-        $.ajax({
-            url: "login/autenticacion/loadloginuser",
-            type: "post", 
-            success: function(result){
-                $("#box-login-usuario").html(result);
-            }
-        });
-    });
-</script>

@@ -116,7 +116,7 @@ class Persona extends Ext_Controller {
                 'vcpernombre' => strtoupper($this->input->post('vcpernombre')),
                 'inperdni' => $this->input->post('inperdni'),
                 'dtperfechnac' => $this->input->post('dtperfechnac'),
-                'vcperdom' => $this->input->post('vcperdom'),
+                'vcperdom' => strtoupper($this->input->post('vcperdom')),
                 'vcpertelcodarea' => $this->input->post('vcpertelcodarea'),
                 'vcpertel' => $this->input->post('vcpertel'),
                 'vcpercelcodarea' => $this->input->post('vcpercelcodarea'),

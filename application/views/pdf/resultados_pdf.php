@@ -49,4 +49,5 @@
             
         <?php endif; ?>
     <?php endforeach; ?>
+    <img src="cuestionario/resultados/makegraphic" alt="" border="0">
 </div>

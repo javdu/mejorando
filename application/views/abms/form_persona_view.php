@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcperdom">Domicilio</label>
-                        <input type="text" class="form-control" id="vcperdom" name="vcperdom" placeholder="Domicilio" value="<?= $aReg['vcperdom']; ?>" />
+                        <input type="text" class="form-control" id="vcperdom" name="vcperdom" placeholder="Domicilio" style="text-transform: uppercase;" value="<?= $aReg['vcperdom']; ?>" />
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcpercelcodarea">Teléfono celular</label>
