@@ -1,7 +1,7 @@
 <section id="resultados">
     <div class="container">
         <div class="row">
-            <img src="cuestionario/resultados/makegraphic" alt="" border="0"> 
+             
             <div class="col-xs-9 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <form name="resultadosForm" id="resultadosForm" action="cuestionario/resultados/guardar">
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart" name="chart"></div></div>

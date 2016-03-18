@@ -90,7 +90,7 @@ class Resultados extends Ext_Controller {
         
         
         //********************************************************************************
-        
+        $this->makegraphic();
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         
         $aData = array(
@@ -159,7 +159,7 @@ class Resultados extends Ext_Controller {
         $graph->legend->SetFrameWeight(1);
         
         // Output line
-        $graph->Stroke();
+        $graph->Stroke("nombreGrafico.png");
     }
     
     public function guardar()
@@ -261,7 +261,8 @@ class Resultados extends Ext_Controller {
 
     	//$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
         $pdf->writeHTML($html, true, false, true, false, '');
-        
+
+        //$pdf->Image(, $x, $y, $w, $h, 'JPG', '', '', false, 300, '', false, false, 0, $fitbox, false, false);
     	// ---------------------------------------------------------
     	// Cerrar el documento PDF y preparamos la salida
     	// Este mtodo tiene varias opciones, consulte la documentacin para ms informacin.
