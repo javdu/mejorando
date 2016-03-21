@@ -1,6 +1,6 @@
 .DS_Store
 
-.htaccess
+mejorando/.htaccess
 
 application/cache/*
 !application/cache/index.html

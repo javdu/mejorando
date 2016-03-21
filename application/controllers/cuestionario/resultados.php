@@ -88,9 +88,6 @@ class Resultados extends Ext_Controller {
             );
         }
         
-        
-        //********************************************************************************
-        $this->makegraphic();
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         
         $aData = array(
@@ -100,6 +97,10 @@ class Resultados extends Ext_Controller {
             'aAuxGraf' => $aAuxGraf
         );
         
+        //********************************************************************************
+        $this->estadoactual($aAuxPorcentaje);
+        $this->graficocomparativo($aAuxGraf);
+        
         $viewResultados = $this->load->view('preguntas/resultados_view', $aData, true);
         
         
@@ -107,59 +108,105 @@ class Resultados extends Ext_Controller {
         echo $viewResultados;
 	}
     
-    public function makegraphic()
+    public function estadoactual($aAuxPorcentaje = null)
     {
         include(APPPATH.'libraries/jpgraph-3.5.0b1/src/jpgraph.php');
-        include(APPPATH.'libraries/jpgraph-3.5.0b1/src/jpgraph_line.php');
+        include(APPPATH.'libraries/jpgraph-3.5.0b1/src/jpgraph_bar.php');
         
-        $datay1 = array(20,15,23,15);
-        $datay2 = array(12,9,42,8);
-        $datay3 = array(5,17,32,24);
+        //$datay=array(20,50,90);
+        $datay = $aAuxPorcentaje;
+        // Size of graph
+        $width=450;
+        $height=300;
+         
+        // Set the basic parameters of the graph
+        $graph = new Graph($width,$height);
+        $graph->SetScale('textlin');
+         
+        $top = 60;
+        $bottom = 30;
+        $left = 150;
+        $right = 30;
+        $graph->Set90AndMargin($left,$right,$top,$bottom);
+         
+        // Nice shadow
+        $graph->SetShadow();
+         
+        // Setup labels
+        $lblx = array("HABILIDADES\nPSICOMOTORAS","HABILIDADES\nCOGNITIVAS","HABILIDADES\nSOCIO-EMOCIONALES");
+        $graph->xaxis->SetTickLabels($lblx);
+         
+        // Label align for X-axis
+        $graph->xaxis->SetLabelAlign('right','center','right');
+         
+        // Label align for Y-axis
+        $graph->yaxis->SetLabelAlign('center','bottom');
         
-        // Setup the graph
-        $graph = new Graph(300,250);
-        $graph->SetScale("textlin");
+        $graph->yaxis->title->Set("%");
+         
+        // Titles
+        $graph->title->Set('Estado Actual');
+         
+        // Create a bar pot
+        $bplot = new BarPlot($datay);
+        $bplot->SetWidth(0.5);
+        $bplot->value->Show();
+        $bplot->value->SetColor("black","darkred"); 
+        $bplot->value->SetFormat('%01.2f');  
         
-        $theme_class=new UniversalTheme;
+        //$lbly = array("0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100");
+        //$graph->yaxis->SetTickLabels($lbly);
+         
+        $graph->Add($bplot);
         
-        $graph->SetTheme($theme_class);
-        $graph->img->SetAntiAliasing(false);
-        $graph->title->Set('Filled Y-grid');
-        $graph->SetBox(false);
-        
-        $graph->img->SetAntiAliasing();
-        
-        $graph->yaxis->HideZeroLabel();
-        $graph->yaxis->HideLine(false);
-        $graph->yaxis->HideTicks(false,false);
-        
-        $graph->xgrid->Show();
-        $graph->xgrid->SetLineStyle("solid");
-        $graph->xaxis->SetTickLabels(array('A','B','C','D'));
-        $graph->xgrid->SetColor('#E3E3E3');
-        
-        // Create the first line
-        $p1 = new LinePlot($datay1);
-        $graph->Add($p1);
-        $p1->SetColor("#6495ED");
-        $p1->SetLegend('Line 1');
-        
-        // Create the second line
-        $p2 = new LinePlot($datay2);
-        $graph->Add($p2);
-        $p2->SetColor("#B22222");
-        $p2->SetLegend('Line 2');
-        
-        // Create the third line
-        $p3 = new LinePlot($datay3);
-        $graph->Add($p3);
-        $p3->SetColor("#FF1493");
-        $p3->SetLegend('Line 3');
-        
-        $graph->legend->SetFrameWeight(1);
+        $bplot->value->Show();  
         
         // Output line
-        $graph->Stroke("./assets/img/nombregrafico.png");
+        $graph->Stroke("./assets/img/estadoactual".date("dmY_His").".png");
+    }
+    
+    public function graficocomparativo($aAuxGraf = null)
+    {
+            echo '<pre>';
+            var_dump($aAuxGraf[0]['factFecha']);
+            die;
+            $datay = $aAuxGraf[0]['factValor'];
+             
+            // Create the graph. These two calls are always required
+            $graph = new Graph(650,400);
+            $graph->SetScale('intlin');
+            
+            $lblx = $aAuxGraf[0]['factFecha'];
+            $graph->xaxis->SetTickLabels($lblx);
+            $graph->xaxis->SetLabelAngle(50);
+             
+            // Add a drop shadow
+            $graph->SetShadow();
+             
+            // Adjust the margin a bit to make more room for titles
+            $graph->SetMargin(80,30,20,80);
+             
+            // Create a bar pot
+            $bplot = new BarPlot($datay);
+             
+            // Adjust fill color
+            $bplot->SetFillColor('orange');
+            $graph->Add($bplot);
+            
+            $bplot->value->Show();
+             
+            // Setup the titles
+            $graph->title->Set($aAuxGraf[0]['vcfactnombre']);
+            $graph->xaxis->title->Set('Fecha');
+            $graph->yaxis->title->Set('Aprendisaje %');
+             
+            $graph->title->SetFont(FF_FONT1,FS_BOLD);
+            $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+            $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+            
+            // Output line
+            $graph->Stroke("./assets/img/graficocomparativo".date("dmY_His").".png");
+        
     }
     
     public function guardar()

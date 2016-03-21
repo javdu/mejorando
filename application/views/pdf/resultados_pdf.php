@@ -49,6 +49,9 @@
             
         <?php endif; ?>
     <?php endforeach; ?>
-    <img src="./assets/img/nombregrafico.png" width="250" height="150" />
-            
+    <h2>REPRESENTACION GRAFICA  DE LA INFORMACION OBTENIDA</h2>
+    <h4>ESTADO ACTUAL:</h4>
+    <img src="./assets/img/estadoactual.png" width="400" height="350" />
+    <h4>ESTADO ACTUAL:</h4>
+    <img src="./assets/img/estadoactual.png" width="400" height="350" />       
 </div>
