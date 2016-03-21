@@ -49,5 +49,6 @@
             
         <?php endif; ?>
     <?php endforeach; ?>
-    <img src="cuestionario/resultados/makegraphic" alt="" border="0" width="200" height="150">
+    <img src="./assets/img/nombregrafico.png" width="250" height="150" />
+            
 </div>
