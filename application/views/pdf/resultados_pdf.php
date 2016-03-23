@@ -50,8 +50,8 @@
         <?php endif; ?>
     <?php endforeach; ?>
     <h2>REPRESENTACION GRAFICA  DE LA INFORMACION OBTENIDA</h2>
-    <h4>ESTADO ACTUAL:</h4>
-    <img src="./assets/img/estadoactual.png" width="400" height="350" />
-    <h4>ESTADO ACTUAL:</h4>
-    <img src="./assets/img/estadoactual.png" width="400" height="350" />       
+    <?php foreach($aDataImagen as $aElemImagen): ?>
+        <h4><?= $aElemImagen['vcrgtitulo']; ?>:</h4>
+        <img src="<?= $aElemImagen['vcrgpath'].$aElemImagen['vcrgnombre']; ?>" width="650" height="400" />    
+    <?php endforeach; ?>     
 </div>

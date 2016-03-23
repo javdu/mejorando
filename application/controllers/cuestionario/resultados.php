@@ -15,6 +15,7 @@ class Resultados extends Ext_Controller {
        $this->load->model('factor_Model', 'factorModel');
        $this->load->model('inffacindice_Model', 'inffacindiceModel');
        $this->load->model('usuario_Model', 'usuarioModel');
+       $this->load->model('reporte_model', 'reporteModel');
     }
 
 	public function index()
@@ -97,9 +98,10 @@ class Resultados extends Ext_Controller {
             'aAuxGraf' => $aAuxGraf
         );
         
-        //********************************************************************************
+        
         $this->estadoactual($aAuxPorcentaje);
         $this->graficocomparativo($aAuxGraf);
+        //********************************************************************************
         
         $viewResultados = $this->load->view('preguntas/resultados_view', $aData, true);
         
@@ -115,12 +117,9 @@ class Resultados extends Ext_Controller {
         
         //$datay=array(20,50,90);
         $datay = $aAuxPorcentaje;
-        // Size of graph
-        $width=450;
-        $height=300;
          
         // Set the basic parameters of the graph
-        $graph = new Graph($width,$height);
+        $graph = new Graph(650,400);
         $graph->SetScale('textlin');
          
         $top = 60;
@@ -151,7 +150,7 @@ class Resultados extends Ext_Controller {
         $bplot = new BarPlot($datay);
         $bplot->SetWidth(0.5);
         $bplot->value->Show();
-        $bplot->value->SetColor("black","darkred"); 
+        $bplot->value->SetColor("black","darkred");
         $bplot->value->SetFormat('%01.2f');  
         
         //$lbly = array("0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100");
@@ -159,66 +158,186 @@ class Resultados extends Ext_Controller {
          
         $graph->Add($bplot);
         
-        $bplot->value->Show();  
+        $bplot->value->Show();
+        $bplot->value->SetAngle(90);
+        
+        $nombImagen = "estadoactual".date("dmY_His").".png";
+        $idreportegrafico = $this->reporteModel->guardarImagen(
+            array(
+                'idreportegrafico' => 0,
+                'vcrgtitulo' => 'ESTADO ACTUAL',
+                'vcrgnombre' => $nombImagen,
+                'vcrgpath' => './assets/img/',
+                'idinforme' => $this->session->userdata('idinforme')
+            )
+        );
         
         // Output line
-        $graph->Stroke("./assets/img/estadoactual".date("dmY_His").".png");
+        $graph->Stroke("./assets/img/".$nombImagen);
     }
     
     public function graficocomparativo($aAuxGraf = null)
     {
-            echo '<pre>';
-            var_dump($aAuxGraf[0]['factFecha']);
-            die;
-            $datay = $aAuxGraf[0]['factValor'];
-             
-            // Create the graph. These two calls are always required
-            $graph = new Graph(650,400);
-            $graph->SetScale('intlin');
-            
-            $lblx = $aAuxGraf[0]['factFecha'];
-            $graph->xaxis->SetTickLabels($lblx);
-            $graph->xaxis->SetLabelAngle(50);
-             
-            // Add a drop shadow
-            $graph->SetShadow();
-             
-            // Adjust the margin a bit to make more room for titles
-            $graph->SetMargin(80,30,20,80);
-             
-            // Create a bar pot
-            $bplot = new BarPlot($datay);
-             
-            // Adjust fill color
-            $bplot->SetFillColor('orange');
-            $graph->Add($bplot);
-            
-            $bplot->value->Show();
-             
-            // Setup the titles
-            $graph->title->Set($aAuxGraf[0]['vcfactnombre']);
-            $graph->xaxis->title->Set('Fecha');
-            $graph->yaxis->title->Set('Aprendisaje %');
-             
-            $graph->title->SetFont(FF_FONT1,FS_BOLD);
-            $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-            $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
-            
-            // Output line
-            $graph->Stroke("./assets/img/graficocomparativo".date("dmY_His").".png");
+        $datay = $aAuxGraf[0]['factValor'];
+         
+        // Create the graph. These two calls are always required
+        $graph = new Graph(650,400);
+        $graph->SetScale('intlin');
         
+        $lblx = $aAuxGraf[0]['factFecha'];
+        $graph->xaxis->SetTickLabels($lblx);
+        $graph->xaxis->SetLabelAngle(50);
+         
+        // Add a drop shadow
+        $graph->SetShadow();
+         
+        // Adjust the margin a bit to make more room for titles
+        $graph->SetMargin(80,30,20,80);
+         
+        // Create a bar pot
+        $bplot = new BarPlot($datay);
+         
+        // Adjust fill color
+        $bplot->SetFillColor('orange');
+        $graph->Add($bplot);
+        
+        $bplot->value->Show();
+        $bplot->value->SetAngle(90);
+         
+        // Setup the titles
+        $graph->title->Set($aAuxGraf[0]['vcfactnombre']);
+        $graph->xaxis->title->Set('Fecha');
+        $graph->yaxis->title->Set('Aprendisaje %');
+         
+        $graph->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        
+        $nombImagen = "habilidadespsicomotoras".date("dmY_His").".png";
+        $idreportegrafico = $this->reporteModel->guardarImagen(
+            array(
+                'idreportegrafico' => 0,
+                'vcrgtitulo' => 'HABILIDADES PSICOMOTORAS',
+                'vcrgnombre' => $nombImagen,
+                'vcrgpath' => './assets/img/',
+                'idinforme' => $this->session->userdata('idinforme')
+            )
+        );
+        
+        // Output line
+        $graph->Stroke("./assets/img/".$nombImagen);
+        
+        //*************************************************************************
+        
+        $datay = $aAuxGraf[0]['factValor'];
+         
+        // Create the graph. These two calls are always required
+        $graph = new Graph(650,400);
+        $graph->SetScale('intlin');
+        
+        $lblx = $aAuxGraf[1]['factFecha'];
+        $graph->xaxis->SetTickLabels($lblx);
+        $graph->xaxis->SetLabelAngle(50);
+         
+        // Add a drop shadow
+        $graph->SetShadow();
+         
+        // Adjust the margin a bit to make more room for titles
+        $graph->SetMargin(80,30,20,80);
+         
+        // Create a bar pot
+        $bplot = new BarPlot($datay);
+         
+        // Adjust fill color
+        $bplot->SetFillColor('orange');
+        $graph->Add($bplot);
+        
+        $bplot->value->Show();
+        $bplot->value->SetAngle(90);
+         
+        // Setup the titles
+        $graph->title->Set($aAuxGraf[1]['vcfactnombre']);
+        $graph->xaxis->title->Set('Fecha');
+        $graph->yaxis->title->Set('Aprendisaje %');
+         
+        $graph->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        
+        $nombImagen = "habilidadescongnitivas".date("dmY_His").".png";
+        $idreportegrafico = $this->reporteModel->guardarImagen(
+            array(
+                'idreportegrafico' => 0,
+                'vcrgtitulo' => 'HABILIDADES COGNITIVAS',
+                'vcrgnombre' => $nombImagen,
+                'vcrgpath' => './assets/img/',
+                'idinforme' => $this->session->userdata('idinforme')
+            )
+        );
+        
+        // Output line
+        $graph->Stroke("./assets/img/".$nombImagen);
+        
+        //***************************************************
+        
+        $datay = $aAuxGraf[2]['factValor'];
+         
+        // Create the graph. These two calls are always required
+        $graph = new Graph(650,400);
+        $graph->SetScale('intlin');
+        
+        $lblx = $aAuxGraf[2]['factFecha'];
+        $graph->xaxis->SetTickLabels($lblx);
+        $graph->xaxis->SetLabelAngle(50);
+         
+        // Add a drop shadow
+        $graph->SetShadow();
+         
+        // Adjust the margin a bit to make more room for titles
+        $graph->SetMargin(80,30,20,80);
+         
+        // Create a bar pot
+        $bplot = new BarPlot($datay);
+         
+        // Adjust fill color
+        $bplot->SetFillColor('orange');
+        $graph->Add($bplot);
+        
+        $bplot->value->Show();
+        $bplot->value->SetAngle(90);
+         
+        // Setup the titles
+        $graph->title->Set($aAuxGraf[2]['vcfactnombre']);
+        $graph->xaxis->title->Set('Fecha');
+        $graph->yaxis->title->Set('Aprendisaje %');
+         
+        $graph->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+        
+        $nombImagen = "habilidadessocioemocionales".date("dmY_His").".png";
+        $idreportegrafico = $this->reporteModel->guardarImagen(
+            array(
+                'idreportegrafico' => 0,
+                'vcrgtitulo' => 'HABILIDADES SOCIO-EMOCIONALES',
+                'vcrgnombre' => $nombImagen,
+                'vcrgpath' => './assets/img/',
+                'idinforme' => $this->session->userdata('idinforme')
+            )
+        );
+        
+        // Output line
+        $graph->Stroke("./assets/img/".$nombImagen);
     }
     
     public function guardar()
     {
-        $this->session->set_userdata('idinforme', 0);
-        
         $this->hacerPDF();
         
         $this->sendMailGmail();
         
         $viewImprimir = $this->load->view('preguntas/imprimir_view', '', true);
-        
+        $this->session->set_userdata('idinforme', 0);
         $aData = array (
             'nombre_archivo' => $this->nombre_archivo
         );
@@ -292,6 +411,23 @@ class Resultados extends Ext_Controller {
         $aAlumno['dtedad'] = $this->_calculaEdad($aAlumno['dtperfechnac']);
         $aAlumno['dtperfechnac'] = date("d/m/Y", strtotime($aAlumno['dtperfechnac']));
         
+        $this->nombre_archivo = "Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_His").".pdf";
+        
+        $idreporte = $this->reporteModel->guardar(
+            array(
+                'idreporte' => 0,
+                'vcreportnombre' => $this->nombre_archivo,
+                'dtreportfecha' => date("Y-m-d"),
+                'idinforme' => $this->session->userdata('idinforme')
+            )
+        );
+        
+        $aDataImagen = $this->reporteModel->obtenerImagen($this->session->userdata('idinforme'));
+        
+        //echo '<pre>';
+        //var_dump($aDataImagen);
+        //die;
+        
         //var_dump($aAlumno);die;
         $html = $this->load->view(
             'pdf/resultados_pdf',
@@ -299,7 +435,8 @@ class Resultados extends Ext_Controller {
                 'aResultados' => $aResultados,
                 'aAlumno' => $aAlumno,
                 'aTutor' => $aTutor,
-                'aInforme' => $aInforme
+                'aInforme' => $aInforme,
+                'aDataImagen' => $aDataImagen
             ), 
             true
         );
@@ -315,10 +452,10 @@ class Resultados extends Ext_Controller {
     	// ---------------------------------------------------------
     	// Cerrar el documento PDF y preparamos la salida
     	// Este mtodo tiene varias opciones, consulte la documentacin para ms informacin.
-    	$this->nombre_archivo = __DIR__."\..\..\..\assets\pdf\Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_His").".pdf";
-        $this->session->set_userdata('resultadospdf', $this->nombre_archivo);
+        
+        $this->session->set_userdata('resultadospdf', __DIR__."\..\..\..\assets\pdf\\".$this->nombre_archivo);
         //file_put_contents(base_url()."assets/pdf/Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_Hi").".pdf", null);
-    	$pdf->Output($this->nombre_archivo, 'F');
+    	$pdf->Output( __DIR__."\..\..\..\assets\pdf\\".$this->nombre_archivo, 'F');
     }
     
     function verPDF()
