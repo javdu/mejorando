@@ -15,8 +15,8 @@
     
     <!-- jQuery -->
     <script src="<?= base_url(); ?>assets/js/jquery.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="<?= base_url(); ?>assets/js/highcharts.js"></script>
+    <script src="<?= base_url(); ?>assets/js/exporting.js"></script>
 </head>
 <body id="page-top" class="index" style="margin:0; padding:0;">
 <div style="margin:0; padding:0; position:relative;">

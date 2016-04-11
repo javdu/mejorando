@@ -141,10 +141,11 @@ class Resultados extends Ext_Controller {
         // Label align for Y-axis
         $graph->yaxis->SetLabelAlign('center','bottom');
         
-        $graph->yaxis->title->Set("%");
+        $graph->yaxis->title->Set("Porcentaje %");
+        $graph->yaxis->title->SetAngle(0);
          
         // Titles
-        $graph->title->Set('Estado Actual');
+        $graph->title->Set('ESTADO ACTUAL');
          
         // Create a bar pot
         $bplot = new BarPlot($datay);
@@ -160,6 +161,7 @@ class Resultados extends Ext_Controller {
         
         $bplot->value->Show();
         $bplot->value->SetAngle(90);
+        $bplot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
         
         $nombImagen = "estadoactual".date("dmY_His").".png";
         $idreportegrafico = $this->reporteModel->guardarImagen(
@@ -167,13 +169,13 @@ class Resultados extends Ext_Controller {
                 'idreportegrafico' => 0,
                 'vcrgtitulo' => 'ESTADO ACTUAL',
                 'vcrgnombre' => $nombImagen,
-                'vcrgpath' => './assets/img/',
+                'vcrgpath' => './assets/img/estadisticos/',
                 'idinforme' => $this->session->userdata('idinforme')
             )
         );
         
         // Output line
-        $graph->Stroke("./assets/img/".$nombImagen);
+        $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
     }
     
     public function graficocomparativo($aAuxGraf = null)
@@ -192,7 +194,7 @@ class Resultados extends Ext_Controller {
         $graph->SetShadow();
          
         // Adjust the margin a bit to make more room for titles
-        $graph->SetMargin(80,30,20,80);
+        $graph->SetMargin(80,30,80,80);
          
         // Create a bar pot
         $bplot = new BarPlot($datay);
@@ -203,13 +205,14 @@ class Resultados extends Ext_Controller {
         
         $bplot->value->Show();
         $bplot->value->SetAngle(90);
+        $bplot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
          
         // Setup the titles
         $graph->title->Set($aAuxGraf[0]['vcfactnombre']);
         $graph->xaxis->title->Set('Fecha');
         $graph->yaxis->title->Set('Aprendisaje %');
          
-        $graph->title->SetFont(FF_FONT1,FS_BOLD);
+        //$graph->title->SetFont(FF_FONT1,FS_BOLD);
         $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
         $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
         
@@ -219,13 +222,13 @@ class Resultados extends Ext_Controller {
                 'idreportegrafico' => 0,
                 'vcrgtitulo' => 'HABILIDADES PSICOMOTORAS',
                 'vcrgnombre' => $nombImagen,
-                'vcrgpath' => './assets/img/',
+                'vcrgpath' => './assets/img/estadisticos/',
                 'idinforme' => $this->session->userdata('idinforme')
             )
         );
         
         // Output line
-        $graph->Stroke("./assets/img/".$nombImagen);
+        $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
         
         //*************************************************************************
         
@@ -243,7 +246,7 @@ class Resultados extends Ext_Controller {
         $graph->SetShadow();
          
         // Adjust the margin a bit to make more room for titles
-        $graph->SetMargin(80,30,20,80);
+        $graph->SetMargin(80,30,80,80);
          
         // Create a bar pot
         $bplot = new BarPlot($datay);
@@ -254,13 +257,14 @@ class Resultados extends Ext_Controller {
         
         $bplot->value->Show();
         $bplot->value->SetAngle(90);
+        $bplot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
          
         // Setup the titles
         $graph->title->Set($aAuxGraf[1]['vcfactnombre']);
         $graph->xaxis->title->Set('Fecha');
         $graph->yaxis->title->Set('Aprendisaje %');
          
-        $graph->title->SetFont(FF_FONT1,FS_BOLD);
+        //$graph->title->SetFont(FF_FONT1,FS_BOLD);
         $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
         $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
         
@@ -270,13 +274,13 @@ class Resultados extends Ext_Controller {
                 'idreportegrafico' => 0,
                 'vcrgtitulo' => 'HABILIDADES COGNITIVAS',
                 'vcrgnombre' => $nombImagen,
-                'vcrgpath' => './assets/img/',
+                'vcrgpath' => './assets/img/estadisticos/',
                 'idinforme' => $this->session->userdata('idinforme')
             )
         );
         
         // Output line
-        $graph->Stroke("./assets/img/".$nombImagen);
+        $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
         
         //***************************************************
         
@@ -294,7 +298,7 @@ class Resultados extends Ext_Controller {
         $graph->SetShadow();
          
         // Adjust the margin a bit to make more room for titles
-        $graph->SetMargin(80,30,20,80);
+        $graph->SetMargin(80,30,80,80);
          
         // Create a bar pot
         $bplot = new BarPlot($datay);
@@ -305,13 +309,14 @@ class Resultados extends Ext_Controller {
         
         $bplot->value->Show();
         $bplot->value->SetAngle(90);
+        $bplot->value->SetFont(FF_ARIAL,FS_NORMAL,7);
          
         // Setup the titles
         $graph->title->Set($aAuxGraf[2]['vcfactnombre']);
         $graph->xaxis->title->Set('Fecha');
         $graph->yaxis->title->Set('Aprendisaje %');
          
-        $graph->title->SetFont(FF_FONT1,FS_BOLD);
+        //$graph->title->SetFont(FF_FONT1,FS_BOLD);
         $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
         $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
         
@@ -321,13 +326,13 @@ class Resultados extends Ext_Controller {
                 'idreportegrafico' => 0,
                 'vcrgtitulo' => 'HABILIDADES SOCIO-EMOCIONALES',
                 'vcrgnombre' => $nombImagen,
-                'vcrgpath' => './assets/img/',
+                'vcrgpath' => './assets/img/estadisticos/',
                 'idinforme' => $this->session->userdata('idinforme')
             )
         );
         
         // Output line
-        $graph->Stroke("./assets/img/".$nombImagen);
+        $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
     }
     
     public function guardar()
@@ -364,7 +369,7 @@ class Resultados extends Ext_Controller {
  
 		//cargamos la configuración para enviar con gmail
 		$this->email->initialize($configGmail);
-        $this->email->attach($this->nombre_archivo, "inline");
+        $this->email->attach($this->session->userdata('resultadospdf'), "inline");
 		$this->email->from('javdu0113@gmail.com');
         
         $aUsuario = $this->usuarioModel->obtenerUno(array('idpersona' => $this->session->userdata('idpersona')));

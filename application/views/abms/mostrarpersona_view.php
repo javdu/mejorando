@@ -9,7 +9,7 @@
                                 <label for="dni" class="control-label">HABLARE DE:</label>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <p><?= $aAlumno['vcpernombre'] ?></p>
+                                <p><?= strtoupper($aAlumno['vcpernombre']); ?></p>
                             </div>
                         </div>
                     </div>

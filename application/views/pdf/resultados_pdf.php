@@ -1,5 +1,5 @@
 <div class="body">
-    <h1 align="center"><?= $aAlumno['vcpernombre']?></h1>
+    <h1 align="center"><i class="fa fa-user"></i><?= $aAlumno['vcpernombre']?></h1>
     
     <p><strong>Escuela: </strong><?= $aAlumno['vcescnombre']?></p>
     <p><strong>Grado: </strong><?= $aAlumno['vcescgradnombre']?></p>
@@ -49,9 +49,9 @@
             
         <?php endif; ?>
     <?php endforeach; ?>
-    <h2>REPRESENTACION GRAFICA  DE LA INFORMACION OBTENIDA</h2>
+    <h2>Representación grafica de la información obtenida <h2>
     <?php foreach($aDataImagen as $aElemImagen): ?>
-        <h4><?= $aElemImagen['vcrgtitulo']; ?>:</h4>
         <img src="<?= $aElemImagen['vcrgpath'].$aElemImagen['vcrgnombre']; ?>" width="650" height="400" />    
+        <br />
     <?php endforeach; ?>     
 </div>

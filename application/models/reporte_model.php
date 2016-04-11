@@ -26,10 +26,10 @@
             $idreportegrafico = $aReg['idreportegrafico'];
             unset($aReg['idreportegrafico']);
             if ($idreportegrafico == 0) {
-                $this->db->insert('tgraficoreporte', $aReg);
+                $this->db->insert('treportegrafico', $aReg);
             } else {
                 $this->db->where('idreportegrafico', $idreportegrafico);
-                $this->db->update('tgraficoreporte', $aReg); 
+                $this->db->update('treportegrafico', $aReg); 
             }
             
             return $this->db->insert_id();
@@ -38,7 +38,7 @@
         public function obtenerImagen($idinforme = 0)
         {
             $this->db->select('*');
-            $this->db->from('tgraficoreporte');
+            $this->db->from('treportegrafico');
             $this->db->where('idinforme', $idinforme);
             
             $result = $this->db->get()->result_array();
