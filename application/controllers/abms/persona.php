@@ -111,11 +111,15 @@ class Persona extends Ext_Controller {
     
     public function iniRegPersona()
     {
+        
         if ((bool)$this->input->post()) {
+            list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
+        $fecha=$year."-".$mes."-".$dia;
+        
             $this->aReg = array(
                 'vcpernombre' => strtoupper($this->input->post('vcpernombre')),
                 'inperdni' => $this->input->post('inperdni'),
-                'dtperfechnac' => $this->input->post('dtperfechnac'),
+                'dtperfechnac' => $fecha,
                 'vcperdom' => strtoupper($this->input->post('vcperdom')),
                 'vcpertelcodarea' => $this->input->post('vcpertelcodarea'),
                 'vcpertel' => $this->input->post('vcpertel'),

@@ -49,11 +49,11 @@ class Preguntas1 extends Ext_Controller {
         
         $this->pagination->initialize($config);
         
-        if($this->uri->segment(4)){
+        if((bool)$this->uri->segment(4)){
             $page = ($this->uri->segment(4)) ;
         }
         else{
-            $page = 1;
+            $page = 0;
         }
         
         $aPreg = $this->preguntaModel->obtenerTodos($page, $config['num_links']);

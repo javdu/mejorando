@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Ext_Controller extends CI_Controller
 {
-    protected $_message = '';
+    protected $_message = null;
     protected $aReg = null;
     function __construct()
 	{

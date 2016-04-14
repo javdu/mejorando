@@ -56,7 +56,7 @@
                     type: 'bar'
                 },
                 title: {
-                    text: '<?= $aPersona['vcpernombre']; ?>'
+                    text: ''
                 },
                 xAxis: {
                     categories: ['HABILIDADES PSICOMOTORAS', 'HABILIDADES COGNITIVAS', 'HABILIDADES SOCIO-EMOCIONALES'],
@@ -103,20 +103,7 @@
                     name: 'Estado Actual',
                     data: [<?php echo join($aAuxPorcentaje, ',') ?>]
                 }],
-                exporting: {
-                    enabled: true,
-                    filename: "chart",
-                    type: "image/png",
-                    url: 'http://localhost:8080/mejorando/assets/img',
-                    allowHTML: false,
-                    fallbackToExportServer: true
-                  }
-            });
-            // the button handler
-            $('#save_img').click(function () {
-                var chart = $('#chart').highcharts();
-                //chart.print();
-                chart.exportChart('http://localhost:8080/mejorando/assets/img');
+                exporting: { enabled: false }
             });
         });
         <?php foreach ($aAuxGraf as $elemGraf):?>
@@ -126,7 +113,7 @@
                     type: 'column'
                 },
                 title: {
-                    text: '<?= $aPersona['vcpernombre']; ?>'
+                    text: ''
                 },
                 xAxis: {
                     categories: [<?php for($i = 0; $i < count($elemGraf['factFecha']); $i++){ echo "'".$elemGraf['factFecha'][$i]."'"; echo ",";} ?>],
@@ -159,7 +146,8 @@
                     name: '<?= $elemGraf['vcfactnombre']; ?>',
                     data: [<?= join($elemGraf['factValor'], ','); ?>]
         
-                }]
+                }],
+                exporting: { enabled: false }
             });
         });
         <?php endforeach; ?>
@@ -170,7 +158,7 @@
                     x: -20 //center
                 },
                 subtitle: {
-                    text: 'DURAN, FRANCISCO JAVIER',
+                    text: '',
                     x: -20
                 },
                 yAxis: {
@@ -208,7 +196,8 @@
                 }, {
                     name: '<?= $aAuxGraf[2]['vcfactnombre']?>',
                     data: [<?= join($aAuxGraf[2]['factValor'], ','); ?>]
-                }]
+                }],
+                exporting: { enabled: false }
             });
         });  
     });

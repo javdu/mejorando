@@ -98,15 +98,21 @@ class Resultados extends Ext_Controller {
             'aAuxGraf' => $aAuxGraf
         );
         
+        //Borramos imagen del servidor
+        $aImagen = $this->reporteModel->obtenerImagen($this->session->userdata('idinforme'));
+        foreach($aImagen AS $elemImagen) {
+            $pathfile = $elemImagen['vcrgpath'].$elemImagen['vcrgnombre'];
+            $do = unlink($pathfile);
+        }
         
+        //Borramos imagen de la BD
+        $this->reporteModel->eliminarImagen($this->session->userdata('idinforme'));
         $this->estadoactual($aAuxPorcentaje);
         $this->graficocomparativo($aAuxGraf);
         //********************************************************************************
         
         $viewResultados = $this->load->view('preguntas/resultados_view', $aData, true);
         
-        
-		
         echo $viewResultados;
 	}
     
@@ -341,11 +347,12 @@ class Resultados extends Ext_Controller {
         
         $this->sendMailGmail();
         
-        $viewImprimir = $this->load->view('preguntas/imprimir_view', '', true);
-        $this->session->set_userdata('idinforme', 0);
         $aData = array (
-            'nombre_archivo' => $this->nombre_archivo
+            'msj' => $this->_message
         );
+        
+        $viewImprimir = $this->load->view('preguntas/imprimir_view', $aData, true);
+        $this->session->set_userdata('idinforme', 0);
         
         echo $viewImprimir;
     }
@@ -381,7 +388,12 @@ class Resultados extends Ext_Controller {
             'vcpernombre' => $this->session->userdata('vcpernombre')
         );
 		$this->email->message($this->load->view('message_view', $aData, true));
-		$this->email->send();
+        
+        if ( ! $this->email->send())
+        {
+            $this->_message = 'No se pudo enviar el correo electronico.';
+        }
+        
 		//con esto podemos ver el resultado
 		//var_dump($this->email->print_debugger());
         

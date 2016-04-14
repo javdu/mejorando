@@ -45,5 +45,13 @@
             
             return $result;
         }
+        
+        public function eliminarImagen($idinforme = 0)
+        {
+            $this->db->where('idinforme', $idinforme);
+            $this->db->delete('treportegrafico'); 
+            
+            return $this->db->affected_rows();
+        }
     }
 // EOF parentesco_model.php
