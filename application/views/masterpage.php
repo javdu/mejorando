@@ -11,12 +11,14 @@
     <link href="<?= base_url(); ?>assets/css/vendor.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url(); ?>assets/css/my.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url(); ?>assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?= base_url(); ?>assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
     <title>Fundación P.A.S.S.</title>
     
     <!-- jQuery -->
     <script src="<?= base_url(); ?>assets/js/jquery.js"></script>
     <script src="<?= base_url(); ?>assets/js/highcharts.js"></script>
     <script src="<?= base_url(); ?>assets/js/exporting.js"></script>
+    <script src="<?= base_url(); ?>assets/js/jquery-ui.min.js"></script>
 </head>
 <body id="page-top" class="index" style="margin:0; padding:0;">
 <div style="margin:0; padding:0; position:relative;">
