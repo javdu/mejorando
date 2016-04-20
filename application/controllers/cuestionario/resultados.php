@@ -238,8 +238,9 @@ class Resultados extends Ext_Controller {
         
         //*************************************************************************
         
-        $datay = $aAuxGraf[0]['factValor'];
-         
+        //$datay = $aAuxGraf[0]['factValor'];
+        $datay = $aAuxGraf[1]['factValor'];
+                 
         // Create the graph. These two calls are always required
         $graph = new Graph(650,400);
         $graph->SetScale('intlin');

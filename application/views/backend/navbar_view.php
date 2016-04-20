@@ -22,6 +22,7 @@
                         <li><a href="admin/persona">Alumno</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="admin/escuela">Escuela</a></li>
+                        <li><a href="admin/diagnostico">Diagnostico</a></li>
                     </ul>
                 </li>
             </ul>

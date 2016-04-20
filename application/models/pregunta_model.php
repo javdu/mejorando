@@ -49,5 +49,22 @@
             
             return $auxPregunta;
         }
+        
+        public function obtenerTodosInfResp($idinforme = 0 )
+        {
+            $this->db->select('*');
+            $this->db->from('tinfresp');
+            $this->db->where('tinfresp.idinforme =', $idinforme);
+            
+            $aPreg = $this->db->get()->result_array();
+            
+            $aAux = array();
+            
+            foreach ($aPreg AS $aElemPreg) {
+                $aAux[$aElemPreg['idpregunta']] = $aElemPreg['idrespuesta'];
+            }
+            
+            return $aAux;
+        }
     }
 // EOF parentesco_model.php

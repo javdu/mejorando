@@ -84,7 +84,9 @@
             $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');
             $this->db->order_by('tpersona.vcpernombre');
             
-            return $this->db->get()->result_array();
+            $result = $this->db->get()->result_array();
+            
+            return $result;
         }
         
         public function totalPersona()
