@@ -21,9 +21,7 @@
                         <li><a href="admin/pregunta">Preguntas</a></li>
                         <li><a href="admin/persona">Alumno</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="admin/escuela">Escuela</a></li>
                     </ul>
                 </li>
             </ul>

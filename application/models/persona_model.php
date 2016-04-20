@@ -89,7 +89,7 @@
         
         public function totalPersona()
         {
-            $this->db->from('tpersona');
+            $this->db->from('talumno');
             
             return $this->db->count_all_results();
         }

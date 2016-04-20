@@ -15,7 +15,7 @@
                 $this->db->insert('treporte', $aReg);
             } else {
                 $this->db->where('idreporte', $idreporte);
-                $this->db->update('treporte', $aReg); 
+                $this->db->update('treporte', $aReg);
             }
             
             return $this->db->insert_id();
