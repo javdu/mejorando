@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-9 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-                <form name="resultadosForm" id="resultadosForm" action="cuestionario/resultados/guardar">
+                <form name="resultadosForm" id="resultadosForm" action="admin/diagnostico/generarinforme" method="post">
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart" name="chart"></div></div>
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart1" name="chart1"></div></div>
                     <div style=" border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart2" name="chart2"></div></div>
@@ -16,7 +16,6 @@
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
                                         <input type="submit" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;" value="FINALIZAR">
-                                        <a id="volverResultados" name="volverResultados" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VOLVER</a>
                                     </div>
                                 </div>
                             </div>
