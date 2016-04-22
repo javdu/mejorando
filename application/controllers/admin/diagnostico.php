@@ -14,6 +14,9 @@ class Diagnostico extends Ext_Controller {
         $this->load->model('factor_Model', 'factorModel');
         $this->load->model('grafico_model', 'graficoModel');
         $this->load->model('reporte_model', 'reporteModel');
+        $this->load->model('informe_model', 'informeModel');
+        $this->load->model('alumno_model', 'alumnoModel');
+        
         
         $this->load->library('form_validation');
         $this->load->library('pagination');
@@ -150,7 +153,8 @@ class Diagnostico extends Ext_Controller {
         $aDiagnostico = $this->diagnosticoModel->obtenerTodos($page, $config['num_links'], $aData);
         
         $aData = array(
-            'aDiagnostico' => $aDiagnostico
+            'aDiagnostico' => $aDiagnostico,
+            'idalumno' => $idalumno
         );
         
         $content = $this->load->view('admin/listdiagnostico_view', $aData, true);
@@ -160,7 +164,7 @@ class Diagnostico extends Ext_Controller {
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
     
-    public function cuestionario($idinforme = 0)
+    public function cuestionario($idinforme = 0, $idalumno = 0)
     {
         $aPregResp = $this->preguntaModel->obtenerTodosInfResp($idinforme);
         $aPreg = $this->preguntaModel->obtenerTodos(0, 1000);
@@ -168,7 +172,8 @@ class Diagnostico extends Ext_Controller {
         $aData = array(
             'aPreg' => $aPreg,
             'aPregResp' => $aPregResp,
-            'idinforme' => $idinforme
+            'idinforme' => $idinforme,
+            'idalumno' => $idalumno
         ); 
         
         $content = $this->load->view('admin/frmdiagnostico_view', $aData, true);
@@ -295,7 +300,64 @@ class Diagnostico extends Ext_Controller {
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
     
-    public function estadoactual($aAuxPorcentaje = null)
+    public function generarinforme($idinforme = 0, $idalumno = 0)
+    {
+        $aIndinf = $this->inffacindiceModel->obtenerIndiceInforme($idinforme);
+        $aAuxCategorias = array();
+        $aAuxPorcentaje = array();
+        foreach($aIndinf AS $elemIndInf) {
+            $aAuxCategorias[] = $elemIndInf['vcfactnombre'];
+            $aAuxPorcentaje[] = $elemIndInf['ininffacvalor'];
+        }
+        //*********************************************************************************
+        $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
+        $aAuxGraf = array();
+        foreach($aFactor as $elemFactor) {
+            $aData = array(
+                'idalumno' => $idalumno,
+                'idfactor' => $elemFactor['idfactor']
+            );
+            $aAux = $this->graficoModel->obtenerHistorialHabPsic($aData);
+            $factFecha = array();
+            $factValor = array();
+            foreach ($aAux as $elemAux) {
+                $factFecha[] = date_format(date_create($elemAux['dtinffacindicefecha']), 'd/m/Y');
+                $factValor[] = $elemAux['ininffacvalor'];
+            }
+        
+            $aAuxGraf[] = array(
+                'idfactor' => $elemFactor['idfactor'],
+                'vcfactnombre' => $elemFactor['vcfactnombre'],
+                'factFecha' => $factFecha,
+                'factValor' => $factValor
+            );
+        }
+        
+        //**********************************************************************************
+        
+        $aData = array(
+            'aAuxCategorias' => $aAuxCategorias,
+            'aAuxPorcentaje' => $aAuxPorcentaje,
+            'aAuxGraf' => $aAuxGraf
+        );
+        
+        //Borramos imagen del servidor
+        $aImagen = $this->reporteModel->obtenerImagen($idinforme);
+        foreach($aImagen AS $elemImagen) {
+            $pathfile = $elemImagen['vcrgpath'].$elemImagen['vcrgnombre'];
+            $do = unlink($pathfile);
+        }
+        
+        //Borramos imagen de la BD
+        $this->reporteModel->eliminarImagen($idinforme);
+        $this->estadoactual($aAuxPorcentaje, $idinforme);
+        $this->graficocomparativo($aAuxGraf, $idinforme);
+        //********************************************************************************
+        
+        $this->hacerPDF($idinforme, $idalumno);
+    }
+    
+    public function estadoactual($aAuxPorcentaje = null, $idinforme = 0)
     {
         include(APPPATH.'libraries/jpgraph-3.5.0b1/src/jpgraph.php');
         include(APPPATH.'libraries/jpgraph-3.5.0b1/src/jpgraph_bar.php');
@@ -355,7 +417,7 @@ class Diagnostico extends Ext_Controller {
                 'vcrgtitulo' => 'ESTADO ACTUAL',
                 'vcrgnombre' => $nombImagen,
                 'vcrgpath' => './assets/img/estadisticos/',
-                'idinforme' => $this->session->userdata('idinforme')
+                'idinforme' => $idinforme
             )
         );
         
@@ -363,7 +425,7 @@ class Diagnostico extends Ext_Controller {
         $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
     }
     
-    public function graficocomparativo($aAuxGraf = null)
+    public function graficocomparativo($aAuxGraf = null, $idinforme = 0)
     {
         $datay = $aAuxGraf[0]['factValor'];
          
@@ -408,7 +470,7 @@ class Diagnostico extends Ext_Controller {
                 'vcrgtitulo' => 'HABILIDADES PSICOMOTORAS',
                 'vcrgnombre' => $nombImagen,
                 'vcrgpath' => './assets/img/estadisticos/',
-                'idinforme' => $this->session->userdata('idinforme')
+                'idinforme' => $idinforme
             )
         );
         
@@ -461,7 +523,7 @@ class Diagnostico extends Ext_Controller {
                 'vcrgtitulo' => 'HABILIDADES COGNITIVAS',
                 'vcrgnombre' => $nombImagen,
                 'vcrgpath' => './assets/img/estadisticos/',
-                'idinforme' => $this->session->userdata('idinforme')
+                'idinforme' => $idinforme
             )
         );
         
@@ -513,7 +575,7 @@ class Diagnostico extends Ext_Controller {
                 'vcrgtitulo' => 'HABILIDADES SOCIO-EMOCIONALES',
                 'vcrgnombre' => $nombImagen,
                 'vcrgpath' => './assets/img/estadisticos/',
-                'idinforme' => $this->session->userdata('idinforme')
+                'idinforme' => $idinforme
             )
         );
         
@@ -521,7 +583,7 @@ class Diagnostico extends Ext_Controller {
         $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
     }
     
-    function hacerPDF()
+    function hacerPDF($idinforme = 0, $idalumno = 0)
     {
         $this->load->library('Reporte');
         
@@ -529,14 +591,14 @@ class Diagnostico extends Ext_Controller {
         
         $pdf->AddPage();
         
-        $aResultados = $this->informeModel->obtenerResultados();
+        $aResultados = $this->informeModel->obtenerResultados2($idinforme, $idalumno);
         
         //var_dump($aResultados[0]['resultado']);
         //die;        
-        $aInforme = $this->informeModel->obtener(array('idinforme' => $this->session->userdata('idinforme')));
+        $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));
-        $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $this->session->userdata('idpersona')));
-        $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $this->session->userdata('idalumno')));
+        $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $aInforme['idpersona']));
+        $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $aInforme['idalumno']));
         $aAlumno['dtedad'] = $this->_calculaEdad($aAlumno['dtperfechnac']);
         $aAlumno['dtperfechnac'] = date("d/m/Y", strtotime($aAlumno['dtperfechnac']));
         
@@ -547,11 +609,11 @@ class Diagnostico extends Ext_Controller {
                 'idreporte' => 0,
                 'vcreportnombre' => $this->nombre_archivo,
                 'dtreportfecha' => date("Y-m-d"),
-                'idinforme' => $this->session->userdata('idinforme')
+                'idinforme' => $idinforme
             )
         );
         
-        $aDataImagen = $this->reporteModel->obtenerImagen($this->session->userdata('idinforme'));
+        $aDataImagen = $this->reporteModel->obtenerImagen($idinforme);
         
         //echo '<pre>';
         //var_dump($aDataImagen);
@@ -585,6 +647,10 @@ class Diagnostico extends Ext_Controller {
         $this->session->set_userdata('resultadospdf', __DIR__."\..\..\..\assets\pdf\\".$this->nombre_archivo);
         //file_put_contents(base_url()."assets/pdf/Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_Hi").".pdf", null);
     	$pdf->Output( __DIR__."\..\..\..\assets\pdf\\".$this->nombre_archivo, 'F');
+        
+        header('Content-type: application/pdf');
+        header('Content-Disposition: inline; filename="'.$this->session->userdata('resultadospdf').'"');
+        readfile($this->session->userdata('resultadospdf'));
     }
     
     public function iniReg()
@@ -612,6 +678,16 @@ class Diagnostico extends Ext_Controller {
         }
         
         return $this->aReg;
+    }
+    
+    private function _calculaEdad($fecha)
+    {
+        $fecha = str_replace("/","-",$fecha);
+        $fecha = date('Y/m/d',strtotime($fecha));
+        $hoy = date('Y/m/d');
+        $edad = $hoy - $fecha;
+    
+        return $edad;
     }
     
     public function formulario($iddiagnostico = 0)

@@ -13,7 +13,8 @@
                     <?php foreach($aDiagnostico AS $elemDiagnostico):?>
                         <tr>
                             <td>
-                                <a href="admin/diagnostico/cuestionario/<?= $elemDiagnostico['idinforme']; ?>"><span class="fa fa-check" aria-hidden="true"></a>
+                                <a href="admin/diagnostico/cuestionario/<?= $elemDiagnostico['idinforme']; ?>/<?= $elemDiagnostico['idalumno']; ?>"><span class="fa fa-check" aria-hidden="true"></a>
+                                <a target="_blank" href="admin/diagnostico/generarinforme/<?= $elemDiagnostico['idinforme']; ?>/<?= $elemDiagnostico['idalumno']; ?>"><span class="fa fa-file-pdf-o" aria-hidden="true"></a>
                             </td>
                             <td><p style="font-size: 11pt;"><?= $elemDiagnostico['idinforme']; ?></p></td>
                             <td><p style="font-size: 11pt;"><?= $elemDiagnostico['dtinffecha']; ?></p></td>

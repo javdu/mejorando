@@ -33,7 +33,7 @@
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
                                         <input type="submit" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;" value="GUARDAR">
-                                        <a href="admin/diagnostico/listado" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VOLVER</a>
+                                        <a href="admin/diagnostico/listadodiagnostico/<?= $idalumno; ?>" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">VOLVER</a>
                                     </div>
                                 </div>
                             </div>

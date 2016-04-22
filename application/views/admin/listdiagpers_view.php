@@ -23,7 +23,7 @@
                     <?php endforeach; ?>
                     </table>
                     <div class="text-center"><?= $this->pagination->create_links(); ?></div>
-                    <br>
+                    <br />
             </div>
         </div>
     </div>
