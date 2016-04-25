@@ -38,7 +38,11 @@
             $this->db->join('tinforme', 'tinforme.idinforme = tinffacindice.idinforme');
             $this->db->where('tinforme.idalumno', $aData['idalumno']);
             $this->db->where('tinffacindice.idfactor', $aData['idfactor']);
+            if(isset($aData['dtinffecha'])) {
+                $this->db->where('tinforme.dtinffecha <=', $aData['dtinffecha']);
+            } 
             $this->db->order_by('dtinffacindicefecha');
+            $this->db->limit(12);
             
             $result = $this->db->get()->result_array();
             

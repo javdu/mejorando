@@ -113,6 +113,10 @@ class Diagnostico extends Ext_Controller {
     
     public function listadodiagnostico($idalumno = 0)
     {
+        if ($idalumno == 0) {
+             $idalumno = $this->input->post('idalumno');
+        }
+        
         $config['base_url'] = 'admin/diagnostico/listadodiagnostico/'.$idalumno.'/';
         $aData = array(
             'idalumno' => $idalumno
@@ -249,12 +253,15 @@ class Diagnostico extends Ext_Controller {
         }
         
         //*********************************************************************************
+        $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
+        
         $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
         $aAuxGraf = array();
         foreach($aFactor as $elemFactor) {
             $aData = array(
-                'idalumno' => $this->session->userdata('idalumno'),
-                'idfactor' => $elemFactor['idfactor']
+                'idalumno' => $aInforme['idalumno'],
+                'idfactor' => $elemFactor['idfactor'],
+                'dtinffecha' => $aInforme['dtinffecha']
             );
             $aAux = $this->graficoModel->obtenerHistorialHabPsic($aData);
             $factFecha = array();
@@ -274,12 +281,6 @@ class Diagnostico extends Ext_Controller {
         
         //**********************************************************************************
         
-        $aData = array(
-            'aAuxCategorias' => $aAuxCategorias,
-            'aAuxPorcentaje' => $aAuxPorcentaje,
-            'aAuxGraf' => $aAuxGraf
-        );
-        
         //Borramos imagen del servidor
         $aImagen = $this->reporteModel->obtenerImagen($idinforme);
         foreach($aImagen AS $elemImagen) {
@@ -293,6 +294,12 @@ class Diagnostico extends Ext_Controller {
         $this->graficocomparativo($aAuxGraf);
         //********************************************************************************
         
+        $aData = array(
+            'aAuxCategorias' => $aAuxCategorias,
+            'aAuxPorcentaje' => $aAuxPorcentaje,
+            'aAuxGraf' => $aAuxGraf,
+            'idalumno' => $aInforme['idalumno']
+        );
         $content = $this->load->view('admin/resultadograficos_view', $aData, true);
         $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
@@ -593,8 +600,6 @@ class Diagnostico extends Ext_Controller {
         
         $aResultados = $this->informeModel->obtenerResultados2($idinforme, $idalumno);
         
-        //var_dump($aResultados[0]['resultado']);
-        //die;        
         $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));
         $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $aInforme['idpersona']));
