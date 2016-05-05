@@ -253,21 +253,14 @@ class Diagnostico extends Ext_Controller {
         
         //*********************************************************************************
         $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
-<<<<<<< HEAD
-=======
-        
->>>>>>> 21bb1a49a5ff1cef3530520d48bfcb77d6ecf671
+
         $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
         $aAuxGraf = array();
         foreach($aFactor as $elemFactor) {
             $aData = array(
                 'idalumno' => $aInforme['idalumno'],
-<<<<<<< HEAD
-                'idfactor' => $elemFactor['idfactor']
-=======
                 'idfactor' => $elemFactor['idfactor'],
                 'dtinffecha' => $aInforme['dtinffecha']
->>>>>>> 21bb1a49a5ff1cef3530520d48bfcb77d6ecf671
             );
             $aAux = $this->graficoModel->obtenerHistorialHabPsic($aData);
             $factFecha = array();
