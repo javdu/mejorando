@@ -2,20 +2,21 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-9 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-                <form name="resultadosForm" id="resultadosForm" action="admin/diagnostico/generarinforme" method="post">
+                <form name="resultadosForm" id="resultadosForm" action="admin/diagnostico/listadodiagnostico" method="post">
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart" name="chart"></div></div>
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart1" name="chart1"></div></div>
                     <div style=" border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart2" name="chart2"></div></div>
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="chart3" name="chart3"></div></div>
                     <div style="border: 2px solid #DDDDDD !important; margin: 15px;"><div id="basicline" name="basicline"></div></div>
                     <br>
+                    <input type="hidden" name="idalumno" id="idalumno" value="<?= $idalumno; ?>">
                     <div class="clearfix"></div>
                     <div class="row">
                         <div class="form-group">
                             <div id='toolbar'>
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <input type="submit" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;" value="FINALIZAR">
+                                        <input type="submit" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;" value="Aceptar">
                                     </div>
                                 </div>
                             </div>
@@ -34,13 +35,6 @@
         $( "#contanos" ).css('border-bottom', '5px solid #7f8c8d');
         $( "#juga" ).css('border-bottom', '5px solid #7f8c8d');
         $( "#resultados" ).css('border-bottom', '5px solid #2196F3');
-        
-        $( "#resultadosForm" ).submit(function( event ) {
-            event.preventDefault();
-            $.ajax({url: "cuestionario/resultados/guardar", success: function(result){
-                $("#cuestionario").html(result);
-            }});
-        }); 
         
         $( "#volverResultados" ).bind( "click", function(event) {
             event.preventDefault();
