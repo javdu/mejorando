@@ -187,7 +187,6 @@ class Diagnostico extends Ext_Controller {
     { 
         //***********************************************
         //SE REGISTRAN LAS RESPUESTA DE LA PREGUNTAS
-        
         $aData = $this->input->post();
         $idinforme = $aData['idinforme'];
         unset($aData['idinforme']);
@@ -249,11 +248,12 @@ class Diagnostico extends Ext_Controller {
         }
         
         //*********************************************************************************
+        $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
         $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
         $aAuxGraf = array();
         foreach($aFactor as $elemFactor) {
             $aData = array(
-                'idalumno' => $this->session->userdata('idalumno'),
+                'idalumno' => $aInforme['idalumno'],
                 'idfactor' => $elemFactor['idfactor']
             );
             $aAux = $this->graficoModel->obtenerHistorialHabPsic($aData);
@@ -271,7 +271,6 @@ class Diagnostico extends Ext_Controller {
                 'factValor' => $factValor
             );
         }
-        
         //**********************************************************************************
         
         $aData = array(
@@ -286,11 +285,10 @@ class Diagnostico extends Ext_Controller {
             $pathfile = $elemImagen['vcrgpath'].$elemImagen['vcrgnombre'];
             $do = unlink($pathfile);
         }
-        
         //Borramos imagen de la BD
         $this->reporteModel->eliminarImagen($idinforme);
-        $this->estadoactual($aAuxPorcentaje);
-        $this->graficocomparativo($aAuxGraf);
+        $this->estadoactual($aAuxPorcentaje, $idinforme);
+        $this->graficocomparativo($aAuxGraf, $idinforme);
         //********************************************************************************
         
         $content = $this->load->view('admin/resultadograficos_view', $aData, true);
