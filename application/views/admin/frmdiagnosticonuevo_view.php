@@ -5,7 +5,7 @@
                 <h3>Listado de preguntas para el alumno.</h3>
                 <h3><small>Seleccione la respuesta indicada, para cada una de las preguntas.</small></h3>
                 <hr />
-                <form action="admin/diagnostico/guardar" name="preguntas1Form" id="preguntas1Form" method="post"    >
+                <form action="admin/diagnostico/guardar" name="preguntas1Form" id="preguntas1Form" method="post">
                     <ul class="list-group">
                     <?php foreach($aPreg as $preg): ?>
                             <a class="list-group-item boxpregunta">
@@ -14,11 +14,7 @@
                                     <?php foreach($preg['respuestas'] as $resp): ?>
                                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-center">
                                             <label class="label-pregunta">
-                                                <?php if(isset($aPregResp[$preg['idpregunta']]) and ($aPregResp[$preg['idpregunta']] == $resp['idrespuesta'])): ?>
-                                                    <input type="radio" name="<?= $preg['idpregunta']; ?>" value="<?= $resp['idrespuesta'];?>" checked="checked" /> <?= $resp['vcrespnombre']; ?>
-                                                <?php else: ?>
-                                                    <input type="radio" name="<?= $preg['idpregunta']; ?>" value="<?= $resp['idrespuesta'];?>" /> <?= $resp['vcrespnombre']; ?>
-                                                <?php endif; ?>
+                                                <input type="radio" name="<?= $preg['idpregunta']; ?>" value="<?= $resp['idrespuesta'];?>" /> <?= $resp['vcrespnombre']; ?>
                                             </label>
                                         </div>
                                     <?php endforeach; ?>
@@ -27,7 +23,6 @@
                     <?php endforeach; ?>
                     </ul>
                     <div class="text-center"><?= $this->pagination->create_links(); ?></div>
-                    <input type="hidden" name="idinforme" id="idinforme" value="<?= $idinforme ?>">
                     <br>
                     <div class="clearfix"></div>
                     <div class="row">

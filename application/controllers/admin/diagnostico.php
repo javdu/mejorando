@@ -17,6 +17,7 @@ class Diagnostico extends Ext_Controller {
         $this->load->model('informe_model', 'informeModel');
         $this->load->model('alumno_model', 'alumnoModel');
         
+        $this->load->helper('mi_helper');
         
         $this->load->library('form_validation');
         $this->load->library('pagination');
@@ -158,7 +159,8 @@ class Diagnostico extends Ext_Controller {
         
         $aData = array(
             'aDiagnostico' => $aDiagnostico,
-            'idalumno' => $idalumno
+            'idalumno' => $idalumno,
+            'aAlumno' => $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $idalumno))
         );
         
         $content = $this->load->view('admin/listdiagnostico_view', $aData, true);
@@ -181,6 +183,23 @@ class Diagnostico extends Ext_Controller {
         ); 
         
         $content = $this->load->view('admin/frmdiagnostico_view', $aData, true);
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
+        
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+    }
+    
+    public function nuevo($idalumno = 0)
+    {
+        //$aPregResp = $this->preguntaModel->obtenerTodosInfResp($idinforme);
+        $aPreg = $this->preguntaModel->obtenerTodos(0, 1000);
+        
+        $aData = array(
+            'aPreg' => $aPreg,
+            'idalumno' => $idalumno
+        ); 
+        
+        $content = $this->load->view('admin/frmdiagnosticonuevo_view', $aData, true);
         $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
         
@@ -604,7 +623,7 @@ class Diagnostico extends Ext_Controller {
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));
         $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $aInforme['idpersona']));
         $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $aInforme['idalumno']));
-        $aAlumno['dtedad'] = $this->_calculaEdad($aAlumno['dtperfechnac']);
+        $aAlumno['dtedad'] = calculaEdad($aAlumno['dtperfechnac']);
         $aAlumno['dtperfechnac'] = date("d/m/Y", strtotime($aAlumno['dtperfechnac']));
         
         $this->nombre_archivo = "Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_His").".pdf";
@@ -683,16 +702,6 @@ class Diagnostico extends Ext_Controller {
         }
         
         return $this->aReg;
-    }
-    
-    private function _calculaEdad($fecha)
-    {
-        $fecha = str_replace("/","-",$fecha);
-        $fecha = date('Y/m/d',strtotime($fecha));
-        $hoy = date('Y/m/d');
-        $edad = $hoy - $fecha;
-    
-        return $edad;
     }
     
     public function formulario($iddiagnostico = 0)

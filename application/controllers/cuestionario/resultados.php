@@ -16,6 +16,8 @@ class Resultados extends Ext_Controller {
        $this->load->model('inffacindice_Model', 'inffacindiceModel');
        $this->load->model('usuario_Model', 'usuarioModel');
        $this->load->model('reporte_model', 'reporteModel');
+       
+       $this->load->helper('mi_helper');
     }
 
 	public function index()
@@ -400,16 +402,6 @@ class Resultados extends Ext_Controller {
         
 	}
     
-    private function _calculaEdad($fecha)
-    {
-        $fecha = str_replace("/","-",$fecha);
-        $fecha = date('Y/m/d',strtotime($fecha));
-        $hoy = date('Y/m/d');
-        $edad = $hoy - $fecha;
-    
-        return $edad;
-    }
-    
     function hacerPDF()
     {
         $this->load->library('Reporte');
@@ -420,13 +412,11 @@ class Resultados extends Ext_Controller {
         
         $aResultados = $this->informeModel->obtenerResultados();
         
-        //var_dump($aResultados[0]['resultado']);
-        //die;        
         $aInforme = $this->informeModel->obtener(array('idinforme' => $this->session->userdata('idinforme')));
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));
         $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $this->session->userdata('idpersona')));
         $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $this->session->userdata('idalumno')));
-        $aAlumno['dtedad'] = $this->_calculaEdad($aAlumno['dtperfechnac']);
+        $aAlumno['dtedad'] = calculaEdad($aAlumno['dtperfechnac']);
         $aAlumno['dtperfechnac'] = date("d/m/Y", strtotime($aAlumno['dtperfechnac']));
         
         $this->nombre_archivo = "Mentes_Mejorando_".str_replace(" ", "_", $aAlumno['vcpernombre'])."_".date("dmY_His").".pdf";

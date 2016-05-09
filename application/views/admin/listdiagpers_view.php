@@ -10,6 +10,15 @@
                 <br />
                 <br />
                     <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>DNI</th>
+                                <th>APELLIDO Y NOMBRE</th>
+                                <th>DOMICILIO</th>
+                                <th>CELULAR</th>
+                            </tr>
+                        </thead>
                     <?php foreach($aPersona AS $elemPersona):?>
                         <tr>
                             <td>

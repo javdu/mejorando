@@ -5,11 +5,26 @@
                 <h3>Listado de diagnosticos de un alumno.</h3>
                 <h3><small>En este modulo se puede ver los diagnosticos de un alumno seleccionado.</small></h3>
                 <hr />
-                <a class="btn btn-default" style="float: right;" href="admin/diagnostico/formulario>">Nuevo</a>
+                <a class="btn btn-default" style="float: right;" href="admin/diagnostico/nuevo/<?= $aAlumno['idalumno']; ?>">Nuevo</a>
                 <br />
                 <br />
                 <br />
-                    <table class="table table-striped">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p><label>Nombre: </label><?= $aAlumno['vcpernombre']; ?></p>
+                            <p><label>DNI: </label><?= $aAlumno['inperdni']; ?></p>
+                            <p><label>Cel.: </label><?= $aAlumno['vcpercelcodarea'].'-'.$aAlumno['vcpercel'] ?></p>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>FECHA REALIZACION</th>
+                                <th>REGISTRADO POR...</th>
+                            </tr>
+                        </thead>
                     <?php foreach($aDiagnostico AS $elemDiagnostico):?>
                         <tr>
                             <td>
@@ -23,7 +38,9 @@
                     <?php endforeach; ?>
                     </table>
                     <div class="text-center"><?= $this->pagination->create_links(); ?></div>
-                    <br>
+                    <div class='wrapper text-center'>
+                        <a href="admin/diagnostico/index" class="btn btn-default" style="padding: 10px 20px; width: 200px; color: #0E6E8C;">Volver</a>
+                    </div>
             </div>
         </div>
     </div>
