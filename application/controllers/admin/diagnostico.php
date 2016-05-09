@@ -210,7 +210,6 @@ class Diagnostico extends Ext_Controller {
     { 
         //***********************************************
         //SE REGISTRAN LAS RESPUESTA DE LA PREGUNTAS
-        
         $aData = $this->input->post();
         $idinforme = $aData['idinforme'];
         unset($aData['idinforme']);
@@ -273,7 +272,7 @@ class Diagnostico extends Ext_Controller {
         
         //*********************************************************************************
         $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
-        
+
         $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
         $aAuxGraf = array();
         foreach($aFactor as $elemFactor) {
@@ -297,7 +296,6 @@ class Diagnostico extends Ext_Controller {
                 'factValor' => $factValor
             );
         }
-        
         //**********************************************************************************
         
         //Borramos imagen del servidor
@@ -306,11 +304,10 @@ class Diagnostico extends Ext_Controller {
             $pathfile = $elemImagen['vcrgpath'].$elemImagen['vcrgnombre'];
             $do = unlink($pathfile);
         }
-        
         //Borramos imagen de la BD
         $this->reporteModel->eliminarImagen($idinforme);
-        $this->estadoactual($aAuxPorcentaje);
-        $this->graficocomparativo($aAuxGraf);
+        $this->estadoactual($aAuxPorcentaje, $idinforme);
+        $this->graficocomparativo($aAuxGraf, $idinforme);
         //********************************************************************************
         
         $aData = array(
