@@ -25,6 +25,7 @@
                     <div class="text-center"><?= $this->pagination->create_links(); ?></div>
                     <br>
                     <div class="clearfix"></div>
+                    <input type="hidden" name="idalumno" id="idalumno" value="<?= $idalumno ?>">
                     <div class="row">
                         <div class="form-group">
                             <div id='toolbar'>

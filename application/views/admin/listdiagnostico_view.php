@@ -5,7 +5,7 @@
                 <h3>Listado de diagnosticos de un alumno.</h3>
                 <h3><small>En este modulo se puede ver los diagnosticos de un alumno seleccionado.</small></h3>
                 <hr />
-                <a class="btn btn-default" style="float: right;" href="admin/diagnostico/nuevo/<?= $aAlumno['idalumno']; ?>">Nuevo</a>
+                <a class="btn btn-default" style="float: right;" href="admin/diagnostico/nuevo/<?= $idalumno; ?>">Nuevo</a>
                 <br />
                 <br />
                 <br />

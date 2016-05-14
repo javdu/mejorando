@@ -94,8 +94,7 @@ class Diagnostico extends Ext_Controller {
         
         if((bool)$this->uri->segment(4)){
             $page = ($this->uri->segment(4)) ;
-        }
-        else{
+        } else{
             $page = 0;
         }
        
@@ -211,7 +210,21 @@ class Diagnostico extends Ext_Controller {
         //***********************************************
         //SE REGISTRAN LAS RESPUESTA DE LA PREGUNTAS
         $aData = $this->input->post();
-        $idinforme = $aData['idinforme'];
+        if (isset($aData['idinforme'])) {
+            $idinforme = $aData['idinforme'];
+        } else {
+            $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $aData['idalumno']));
+            $aDataInforme = array(
+                'dtinffecha' => date('Y-m-d'),
+                'boinfestado' => 1,
+                'idinfest' => 1,
+                'idencuesta' => 1,
+                'idalumno' => $aData['idalumno'],
+                'idpersona' => $aAlumno['idpersona']
+            );
+            $idinforme = $this->informeModel->guardar($aDataInforme);
+        }
+
         unset($aData['idinforme']);
         $aAux = array();
         if ($aData) {
@@ -222,7 +235,6 @@ class Diagnostico extends Ext_Controller {
                     'idrespuesta' => (int)$valor
                 );
             }
-    
             $this->infrespModel->eliminar($aAux);
             $this->infrespModel->guardarVarios($aAux);
         }
@@ -300,9 +312,14 @@ class Diagnostico extends Ext_Controller {
         
         //Borramos imagen del servidor
         $aImagen = $this->reporteModel->obtenerImagen($idinforme);
-        foreach($aImagen AS $elemImagen) {
-            $pathfile = $elemImagen['vcrgpath'].$elemImagen['vcrgnombre'];
-            $do = unlink($pathfile);
+        //echo '<pre>';
+        //var_dump($aImagen);
+        //die;
+        if (!empty($aImagen)) {
+            foreach($aImagen AS $elemImagen) {
+                $pathfile = $elemImagen['vcrgpath'].$elemImagen['vcrgnombre'];
+                $do = unlink($pathfile);
+            }
         }
         //Borramos imagen de la BD
         $this->reporteModel->eliminarImagen($idinforme);
