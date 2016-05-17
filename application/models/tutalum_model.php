@@ -32,5 +32,22 @@
             
             return $this->db->affected_rows();
         }
+        
+        public function editar($aData) {
+            $idalumno = $aData['idalumno'];
+            $idtutor = $aData['idalumno'];
+            //eliminamos
+            $this->db->where('idalumno', $idalumno);
+            $this->db->where('idtutor', $aData['idtutorviejo']);
+            $this->db->delete('ttutalum'); 
+            unset($aData['idtutorviejo']);
+            //Isertamos
+            $this->db->insert('ttutalum', $aData); 
+            
+            
+            //$this->db->where('idalumno', $idalumno);
+            //$this->db->where('idtutor', $idtutor);
+            //$this->db->update('ttutalum', $aData); 
+        }
     }
 // EOF parentesco_model.php

@@ -9,7 +9,11 @@ class Persona extends Ext_Controller {
         $this->load->model('Persona_Model', 'personaModel');
         $this->load->model('escuela_Model', 'escuelaModel');
         $this->load->model('escuelagrado_Model', 'escuelagradoModel');
-       
+        $this->load->model('Tutor_Model', 'tutorModel');
+        $this->load->model('Parentesco_Model', 'parentescoModel');
+        $this->load->model('TutAlum_Model', 'tutalumModel');
+        
+        
        $this->load->library('form_validation');
        $this->load->library('pagination');
        
@@ -152,6 +156,7 @@ class Persona extends Ext_Controller {
             $this->aReg = array(
                 'idalumno' => $this->input->post('idalumno'),
                 'idescuela' => $this->input->post('idescuela'),
+                'idescuelagrado' => $this->input->post('idescuelagrado'),
                 'idescuelagrado' => $this->input->post('idescuelagrado')
             );
         } else {
@@ -176,14 +181,22 @@ class Persona extends Ext_Controller {
                 'idalumno' => $idalumno
             );
             $aReg = $this->personaModel->obtenerUno1($aData);
+            $aListaTutor = $this->tutorModel->obtenerListadoNombres();
+            
             $date = date_create($aReg['dtperfechnac']);
             $aReg['dtperfechnac'] = date_format($date, 'd/m/Y');
         }
+        //echo '<pre>';
+        //var_dump($aListaTutor);
+        //echo json_encode($aListaTutor);
+        //die;
         
         $aData = array(
             'aReg' => $aReg,
+            'aListaTutor' => $aListaTutor,
             'aEscuelas' => $this->escuelaModel->obtenerTodos(),
             'aEscuelaGrados' => $this->escuelagradoModel->obtenerTodos(),
+            'aParentescos' => $this->parentescoModel->obtenerTodos(),
             'accion' => 'Editar'
         );
         
@@ -204,6 +217,15 @@ class Persona extends Ext_Controller {
             $idPersona = $this->personaModel->guardarABM($aReg);
             $aRegAlumno = $this->iniRegAlumno();
             $idPersona = $this->personaModel->guardarAlumno($aRegAlumno);
+            $aData = array(
+                'botutalumestado' => 1,
+                'idtutor' => $this->input->post('idtutor'),
+                'idalumno' => $this->input->post('idalumno'),
+                'idtutorviejo' => $this->input->post('idtutorviejo'),
+                'idparentesco' => $this->input->post('idparentesco')
+            );
+            $this->tutalumModel->editar($aData);
+            
             $this->index();
         }
     }
