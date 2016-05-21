@@ -32,16 +32,42 @@
             
             $result = $this->db->get()->result_array();
             
-            /*
-            echo '<pre>';
-            var_dump($result);
-            die;
-            $aAux = array();
-            foreach ($result AS $elemResult) {
-                $aAux[] = $elemResult['vcpernombre'];
-            }*/
+            return $result;
+        }
+        
+        public function totalTutor()
+        {
+            $this->db->from('ttutor');
+            
+            return $this->db->count_all_results();
+        }
+        
+        public function obtenerTodos($offset, $limit)
+        {
+            $this->db->limit($limit, $offset);
+            $this->db->select('*');
+            $this->db->from('ttutor');
+            $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
+            $this->db->order_by('tpersona.vcpernombre');
+            
+            $result = $this->db->get()->result_array();
             
             return $result;
+        }
+        
+        public function obtenerUno($aData)
+        {
+            $this->db->select('
+                tpersona.*,
+                ttutor.*
+            ');
+            $this->db->from('ttutor');
+            $this->db->where('talumno.idalumno', $aData['idalumno']);
+            $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
         }
     }
 // EOF .php

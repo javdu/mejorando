@@ -102,7 +102,7 @@ class Usuario extends CI_Controller {
         $aEscuelaGrados = $this->escuelagradoModel->obtenerTodos();
         $aRol = $this->rolModel->obtenerTodosTutores();
         $viewPersona = $this->load->view(
-            'abms/formusuariopersona_view', 
+            'abms/formusuariopersona_view',
             array(
                 'aReg' => $this->iniReg(),
                 'aEscuelas' => $aEscuelas,

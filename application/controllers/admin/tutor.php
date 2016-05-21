@@ -2,22 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Persona extends Ext_Controller {
+class Tutor extends CI_Controller {
+    
     function __construct()
 	{
-	    parent::__construct();
-        $this->load->model('Persona_Model', 'personaModel');
-        $this->load->model('escuela_Model', 'escuelaModel');
-        $this->load->model('escuelagrado_Model', 'escuelagradoModel');
+        parent::__construct();
+        
         $this->load->model('Tutor_Model', 'tutorModel');
-        $this->load->model('Parentesco_Model', 'parentescoModel');
-        $this->load->model('TutAlum_Model', 'tutalumModel');
         $this->load->model('Rol_Model', 'rolModel');
         
-       $this->load->library('form_validation');
-       $this->load->library('pagination');
-       
-       $this->aReglas = array(
+        $this->load->library('form_validation');
+        $this->load->library('pagination');
+        
+        $this->aReglas = array(
             'persona' => array(
                 array(
                      'field'   => 'inperdni',
@@ -62,16 +59,16 @@ class Persona extends Ext_Controller {
             )
         );
     }
-
-	public function index()
+    
+    public function index()
 	{
 	    $this->listado();
 	}
     
     public function listado()
     {
-        $config['base_url'] = 'admin/persona/listado/';
-        $config['total_rows'] = $this->personaModel->totalPersona();
+        $config['base_url'] = 'admin/tutor/listado/';
+        $config['total_rows'] = $this->tutorModel->totalTutor();
         $config['per_page'] = '5';
         $config['uri_segment'] = 4;
         $config['num_links'] = 5;
@@ -104,13 +101,13 @@ class Persona extends Ext_Controller {
             $page = 0;
         }
         
-        $aPersona = $this->personaModel->obtenerTodos($page, $config['num_links']);
+        $aPersona = $this->tutorModel->obtenerTodos($page, $config['num_links']);
         
         $aData = array(
             'aPersona' => $aPersona
         );
         
-        $content = $this->load->view('admin/listpersona_view', $aData, true);
+        $content = $this->load->view('admin/listtutor_view', $aData, true);
         $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
 		
@@ -120,8 +117,13 @@ class Persona extends Ext_Controller {
     public function iniReg()
     {
         if ((bool)$this->input->post()) {
-            list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
-            $fecha = $year."-".$mes."-".$dia;
+            $fechaAux = $this->input->post('dtperfechnac');
+            $fecha = '';
+            if (!empty($fechaAux)) {
+                list($dia, $mes, $year)=explode("/", $fechaAux);
+                $fecha = $year."-".$mes."-".$dia;
+            }
+            
             $this->aReg = array(
                 'idpersona' => $this->input->post('idpersona'),
                 'vcpernombre' => $this->input->post('vcpernombre'),
@@ -152,62 +154,49 @@ class Persona extends Ext_Controller {
         return $this->aReg;
     }
     
-    public function iniRegAlumno()
+    public function iniRegTutor()
     {
         if ((bool)$this->input->post()) {
             $this->aReg = array(
-                'idalumno' => $this->input->post('idalumno'),
-                'idescuela' => $this->input->post('idescuela'),
-                'idescuelagrado' => $this->input->post('idescuelagrado'),
-                'boalumestado' => 1
+                'idtutor' => $this->input->post('idtutor'),
+                'dttutfecha' => $this->input->post('dttutfecha'),
+                'idpersona' => $this->input->post('idpersona'),
+                'botutestado' => 1
             );
         } else {
             $this->aReg = array(
-                'idalumno' => 0,
-                'idescuela' => null,
-                'idescuelagrado' => null,
-                'boalumestado' => 1
+                'idtutor' => 0,
+                'dttutfecha' => null,
+                'idpersona' => null,
+                'botutestado' => 1
             );
         }
         
         return $this->aReg;
     }
     
-    public function formulario($idalumno = 0)
+    public function formulario($idtutor = 0)
     {
-        $aData = array();
-        
-        //if ( (bool) $this->input->post('idalumno') and $idalumno == 0) {
-        if ($idalumno == 0) {
+        $idtutor = ((bool)$this->input->post('idtutor'))? $this->input->post('idtutor') : $idtutor;
+        if ($idtutor == 0) {
             $aReg = $this->iniReg();
-            $aRegAlumno = $this->iniRegAlumno();
-            $aReg = array_merge($aReg, $aRegAlumno);
-            $aReg['idtutor'] = 0;
-            $aReg['nombreTutor'] = '';
-            $aReg['idparentesco'] = 0;
-            $aReg['idtutalum'] = 0;
-            $aReg['idalumno'] = 0;
+            $aRegTutor = $this->iniRegTutor();
+            $aReg = array_merge($aReg, $aRegTutor);
+            
         } else {
-            $aData = array(
-                'idalumno' => $idalumno
-            );
-            $aReg = $this->personaModel->obtenerUno1($aData);
+            $aReg = $this->tutorModel->obtenerUno($aData);
             $date = date_create($aReg['dtperfechnac']);
             $aReg['dtperfechnac'] = date_format($date, 'd/m/Y');
         }
         
         $aData = array(
             'aReg' => $aReg,
-            'aListaTutor' => $this->tutorModel->obtenerListadoNombres(),
-            'aEscuelas' => $this->escuelaModel->obtenerTodos(),
-            'aEscuelaGrados' => $this->escuelagradoModel->obtenerTodos(),
-            'aParentescos' => $this->parentescoModel->obtenerTodos(),
             'accion' => 'Editar'
         );
         
         $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
-        $content = $this->load->view('admin/frmpersona_view', $aData, true);
+        $content = $this->load->view('admin/frmtutor_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
@@ -250,96 +239,5 @@ class Persona extends Ext_Controller {
             
             $this->index();
         }
-    }
-    
-    public function nuevo()
-    {
-        $aReg = $this->iniReg();
-        $aFactor = $this->factorModel->selectTodos();
-        $aSubfactor = $this->subfactorModel->selectTodos(array('idfactor' => $aReg['idfactor']));
-        $aRespuesta = $this->respuestaModel->obtenerTodos();
-        
-        $aData = array(
-            'aFactor' => $aFactor,
-            'aSubfactor' => $aSubfactor,
-            'aRespuesta' => $aRespuesta,
-            'aReg' => $aReg,
-            'accion' => 'Nueva'
-        );
-        
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        
-        $content = $this->load->view('admin/nuevopregunta_view', $aData, true);
-		
-        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
-    }
-    
-    public function loadSubFactor()
-    {
-        if ($this->input->post('idfactor') == null) {
-            echo '';
-        } else {
-            $aData = array(
-                'idfactor' => $this->input->post('idfactor')
-            );
-            $aSubfactor = $this->subfactorModel->selectTodos($aData);
-            $aSubfactor = array('' => 'Seleccionar') + $aSubfactor;
-            $stringAux = form_dropdown('idsubfactor', $aSubfactor, $this->input->post('idsubfactor'), array('class' => 'form-control')); 
-echo <<<EOT
-<div class="form-group col-xs-12">
-    <label>Subfactor</label>
-    {$stringAux}
-</div>
-EOT;
-        }
-    }
-    
-    public function editar($idPregunta)
-    {
-        $aData = array();
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        $aReg = $this->preguntaModel->obtenerUno($idPregunta);
-        $aFactor = $this->factorModel->selectTodos();
-        $aSubfactor = $this->subfactorModel->selectTodos(array('idfactor' => $aReg['idfactor']));
-        $aRespuesta = $this->respuestaModel->obtenerTodos();
-        
-        $aData = array(
-            'aFactor' => $aFactor,
-            'aSubfactor' => $aSubfactor,
-            'aRespuesta' => $aRespuesta,
-            'aReg' => $aReg,
-            'accion' => 'Editar'
-        );
-        
-        $content = $this->load->view('admin/nuevopregunta_view', $aData, true);
-        
-        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
-    }
-    
-    public function baja($idPregunta)
-    {
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        $aReg = $this->preguntaModel->obtenerUno($idPregunta);
-        $aData = array(
-            'aReg' => $aReg
-        );
-        $content = $this->load->view('admin/eliminarpregunta_view', $aData, true);
-        
-        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
-    }
-
-    public function eliminar()
-    {
-        $this->preguntaModel->eliminar($this->input->post('idpregunta'));
-        
-        $this->index();
-    }
-    
-    public function respuesta($idpregunta)
-    {
-         redirect('/admin/pregresp/index/'.$idpregunta, 'location');
     }
 }

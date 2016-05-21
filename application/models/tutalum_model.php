@@ -21,9 +21,17 @@
         
         public function guardar($aData)
         {
-            $this->db->insert('ttutalum', $aData);
+            $idtutalum = $aData['idtutalum'];
+            unset($aData['ttutalum']);
+            if ($idtutalum == 0) {
+                $this->db->insert('ttutalum', $aData);
+                $idtutalum = $this->db->insert_id();
+            } else {
+                $this->db->where('idtutalum', $idtutalum);
+                $this->db->update('ttutalum', $aData); 
+            }
             
-            return $this->db->insert_id();
+            return $idtutalum;
         }
         
         public function eliminar($aData)

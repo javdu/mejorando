@@ -9,9 +9,9 @@
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
                 <?= $msj; ?>
-                <h3><?= $accion; ?> Alumno/a</h3>
+                <h3><?= $accion; ?> Tutor</h3>
                 <hr />
-                <form action="admin/persona/guardar" method="post">
+                <form action="admin/tutor/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label for="vcpernombre">Apellido y Nombre/s</label>
                         <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
@@ -42,36 +42,8 @@
                             <input type="text" class="form-control" style="width: 84%;" id="vcpertel" name="vcpertel" placeholder="Teléfono" value="<?= $aReg['vcpertel']; ?>" />
                         </div>
                     </div>
-                    <div class="form-group col-xs-12">
-                        <label>Escuela</label>
-                        <?php
-                            $aEscuelas = array('' => 'Seleccionar') + $aEscuelas;
-                            echo form_dropdown('idescuela', $aEscuelas, $aReg['idescuela'], array('class' => 'form-control')); 
-                        ?>
-                    </div>
-                    <div class="form-group col-xs-12">
-                        <label>Grado que esta cursando</label>
-                        <?php
-                            $aEscuelaGrados = array('' => 'Seleccionar') + $aEscuelaGrados;
-                            echo form_dropdown('idescuelagrado', $aEscuelaGrados, $aReg['idescuelagrado'], array('class' => 'form-control')); 
-                        ?>
-                    </div>
-                    <div class="form-group col-xs-12">
-                      <label for="tutor">Tutor: <small>(Escriba y seleccione)</small></label>
-                      <input type="text" class="form-control" id="tutor" name="tutor" value="<?= $aReg['nombreTutor']; ?>" placeholder="Tutor">
-                      <input type="hidden" name="idtutor" id="idtutor"  value="<?= $aReg['idtutor']; ?>" />
-                    </div>
-                    <div class="form-group col-xs-12">
-                        <label>Tutor parentesco</label>
-                        <?php
-                            $aParentescos = array('' => 'Seleccionar') + $aParentescos;
-                            echo form_dropdown('idparentesco', $aParentescos, $aReg['idparentesco'], array('class' => 'form-control')); 
-                        ?>
-                    </div>
+                    <input type="hidden" name="idtutor" id="idtutor" value="<?= $aReg['idtutor']; ?>" />
                     <input type="hidden" name="idpersona" id="idpersona" value="<?= $aReg['idpersona']; ?>" />
-                    <input type="hidden" name="idalumno" id="idalumno" value="<?= $aReg['idalumno']; ?>" />
-                    <input type="hidden" name="idtutorviejo" id="idtutorviejo" value="<?= $aReg['idtutor']; ?>" />
-                     <input type="hidden" name="idtutalum" id="idtutalum" value="<?= $aReg['idtutalum']; ?>" />                    
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -79,7 +51,7 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <a class="btn btn-default" href="admin/persona/index">Cancelar</a>
+                                        <a class="btn btn-default" href="admin/tutor/index">Cancelar</a>
                                         <input class="btn btn-default" type="submit" value="Guardar">
                                     </div>
                                 </div>
@@ -110,24 +82,5 @@
         weekHeader: 'Sm',
         dateFormat: 'dd/mm/yy'
     });
-    
-    $('#tutor').autocomplete({
-
-        minLength: 2,
-        source: <?= json_encode($aListaTutor);?>,
-        focus: function(event, ui){
-            $('#tutor').val(ui.item.label);
-            return false;
-        },
-        select: function (event, ui) {
-             $('#tutor').val(ui.item.label); // display the selected text
-             $('#idtutor').val(ui.item.value); // save selected id to hidden input
-             return false;
-         },
-        change: function( event, ui ) {
-            $( "#idtutor" ).val( ui.item? ui.item.value : 0 );
-        } 
-    });
- 
   });
   </script>

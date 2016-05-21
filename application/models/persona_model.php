@@ -20,10 +20,14 @@
             unset($aReg['idalumno']);
             if ($idalumno == 0) {
                 $this->db->insert('talumno', $aReg);
+                
+                $idalumno = $this->db->insert_id();
             } else {
                 $this->db->where('idalumno', $idalumno);
                 $this->db->update('talumno', $aReg); 
             }
+            
+            return $idalumno;
         }
         
         public function guardarABM($aReg)
@@ -32,10 +36,13 @@
             unset($aReg['idpersona']);
             if ($idpersona == 0) {
                 $this->db->insert('tpersona', $aReg);
+                $idpersona = $this->db->insert_id();
             } else {
                 $this->db->where('idpersona', $idpersona);
                 $this->db->update('tpersona', $aReg); 
             }
+            
+            return $idpersona;
         }
         
         public function obtenerUno($aData)
@@ -70,7 +77,8 @@
                 ttutorpersona.vcpernombre AS nombreTutor,
                 ttutorpersona.inperdni AS dniTutor,
                 ttutor.idtutor,
-                ttutalum.idparentesco
+                ttutalum.idparentesco,
+                ttutalum.idtutalum
             ');
             $this->db->from('talumno');
             $this->db->where('talumno.idalumno', $aData['idalumno']);
@@ -85,10 +93,6 @@
             
             $result = $this->db->get()->result_array();
             
-            //echo '<pre>';
-            //echo $this->db->last_query();
-            //var_dump($result);
-            //die;
             return array_shift($result);
         }
         

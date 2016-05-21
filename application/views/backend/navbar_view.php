@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <h4 style="margin-top: 15px; vertical-align: middle;">MENTES MEJ<i class="fa fa-smile-o"></i>RAND<i class="fa fa-smile-o"></i> <i class="fa fa-smile-o"></i>N-LINE</h4>
+                <a href="preguntas/index"><h4 style="margin-top: 15px; vertical-align: middle;">MENTES MEJ<i class="fa fa-smile-o"></i>RAND<i class="fa fa-smile-o"></i> <i class="fa fa-smile-o"></i>N-LINE</h4></a>
             </div>
             <ul class="nav navbar-nav">
                 <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
@@ -20,6 +20,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="admin/pregunta">Preguntas</a></li>
                         <li><a href="admin/persona">Alumno</a></li>
+                        <li><a href="admin/tutor">Tutor</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="admin/escuela">Escuela</a></li>
                         <li><a href="admin/diagnostico">Diagnostico</a></li>

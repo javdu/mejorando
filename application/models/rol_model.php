@@ -31,5 +31,17 @@
             
             return $resultSimple;
         }
+        
+        public function getIdAlumno()
+        {
+            $this->db->select('idrol');
+            $this->db->from('trol');
+            $this->db->where('esalumno =', 1);
+            
+            $result = $this->db->get()->result_array();
+            $result = array_shift($result);
+            
+            return $result['idrol'];
+                                                                                                                                                                                                                                                                       }
     }
 // EOF parentesco_model.php
