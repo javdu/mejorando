@@ -117,5 +117,11 @@
             
             return $this->db->count_all_results();
         }
+        
+        public function eliminar($aData)
+        {
+            $this->db->where('idtutor', $aData['idtutor']);
+            $this->db->delete('ttutor'); 
+        }
     }
 // EOF parentesco_model.php

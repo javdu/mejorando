@@ -9,14 +9,22 @@
         
         public function guardar($aData)
         {
-            $this->db->insert('ttutor', $aData);
+            $idtutor = $aData['idtutor'];
+            unset($aData['idtutor']);
+            if ($idtutor == 0) {
+                $this->db->insert('ttutor', $aData);
+                $idtutor = $this->db->insert_id();
+            } else {
+                $this->db->where('idtutor', $idtutor);
+                $this->db->update('ttutor', $aData); 
+            }
             
-            return $this->db->insert_id();
+            return $idtutor;
         }
         
         public function eliminar($aData)
         {
-            $this->db->delete('ttutor', $aData);
+            $this->db->delete('ttutor', $aData['idtutor']);
             
             return $this->db->affected_rows();
         }
@@ -62,8 +70,8 @@
                 ttutor.*
             ');
             $this->db->from('ttutor');
-            $this->db->where('talumno.idalumno', $aData['idalumno']);
-            $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
+            $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
+            $this->db->where('ttutor.idtutor', $aData['idtutor']);
             
             $result = $this->db->get()->result_array();
             

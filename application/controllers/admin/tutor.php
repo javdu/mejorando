@@ -10,6 +10,7 @@ class Tutor extends CI_Controller {
         
         $this->load->model('Tutor_Model', 'tutorModel');
         $this->load->model('Rol_Model', 'rolModel');
+        $this->load->model('Persona_Model', 'personaModel');
         
         $this->load->library('form_validation');
         $this->load->library('pagination');
@@ -120,7 +121,7 @@ class Tutor extends CI_Controller {
             $fechaAux = $this->input->post('dtperfechnac');
             $fecha = '';
             if (!empty($fechaAux)) {
-                list($dia, $mes, $year)=explode("/", $fechaAux);
+                list($dia, $mes, $year) = explode("/", $fechaAux);
                 $fecha = $year."-".$mes."-".$dia;
             }
             
@@ -159,15 +160,14 @@ class Tutor extends CI_Controller {
         if ((bool)$this->input->post()) {
             $this->aReg = array(
                 'idtutor' => $this->input->post('idtutor'),
-                'dttutfecha' => $this->input->post('dttutfecha'),
                 'idpersona' => $this->input->post('idpersona'),
                 'botutestado' => 1
             );
         } else {
             $this->aReg = array(
                 'idtutor' => 0,
-                'dttutfecha' => null,
-                'idpersona' => null,
+                'dttutfecha' => date('Y-m-d'),
+                'idpersona' => 0,
                 'botutestado' => 1
             );
         }
@@ -184,6 +184,7 @@ class Tutor extends CI_Controller {
             $aReg = array_merge($aReg, $aRegTutor);
             
         } else {
+            $aData['idtutor'] = $idtutor;
             $aReg = $this->tutorModel->obtenerUno($aData);
             $date = date_create($aReg['dtperfechnac']);
             $aReg['dtperfechnac'] = date_format($date, 'd/m/Y');
@@ -207,37 +208,46 @@ class Tutor extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             $this->formulario();
         } else {
-            if ($this->input->post('idalumno') == 0){
+            if ($this->input->post('idtutor') == 0){
                 $aReg = $this->iniReg();
-                $aReg['idrol'] = $this->rolModel->getIdAlumno();
+                $aRegTutor = $this->iniRegTutor();
                 $idPersona = $this->personaModel->guardarABM($aReg);
-                $aRegAlumno = $this->iniRegAlumno();
-                $aRegAlumno['idpersona'] = $idPersona;
-                $idAlumno = $this->personaModel->guardarAlumno($aRegAlumno);
-                $aData = array(
-                    'idtutalum' => $this->input->post('idtutalum'),
-                    'botutalumestado' => 1,
-                    'idtutor' => $this->input->post('idtutor'),
-                    'idalumno' => $idAlumno,
-                    'idparentesco' => $this->input->post('idparentesco')
-                );
-                $this->tutalumModel->guardar($aData);
+                $aRegTutor['idpersona'] = $idPersona;
+                $aRegTutor['dttutfecha'] = date('Y-m-d');
+                $this->tutorModel->guardar($aRegTutor);
             } else {
                 $aReg = $this->iniReg();
+                $aRegTutor = $this->iniRegTutor();
                 $idPersona = $this->personaModel->guardarABM($aReg);
-                $aRegAlumno = $this->iniRegAlumno();
-                $idPersona = $this->personaModel->guardarAlumno($aRegAlumno);
-                $aData = array(
-                    'idtutalum' => $this->input->post('idtutalum'),
-                    'botutalumestado' => 1,
-                    'idtutor' => $this->input->post('idtutor'),
-                    'idalumno' => $this->input->post('idalumno'),
-                    'idparentesco' => $this->input->post('idparentesco')
-                );
-                $this->tutalumModel->guardar($aData);
+                $idTutor = $this->tutorModel->guardar($aRegTutor);
             }
             
             $this->index();
         }
+    }
+    
+    public function baja($idtutor)
+    {
+        $aData['idtutor'] = $idtutor;
+        $aReg = $this->tutorModel->obtenerUno($aData);
+        $aData = array(
+            'aReg' => $aReg,
+            'accion' => 'Editar'
+        );
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
+        $content = $this->load->view('admin/eliminartutor_view', $aData, true);
+        
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+    }
+    
+    public function eliminar()
+    {
+        $aData['idtutor'] = $this->input->post('idtutor');
+        $this->tutorModel->eliminar($aData);
+        $aData['idpersona'] = $this->input->post('idpersona');
+        $this->personaModel->eliminar($aData);
+        
+        $this->index();
     }
 }
