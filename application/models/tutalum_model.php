@@ -9,12 +9,34 @@
         
         public function obtenerTutAlum($aData)
         {
-            $this->db->select('ttutalum.idtutalum, tpersona.inperdni, tpersona.vcpernombre, tescuela.vcescnombre');
+            $this->db->select('
+                ttutalum.idtutalum,
+                tpersona.inperdni,
+                tpersona.vcpernombre,
+                tescuela.vcescnombre'
+            );
             $this->db->from('ttutalum');
             $this->db->where('idtutor =', $aData['idtutor']);
             $this->db->join('talumno', 'ttutalum.idalumno = talumno.idalumno');
             $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
             $this->db->join('tescuela', 'tescuela.idescuela = talumno.idescuela');
+            
+            return $this->db->get()->result_array();
+        }
+        
+        public function obtenerTutor($aData)
+        {
+            $this->db->select('
+                ttutalum.idtutalum,
+                tpersona.inperdni,
+                tpersona.vcpernombre,
+                tparentesco.vcparentnombre'
+            );
+            $this->db->from('ttutalum');
+            $this->db->where('idalumno =', $aData['idalumno']);
+            $this->db->join('ttutor', 'ttutalum.idtutor = ttutor.idtutor');
+            $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
+            $this->db->join('tparentesco', 'tparentesco.idparentesco = ttutalum.idparentesco');
             
             return $this->db->get()->result_array();
         }

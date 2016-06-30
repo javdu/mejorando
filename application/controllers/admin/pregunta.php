@@ -69,7 +69,7 @@ class Pregunta extends Ext_Controller {
         $aData = array(
             'aFactor' => $aFactor
         );
-        $header = $this->load->view('backend/navbar_view', array(), true);;
+        $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/listpregunta_view', $aData, true);
 		
@@ -158,8 +158,6 @@ EOT;
     public function editar($idPregunta)
     {
         $aData = array();
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         $aReg = $this->preguntaModel->obtenerUno($idPregunta);
         $aFactor = $this->factorModel->selectTodos();
         $aSubfactor = $this->subfactorModel->selectTodos(array('idfactor' => $aReg['idfactor']));
@@ -173,6 +171,8 @@ EOT;
             'accion' => 'Editar'
         );
         
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/nuevopregunta_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
@@ -180,12 +180,12 @@ EOT;
     
     public function baja($idPregunta)
     {
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         $aReg = $this->preguntaModel->obtenerUno($idPregunta);
         $aData = array(
             'aReg' => $aReg
         );
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/eliminarpregunta_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));

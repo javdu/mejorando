@@ -8,7 +8,7 @@
     <p><strong>Fecha de nacimiento: </strong><?= $aAlumno['dtperfechnac']?></p>
     <p><strong>Edad: </strong><?= $aAlumno['dtedad']?></p>
     <p><strong>Entrevistado: </strong><?= $aTutor['vcpernombre']?></p>
-    <p><strong>Vínculo: </strong><?= $aTutor['vcrolnombre']?></p>
+    <p><strong>Vínculo: </strong><?= $aTutor['vcparentnombre']?></p>
     <p><strong>Tel.: </strong><?= $aAlumno['vcpertelcodarea']?> - <?= $aAlumno['vcpertel']?></p>
     <p><strong>Cel.: </strong><?= $aAlumno['vcpercelcodarea']?> - <?= $aAlumno['vcpercel']?></p>
 

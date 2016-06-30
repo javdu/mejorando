@@ -37,7 +37,7 @@ class ResultResp extends Ext_Controller
             'idsubfactor' => $idsubfactor,
             'aResultResp' => $aAuxList
         );
-        $header = '';
+        $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/lstresultresp_view', $aData, true);
         

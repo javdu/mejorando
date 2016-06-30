@@ -66,7 +66,7 @@ class Tutor extends Ext_Controller {
                 )
             )
         );
-    }    
+    }
 
 	public function index()
 	{

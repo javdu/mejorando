@@ -16,6 +16,7 @@ class Diagnostico extends Ext_Controller {
         $this->load->model('reporte_model', 'reporteModel');
         $this->load->model('informe_model', 'informeModel');
         $this->load->model('alumno_model', 'alumnoModel');
+        $this->load->model('TutAlum_Model', 'tutalumModel');
         
         $this->load->helper('mi_helper');
         
@@ -635,7 +636,7 @@ class Diagnostico extends Ext_Controller {
         
         $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));
-        $aTutor = $this->personaModel->obtenerUno(array('idpersona' => $aInforme['idpersona']));
+        $aTutor = $this->tutalumModel->obtenerTutor(array('idalumno' => $aInforme['idalumno']));
         $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $aInforme['idalumno']));
         $aAlumno['dtedad'] = calculaEdad($aAlumno['dtperfechnac']);
         $aAlumno['dtperfechnac'] = date("d/m/Y", strtotime($aAlumno['dtperfechnac']));
@@ -663,7 +664,7 @@ class Diagnostico extends Ext_Controller {
             array(
                 'aResultados' => $aResultados,
                 'aAlumno' => $aAlumno,
-                'aTutor' => $aTutor,
+                'aTutor' => $aTutor[0],
                 'aInforme' => $aInforme,
                 'aDataImagen' => $aDataImagen
             ), 

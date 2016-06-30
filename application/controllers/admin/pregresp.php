@@ -14,8 +14,6 @@ class PregResp extends Ext_Controller {
 
 	public function index($idpregunta = 0)
 	{
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         $aRespuestas = $this->respuestaModel->obtenerTodos();
         $aPregResp = $this->preguntaModel->obtenerRespuestas($idpregunta);
         
@@ -25,6 +23,8 @@ class PregResp extends Ext_Controller {
             'idpregunta' => $idpregunta,
             'msj' => $this->_msj
         );
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/pregresp_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
