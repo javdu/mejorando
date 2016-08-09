@@ -49,7 +49,7 @@ class SeleccionarBD extends CI_Controller {
 	{
         $aEdadNinios = array(
             '' => 'Seleccionar',
-            'mejorando' => 'Por defecto',
+            'default' => 'Por defecto',
             'mejorando3' => '3 años',
             'mejorando4' => '4 años',
             'mejorando5' => '5 años',

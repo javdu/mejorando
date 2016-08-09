@@ -96,6 +96,20 @@
             return array_shift($result);
         }
         
+        public function isUnicoDNI($dni)
+        {
+            $this->db->select('
+                tpersona.idpersona
+            ');
+            $this->db->from('tpersona');
+            $this->db->where('tpersona.inperdni', (int)$dni);
+            $result = $this->db->get()->result_array();
+            $result = array_shift($result);
+            $result = count($result);
+            
+            return $result;
+        }
+
         public function obtenerTodos($offset, $limit)
         {
             $this->db->limit($limit, $offset);
@@ -103,6 +117,11 @@
             $this->db->from('talumno');
             $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
             $this->db->join('tescuela', 'tescuela.idescuela = talumno.idescuela');
+             //Tutor
+            $this->db->join('ttutalum', 'ttutalum.idalumno = talumno.idalumno');
+            $this->db->join('ttutor', 'ttutor.idtutor = ttutalum.idtutor');
+            $this->db->join('tpersona AS ttutorpersona', 'ttutorpersona.idpersona = ttutor.idpersona');
+            
             $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');
             $this->db->order_by('tpersona.vcpernombre');
             

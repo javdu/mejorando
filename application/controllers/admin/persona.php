@@ -22,7 +22,7 @@ class Persona extends Ext_Controller {
                 array(
                      'field'   => 'inperdni',
                      'label'   => 'DNI',
-                     'rules'   => 'trim|required|numeric|exact_length[8]'
+                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni'
                   ),
                 array(
                      'field'   => 'vcpernombre',
@@ -58,6 +58,21 @@ class Persona extends Ext_Controller {
                      'field'   => 'vcpercel',
                      'label'   => 'Celular',
                      'rules'   => 'trim|numeric'
+                ),   
+                array(
+                     'field'   => 'idescuelagrado',
+                     'label'   => 'Escuela grado',
+                     'rules'   => 'trim|required'
+                ),   
+                array(
+                     'field'   => 'tutor',
+                     'label'   => 'Tutor',
+                     'rules'   => 'trim|required'
+                ),   
+                array(
+                     'field'   => 'idparentesco',
+                     'label'   => 'Parentesco',
+                     'rules'   => 'trim|required'
                 )
             )
         );
@@ -120,8 +135,13 @@ class Persona extends Ext_Controller {
     public function iniReg()
     {
         if ((bool)$this->input->post()) {
-            list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
-            $fecha = $year."-".$mes."-".$dia;
+            if ($this->input->post('dtperfechnac')) {
+                list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
+                $fecha = $year."-".$mes."-".$dia;
+            } else {
+                $fecha = null;
+            }
+            
             $this->aReg = array(
                 'idpersona' => $this->input->post('idpersona'),
                 'vcpernombre' => $this->input->post('vcpernombre'),
@@ -187,13 +207,13 @@ class Persona extends Ext_Controller {
             $aReg['idparentesco'] = 0;
             $aReg['idtutalum'] = 0;
             $aReg['idalumno'] = 0;
+            $accion = 'Nuevo';
         } else {
             $aData = array(
                 'idalumno' => $idalumno
             );
             $aReg = $this->personaModel->obtenerUno1($aData);
-            $date = date_create($aReg['dtperfechnac']);
-            $aReg['dtperfechnac'] = date_format($date, 'd/m/Y');
+            $accion = 'Editar';
         }
         
         $aData = array(
@@ -202,7 +222,7 @@ class Persona extends Ext_Controller {
             'aEscuelas' => $this->escuelaModel->obtenerTodos(),
             'aEscuelaGrados' => $this->escuelagradoModel->obtenerTodos(),
             'aParentescos' => $this->parentescoModel->obtenerTodos(),
-            'accion' => 'Editar'
+            'accion' => $accion
         );
         
         $header = $this->load->view('backend/navbar_view', array(), true);
@@ -216,6 +236,9 @@ class Persona extends Ext_Controller {
     {
         $this->form_validation->set_rules($this->aReglas['persona']);
         if ($this->form_validation->run() == FALSE) {
+            /*echo '<pre>';
+            var_dump($this->input->post());
+            die;*/
             $this->formulario();
         } else {
             if ($this->input->post('idalumno') == 0){
@@ -341,5 +364,14 @@ EOT;
     public function respuesta($idpregunta)
     {
          redirect('/admin/pregresp/index/'.$idpregunta, 'location');
+    }
+
+    public function is_unique_dni($dni) {
+        $count = $this->personaModel->isUnicoDNI($dni);
+        if ((int)$count == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

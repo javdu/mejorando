@@ -18,4 +18,5 @@ $lang['integer'] = 'El campo %s debe contener un entero';
 $lang['matches'] = 'El campo %s no coincide con el campo %s.';
 $lang['is_natural'] = 'El campo %s debe contener s';
 $lang['is_natural_no_zero'] = 'El campo %s debe contener un n';
+$lang['is_unique_dni'] = 'El campo DNI ya existe, ingrese otro.';
 ?>
