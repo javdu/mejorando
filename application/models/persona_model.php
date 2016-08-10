@@ -67,6 +67,9 @@
             
             return array_shift($result);
         }
+        /*
+
+        */
         
         public function obtenerUno1($aData)
         {
@@ -113,16 +116,12 @@
         public function obtenerTodos($offset, $limit)
         {
             $this->db->limit($limit, $offset);
-            $this->db->select('*');
+            $this->db->select('
+                tpersona.*,
+                talumno.*'
+            );
             $this->db->from('talumno');
             $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
-            $this->db->join('tescuela', 'tescuela.idescuela = talumno.idescuela');
-             //Tutor
-            $this->db->join('ttutalum', 'ttutalum.idalumno = talumno.idalumno');
-            $this->db->join('ttutor', 'ttutor.idtutor = ttutalum.idtutor');
-            $this->db->join('tpersona AS ttutorpersona', 'ttutorpersona.idpersona = ttutor.idpersona');
-            
-            $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');
             $this->db->order_by('tpersona.vcpernombre');
             
             $result = $this->db->get()->result_array();

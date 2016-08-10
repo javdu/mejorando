@@ -14,11 +14,19 @@
                 <form action="admin/persona/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label for="vcpernombre">Apellido y Nombre/s</label>
-                        <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
+                        <?php if($aReg['idalumno'] == 0): ?>
+                            <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
+                        <?php else: ?>
+                            <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s" readonly>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="inperdni">DNI</label>
-                        <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
+                        <?php if($aReg['idalumno'] == 0): ?>
+                            <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
+                        <?php else: ?>
+                            <input type="text" class="form-control Readonly" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI" readonly>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="dtperfechnac">Fecha Nac.</label>
@@ -57,21 +65,21 @@
                         ?>
                     </div>
                     <div class="form-group col-xs-12">
-                      <label for="tutor">Tutor: <small>(Escriba y seleccione)</small></label>
-                      <input type="text" class="form-control" id="tutor" name="tutor" value="<?= $aReg['nombreTutor']; ?>" placeholder="Tutor">
-                      <input type="hidden" name="idtutor" id="idtutor"  value="<?= $aReg['idtutor']; ?>" />
+                      <label for="nombreTutor">Tutor: <small>(Escriba y seleccione)</small></label>
+                      <input type="text" class="form-control" id="nombreTutor" name="nombreTutor" value="<?= $aReg['nombreTutor']; ?>" placeholder="Tutor">
+                      <input type="hidden" name="idtutor" id="idtutor"  value="<?= $aRegTutAlum['idtutor']; ?>" />
                     </div>
                     <div class="form-group col-xs-12">
                         <label>Tutor parentesco</label>
                         <?php
                             $aParentescos = array('' => 'Seleccionar') + $aParentescos;
-                            echo form_dropdown('idparentesco', $aParentescos, $aReg['idparentesco'], array('class' => 'form-control')); 
+                            echo form_dropdown('idparentesco', $aParentescos, $aRegTutAlum['idparentesco'], array('class' => 'form-control')); 
                         ?>
                     </div>
                     <input type="hidden" name="idpersona" id="idpersona" value="<?= $aReg['idpersona']; ?>" />
                     <input type="hidden" name="idalumno" id="idalumno" value="<?= $aReg['idalumno']; ?>" />
-                    <input type="hidden" name="idtutorviejo" id="idtutorviejo" value="<?= $aReg['idtutor']; ?>" />
-                     <input type="hidden" name="idtutalum" id="idtutalum" value="<?= $aReg['idtutalum']; ?>" />                    
+                    <input type="hidden" name="idtutorviejo" id="idtutorviejo" value="<?= $aRegTutAlum['idtutor']; ?>" />
+                     <input type="hidden" name="idtutalum" id="idtutalum" value="<?= $aRegTutAlum['idtutalum']; ?>" />                    
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -111,16 +119,16 @@
         dateFormat: 'dd/mm/yy'
     });
     
-    $('#tutor').autocomplete({
+    $('#nombreTutor').autocomplete({
 
         minLength: 2,
         source: <?= json_encode($aListaTutor);?>,
         focus: function(event, ui){
-            $('#tutor').val(ui.item.label);
+            $('#nombreTutor').val(ui.item.label);
             return false;
         },
         select: function (event, ui) {
-             $('#tutor').val(ui.item.label); // display the selected text
+             $('#nombreTutor').val(ui.item.label); // display the selected text
              $('#idtutor').val(ui.item.value); // save selected id to hidden input
              return false;
          },

@@ -30,7 +30,10 @@
                 ttutalum.idtutalum,
                 tpersona.inperdni,
                 tpersona.vcpernombre,
-                tparentesco.vcparentnombre'
+                tparentesco.vcparentnombre,
+                ttutor.idtutor,
+                tparentesco.idparentesco,
+                ttutalum.idalumno'
             );
             $this->db->from('ttutalum');
             $this->db->where('idalumno =', $aData['idalumno']);

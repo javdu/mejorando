@@ -47,7 +47,7 @@ class SeleccionarBD extends CI_Controller {
     
 	public function index()
 	{
-        $aEdadNinios = array(
+        $aEdadNinios = array(25063953
             '' => 'Seleccionar',
             'default' => 'Por defecto',
             'mejorando3' => '3 años',
