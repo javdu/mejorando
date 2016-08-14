@@ -32,7 +32,7 @@ class Persona extends Ext_Controller {
                 array(
                      'field'   => 'dtperfechnac',
                      'label'   => 'Fecha de nacimiento',
-                     'rules'   => 'trim|required'
+                     'rules'   => 'trim|required|date'
                   ),   
                 array(
                      'field'   => 'vcperdom',
@@ -213,6 +213,8 @@ class Persona extends Ext_Controller {
                 'idalumno' => $idalumno
             );
             $aReg = $this->personaModel->obtenerUno1($aData);
+            list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
+            $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
             $accion = 'Editar';
         }
         
