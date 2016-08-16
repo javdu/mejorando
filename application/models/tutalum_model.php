@@ -30,7 +30,10 @@
                 ttutalum.idtutalum,
                 tpersona.inperdni,
                 tpersona.vcpernombre,
-                tparentesco.vcparentnombre'
+                tparentesco.vcparentnombre,
+                ttutor.idtutor,
+                tparentesco.idparentesco,
+                ttutalum.idalumno'
             );
             $this->db->from('ttutalum');
             $this->db->where('idalumno =', $aData['idalumno']);
@@ -38,7 +41,9 @@
             $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
             $this->db->join('tparentesco', 'tparentesco.idparentesco = ttutalum.idparentesco');
             
-            return $this->db->get()->result_array();
+            $aResult = $this->db->get()->result_array();
+            $aResult = array_shift($aResult);
+            return $aResult;
         }
         
         public function guardar($aData)

@@ -65,7 +65,54 @@ class Persona extends Ext_Controller {
                      'rules'   => 'trim|required'
                 ),   
                 array(
-                     'field'   => 'tutor',
+                     'field'   => 'idtutor',
+                     'label'   => 'Tutor',
+                     'rules'   => 'trim|required|callback_is_unique_dni'
+                ),   
+                array(
+                     'field'   => 'idparentesco',
+                     'label'   => 'Parentesco',
+                     'rules'   => 'trim|required'
+                )
+            ),
+            'persona_editar' => array(
+                array(
+                     'field'   => 'dtperfechnac',
+                     'label'   => 'Fecha de nacimiento',
+                     'rules'   => 'trim|required|date'
+                  ),   
+                array(
+                     'field'   => 'vcperdom',
+                     'label'   => 'Domicilio',
+                     'rules'   => 'trim|required'
+                  ),
+                array(
+                     'field'   => 'vcpertelcodarea',
+                     'label'   => 'Teléfono codigo de area',
+                     'rules'   => 'trim|exact_length[3]|numeric'
+                  ),
+                array(
+                     'field'   => 'vcpertel',
+                     'label'   => 'Teléfono',
+                     'rules'   => 'trim|numeric'
+                  ),
+                array(
+                     'field'   => 'vcpercelcodarea',
+                     'label'   => 'Celular codigo de area',
+                     'rules'   => 'trim|exact_length[3]|numeric'
+                  ),   
+                array(
+                     'field'   => 'vcpercel',
+                     'label'   => 'Celular',
+                     'rules'   => 'trim|numeric'
+                ),   
+                array(
+                     'field'   => 'idescuelagrado',
+                     'label'   => 'Escuela grado',
+                     'rules'   => 'trim|required'
+                ),   
+                array(
+                     'field'   => 'idtutor',
                      'label'   => 'Tutor',
                      'rules'   => 'trim|required'
                 ),   
@@ -135,23 +182,16 @@ class Persona extends Ext_Controller {
     public function iniReg()
     {
         if ((bool)$this->input->post()) {
-            if ($this->input->post('dtperfechnac')) {
-                list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
-                $fecha = $year."-".$mes."-".$dia;
-            } else {
-                $fecha = null;
-            }
-            
             $this->aReg = array(
                 'idpersona' => $this->input->post('idpersona'),
-                'vcpernombre' => $this->input->post('vcpernombre'),
+                'vcpernombre' => strtoupper($this->input->post('vcpernombre')),
                 'inperdni' => $this->input->post('inperdni'),
-                'dtperfechnac' => $fecha,
-                'vcperdom' => $this->input->post('vcperdom'),
+                'vcperdom' => strtoupper($this->input->post('vcperdom')),
                 'vcpertelcodarea' => $this->input->post('vcpertelcodarea'),
                 'vcpertel' => $this->input->post('vcpertel'),
                 'vcpercelcodarea' => $this->input->post('vcpercelcodarea'),
                 'vcpercel' => $this->input->post('vcpercel'),
+                'dtperfechnac' => $this->input->post('dtperfechnac'),
                 'boperestado' => 1
             );
         } else {
@@ -165,7 +205,8 @@ class Persona extends Ext_Controller {
                 'vcpertel' => '',
                 'vcpercelcodarea' => '',
                 'vcpercel' => '',
-                'boperestado' => 1
+                'boperestado' => 1,
+                'dtperfechnac' => null
             );
         }
         
@@ -179,52 +220,81 @@ class Persona extends Ext_Controller {
                 'idalumno' => $this->input->post('idalumno'),
                 'idescuela' => $this->input->post('idescuela'),
                 'idescuelagrado' => $this->input->post('idescuelagrado'),
-                'boalumestado' => 1
+                'boalumestado' => 1,
+                'nombreTutor' => $this->input->post('nombreTutor')
             );
         } else {
             $this->aReg = array(
                 'idalumno' => 0,
                 'idescuela' => null,
                 'idescuelagrado' => null,
-                'boalumestado' => 1
+                'boalumestado' => 1,
+                'nombreTutor' => ''
             );
         }
         
         return $this->aReg;
     }
-    
+
+    public function iniRegTutAlum()
+    {
+        if ((bool)$this->input->post()) {
+            $this->aReg = array(
+                'idtutalum' => $this->input->post('idtutalum'),
+                'idtutor' => $this->input->post('idtutor'),
+                'idalumno' => $this->input->post('idalumno'),
+                'idparentesco' => $this->input->post('idparentesco'),
+                'botutalumestado' =>1
+            );
+        } else {
+            $this->aReg = array(
+                'idtutalum' => 0,
+                'idtutor' => 0,
+                'idalumno' => 0,
+                'idparentesco' => 0,
+                'botutalumestado' =>1
+            );
+        }
+
+        return $this->aReg;
+    }
+
     public function formulario($idalumno = 0)
     {
         $aData = array();
+        $aRegTutAlum = array();
         
         //if ( (bool) $this->input->post('idalumno') and $idalumno == 0) {
-        if ($idalumno == 0) {
+        if ($idalumno == 0 || (bool)$this->input->post()) {
             $aReg = $this->iniReg();
             $aRegAlumno = $this->iniRegAlumno();
             $aReg = array_merge($aReg, $aRegAlumno);
-            $aReg['idtutor'] = 0;
-            $aReg['nombreTutor'] = '';
-            $aReg['idparentesco'] = 0;
-            $aReg['idtutalum'] = 0;
-            $aReg['idalumno'] = 0;
-            $accion = 'Nuevo';
+            $aRegTutAlum = $this->iniRegTutAlum();
         } else {
             $aData = array(
                 'idalumno' => $idalumno
             );
+
             $aReg = $this->personaModel->obtenerUno1($aData);
             list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
             $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
-            $accion = 'Editar';
+            //echo '<pre>';
+            //var_dump($aReg);
+            //die;
+            $aRegTutAlum = $this->tutalumModel->obtenerTutor($aData);
+            //echo '<pre>';
+            //var_dump($aRegTutAlum);
+            //die;
         }
         
         $aData = array(
             'aReg' => $aReg,
-            'aListaTutor' => $this->tutorModel->obtenerListadoNombres(),
+            'aRegTutAlum' => $aRegTutAlum,
+            'aRegTutor' => $this->tutorModel->obtenerListadoNombres(),
             'aEscuelas' => $this->escuelaModel->obtenerTodos(),
             'aEscuelaGrados' => $this->escuelagradoModel->obtenerTodos(),
             'aParentescos' => $this->parentescoModel->obtenerTodos(),
-            'accion' => $accion
+            'accion' => ($aReg['idalumno'] == 0)? 'Nuevo' : 'Editar'
         );
         
         $header = $this->load->view('backend/navbar_view', array(), true);
@@ -236,7 +306,12 @@ class Persona extends Ext_Controller {
     
     public function guardar()
     {
-        $this->form_validation->set_rules($this->aReglas['persona']);
+        if ($this->input->post('idalumno') == 0){
+            $this->form_validation->set_rules($this->aReglas['persona']);
+        } else {
+            $this->form_validation->set_rules($this->aReglas['persona_editar']);
+        }
+        
         if ($this->form_validation->run() == FALSE) {
             /*echo '<pre>';
             var_dump($this->input->post());
@@ -246,9 +321,12 @@ class Persona extends Ext_Controller {
             if ($this->input->post('idalumno') == 0){
                 $aReg = $this->iniReg();
                 $aReg['idrol'] = $this->rolModel->getIdAlumno();
+                list($dia, $mes, $year)=explode("/", $aReg['dtperfechnac']);
+                $aReg['dtperfechnac'] = $year."-".$mes."-".$dia;
                 $idPersona = $this->personaModel->guardarABM($aReg);
                 $aRegAlumno = $this->iniRegAlumno();
                 $aRegAlumno['idpersona'] = $idPersona;
+                unset($aRegAlumno['nombreTutor']);
                 $idAlumno = $this->personaModel->guardarAlumno($aRegAlumno);
                 $aData = array(
                     'idtutalum' => $this->input->post('idtutalum'),
@@ -257,11 +335,15 @@ class Persona extends Ext_Controller {
                     'idalumno' => $idAlumno,
                     'idparentesco' => $this->input->post('idparentesco')
                 );
+                
                 $this->tutalumModel->guardar($aData);
             } else {
                 $aReg = $this->iniReg();
+                list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
+                $aReg['dtperfechnac'] = $year."-".$mes."-".$dia;
                 $idPersona = $this->personaModel->guardarABM($aReg);
                 $aRegAlumno = $this->iniRegAlumno();
+                unset($aRegAlumno['nombreTutor']);
                 $idPersona = $this->personaModel->guardarAlumno($aRegAlumno);
                 $aData = array(
                     'idtutalum' => $this->input->post('idtutalum'),
@@ -270,6 +352,7 @@ class Persona extends Ext_Controller {
                     'idalumno' => $this->input->post('idalumno'),
                     'idparentesco' => $this->input->post('idparentesco')
                 );
+
                 $this->tutalumModel->guardar($aData);
             }
             

@@ -32,15 +32,20 @@
         public function obtenerListadoNombres()
         {
             $this->db->select('
-                ttutor.idtutor AS value,
-                tpersona.vcpernombre AS label
+                ttutor.idtutor,
+                tpersona.vcpernombre
             ');
             $this->db->from('ttutor');
             $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
             
-            $result = $this->db->get()->result_array();
+            $result = $this->db->get()->result();
             
-            return $result;
+            $resultSimple = array();
+            foreach ($result as $row){
+                $resultSimple[$row->idtutor] = $row->vcpernombre;
+            }
+            
+            return $resultSimple;
         }
         
         public function totalTutor()

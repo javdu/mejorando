@@ -24,14 +24,24 @@ class Usuario extends CI_Controller {
         $this->aReglas = array(
             'persona' => array(
                 array(
-                     'field'   => 'idrol',
-                     'label'   => 'Yo soy',
-                     'rules'   => 'required'
-                  ),
-                array(
                      'field'   => 'inperdni',
                      'label'   => 'DNI',
-                     'rules'   => 'trim|required|numeric|exact_length[8]'
+                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni'
+                  ),
+                array(
+                     'field'   => 'vcusuclave',
+                     'label'   => 'Contraseña',
+                     'rules'   => 'trim|required|min_length[4]'
+                  ),
+                array(
+                     'field'   => 'vcusuclave1',
+                     'label'   => 'Repita la Contraseña',
+                     'rules'   => 'trim|required|min_length[4]|matches[vcusuclave]'
+                  ),
+                array(
+                     'field'   => 'vcusuemail',
+                     'label'   => 'Email',
+                     'rules'   => 'trim|required|valid_email'
                   ),
                 array(
                      'field'   => 'vcpernombre',
@@ -100,19 +110,20 @@ class Usuario extends CI_Controller {
 	{
         $aEscuelas = $this->escuelaModel->obtenerTodos();
         $aEscuelaGrados = $this->escuelagradoModel->obtenerTodos();
-        $aRol = $this->rolModel->obtenerTodosTutores();
-        $viewPersona = $this->load->view(
+        $content = $this->load->view(
             'abms/formusuariopersona_view',
             array(
-                'aReg' => $this->iniReg(),
+                'aReg' => array_merge($this->iniReg(), $this->iniRegUsuario()),
                 'aEscuelas' => $aEscuelas,
-                'aEscuelaGrados' => $aEscuelaGrados,
-                'aRol' => $aRol
+                'aEscuelaGrados' => $aEscuelaGrados
             ), 
-            false
+            true
         );
         
-		return $viewPersona;
+		$header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
+        
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
 	}
     
     public function iniReg()
@@ -123,7 +134,7 @@ class Usuario extends CI_Controller {
                 'vcpernombre' => strtoupper($this->input->post('vcpernombre')),
                 'inperdni' => $this->input->post('inperdni'),
                 'dtperfechnac' => $this->input->post('dtperfechnac'),
-                'vcperdom' => $this->input->post('vcperdom'),
+                'vcperdom' => strtoupper($this->input->post('vcperdom')),
                 'vcpertelcodarea' => $this->input->post('vcpertelcodarea'),
                 'vcpertel' => $this->input->post('vcpertel'),
                 'vcpercelcodarea' => $this->input->post('vcpercelcodarea'),
@@ -150,10 +161,11 @@ class Usuario extends CI_Controller {
     
     public function iniRegUsuario()
     {
-        if ((bool)$this->input->post('form-usuario')) {
+        if ((bool)$this->input->post()) {
             $this->aReg = array(
-                'vcusunombre' => $this->input->post('vcusunombre'),
+                'vcusunombre' => $this->input->post('inperdni'),
                 'vcusuclave' => $this->input->post('vcusuclave'),
+                'vcusuclave1' => $this->input->post('vcusuclave1'),
                 'vcusuemail' => $this->input->post('vcusuemail'),
                 'bousuestado' => 1
             );
@@ -161,6 +173,7 @@ class Usuario extends CI_Controller {
             $this->aReg = array(
                 'vcusunombre' => null,
                 'vcusuclave' => '',
+                'vcusuclave1' => '',
                 'vcusuemail' => null,
                 'bousuestado' => 1
             );
@@ -222,78 +235,49 @@ class Usuario extends CI_Controller {
             $aEscuelas = $this->escuelaModel->obtenerTodos();
             $aEscuelaGrados = $this->escuelagradoModel->obtenerTodos();
             $aParent = $this->parentescoModel->obtenerTodos();
-            $aRol = $this->rolModel->obtenerTodos();
-            $view = $this->load->view(
+            $content = $this->load->view(
                 'abms/formusuariopersona_view', 
                 array(
-                    'aReg' => $this->iniReg(),
+                    'aReg' => array_merge($this->iniReg(), $this->iniRegUsuario()),
                     'aEscuelas' => $aEscuelas,
                     'aEscuelaGrados' => $aEscuelaGrados,
-                    'aParent' => $aParent,
-                    'aRol' => $aRol
+                    'aParent' => $aParent
                 ), 
                 true
-            ); 
+            );
         }
         else
         {
             $aData = $this->iniReg();
+            list($dia, $mes, $year)=explode("/", $aData['dtperfechnac']);
+            $aData['dtperfechnac'] = $year."-".$mes."-".$dia;
+                
             $idpersona = $this->personaModel->guardar($aData);
-            
-            $aData = array(
-                'dttutfecha' => date("Y-m-d"),
-                'botutestado' => 1,
-                'idpersona' => $idpersona
-            );
-            $idTutor = $this->tutorModel->guardar($aData);
             
             $aReg = array();
             $aReg = $this->iniRegUsuario();
+            $aReg['vcusuclave'] = md5($aReg['vcusuclave']);
             $aReg['idpersona'] = $idpersona;
-            $view = $this->load->view(
-                'abms/formusuario_view', 
-                array(
-                    'aReg' => $aReg
-                ), 
-                true
+            unset($aReg['vcusuclave1']);
+            
+            $this->usuarioModel->guardar($aReg);
+            
+            $aData = array(
+                'aReg' => array(
+                    'vcusunombre' =>  '', 
+                    'vcusuclave' =>  ''
+                ),
+                'msj' => 'El usuario se creo exitosamente.'
             );
             
-            /*
-            switch ($this->input->post('idrol')) {
-                case 2:
-                    $aEscuelas = $this->escuelaModel->obtenerTodos();
-                    $aParams = array('idDocente' => 1);
-                    $aDocEsc = $this->docEscModel->obtenerEscPorDoc($aParams);
-                    $view = $this->load->view(
-                        'abms/formusuariodocente_view', 
-                        array(
-                            'aReg' => array('iddocente' => 1),
-                            'aEscuelas' => $aEscuelas,
-                            'aDocEsc' => $aDocEsc
-                        ), 
-                        true
-                    );
-                    
-                    break;
-                default:
-                    $aParams = array('idtutor' => 1);
-                    $aTutAlum = $this->tutAlumModel->obtenerTutAlum($aParams);
-                    $view = $this->load->view(
-                        'abms/formusuariotutor_view', 
-                        array(
-                            'aReg' => array(
-                                'idtutor' => 1,
-                                'inperdni' => null
-                            ),
-                            'aTutAlum' => $aTutAlum
-                        ), 
-                        true
-                    );
-                    break;
-            }*/
+            $content = $this->load->view('login/autenticacion_view', $aData, true);
+
         }
         
-        echo $view;
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
+    
+        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
     
     public function guardarDocente()
@@ -360,7 +344,7 @@ class Usuario extends CI_Controller {
     {
         $this->form_validation->set_rules($this->aReglas['usuario']);
         
-        if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == FALSE || $this->claves_iguales() == true) {
             $aReg = $this->iniRegUsuario();
             $aReg['idpersona'] = $this->input->post('idpersona');
             $view = $this->load->view(
@@ -465,5 +449,27 @@ class Usuario extends CI_Controller {
         );
         
         echo $view;
+    }
+
+    public function is_unique_dni($dni)
+    {
+        $count = $this->personaModel->isUnicoDNI($dni);
+        if ((int)$count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function claves_iguales($clave, $vcusuclave1)
+    {
+        var_dump($clave);
+        var_dump($vcusuclave1);
+        die;
+        if (strcmp( $clave, $vcusuclave1) == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -20,7 +20,7 @@ class Tutor extends CI_Controller {
                 array(
                      'field'   => 'inperdni',
                      'label'   => 'DNI',
-                     'rules'   => 'trim|required|numeric|exact_length[8]'
+                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni'
                   ),
                 array(
                      'field'   => 'vcpernombre',
@@ -56,6 +56,50 @@ class Tutor extends CI_Controller {
                      'field'   => 'vcpercel',
                      'label'   => 'Celular',
                      'rules'   => 'trim|numeric'
+                )
+            ),
+            'persona_editar' => array(
+                array(
+                     'field'   => 'vcpernombre',
+                     'label'   => 'Nombre',
+                     'rules'   => 'trim|required'
+                  ),
+                array(
+                     'field'   => 'dtperfechnac',
+                     'label'   => 'Fecha de nacimiento',
+                     'rules'   => 'trim|required'
+                  ),   
+                array(
+                     'field'   => 'vcperdom',
+                     'label'   => 'Domicilio',
+                     'rules'   => 'trim|required'
+                  ),
+                array(
+                     'field'   => 'vcpertelcodarea',
+                     'label'   => 'Teléfono codigo de area',
+                     'rules'   => 'trim|exact_length[3]|numeric'
+                  ),
+                array(
+                     'field'   => 'vcpertel',
+                     'label'   => 'Teléfono',
+                     'rules'   => 'trim|numeric'
+                  ),
+                array(
+                     'field'   => 'vcpercelcodarea',
+                     'label'   => 'Celular codigo de area',
+                     'rules'   => 'trim|exact_length[3]|numeric'
+                  ),   
+                array(
+                     'field'   => 'vcpercel',
+                     'label'   => 'Celular',
+                     'rules'   => 'trim|numeric'
+                )
+            ),
+            'buscarpersona' => array(
+                array(
+                    'field'   => 'inperdni',
+                    'label'   => 'DNI',
+                    'rules'   => 'trim|required|numeric|exact_length[8]'
                 )
             )
         );
@@ -118,18 +162,11 @@ class Tutor extends CI_Controller {
     public function iniReg()
     {
         if ((bool)$this->input->post()) {
-            $fechaAux = $this->input->post('dtperfechnac');
-            $fecha = '';
-            if (!empty($fechaAux)) {
-                list($dia, $mes, $year) = explode("/", $fechaAux);
-                $fecha = $year."-".$mes."-".$dia;
-            }
-            
             $this->aReg = array(
                 'idpersona' => $this->input->post('idpersona'),
                 'vcpernombre' => $this->input->post('vcpernombre'),
                 'inperdni' => $this->input->post('inperdni'),
-                'dtperfechnac' => $fecha,
+                'dtperfechnac' => $this->input->post('dtperfechnac'),
                 'vcperdom' => $this->input->post('vcperdom'),
                 'vcpertelcodarea' => $this->input->post('vcpertelcodarea'),
                 'vcpertel' => $this->input->post('vcpertel'),
@@ -174,11 +211,32 @@ class Tutor extends CI_Controller {
         
         return $this->aReg;
     }
+
+    public function formularioBuscarPersona($idpersona = 0)
+    {
+        $aData = array(
+            'aReg' => array(
+                'inperdni' => null
+            )
+        );
+
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
+        $content = $this->load->view('admin/form_buscar_persona_tutor_view', $aData, true);
+        
+        $this->load->view(
+            'masterpage',
+            array(
+                'header' => $header,
+                'content' => $content,
+                'footer' => $footer
+            )
+        );
+    }
     
     public function formulario($idtutor = 0)
     {
-        $idtutor = ((bool)$this->input->post('idtutor'))? $this->input->post('idtutor') : $idtutor;
-        if ($idtutor == 0) {
+        if ($idtutor == 0 || (bool)$this->input->post('idtutor')) {
             $aReg = $this->iniReg();
             $aRegTutor = $this->iniRegTutor();
             $aReg = array_merge($aReg, $aRegTutor);
@@ -186,30 +244,44 @@ class Tutor extends CI_Controller {
         } else {
             $aData['idtutor'] = $idtutor;
             $aReg = $this->tutorModel->obtenerUno($aData);
-            $date = date_create($aReg['dtperfechnac']);
-            $aReg['dtperfechnac'] = date_format($date, 'd/m/Y');
+            list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
+            $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
         }
         
         $aData = array(
             'aReg' => $aReg,
-            'accion' => 'Editar'
+            'accion' => ($idtutor == 0)? 'Nuevo' : 'Editar'
         );
         
         $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/frmtutor_view', $aData, true);
         
-        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+        $this->load->view(
+            'masterpage',
+            array(
+                'header' => $header,
+                'content' => $content,
+                'footer' => $footer
+            )
+        );
     }
     
     public function guardar()
     {
-        $this->form_validation->set_rules($this->aReglas['persona']);
+        if ($this->input->post('idtutor') == 0){
+            $this->form_validation->set_rules($this->aReglas['persona']);
+        } else {
+            $this->form_validation->set_rules($this->aReglas['persona_editar']);
+        }
+        
         if ($this->form_validation->run() == FALSE) {
             $this->formulario();
         } else {
             if ($this->input->post('idtutor') == 0){
                 $aReg = $this->iniReg();
+                list($dia, $mes, $year)=explode("/", $this->input->post('dtperfechnac'));
+                $aReg['dtperfechnac'] = $year."-".$mes."-".$dia;
                 $aRegTutor = $this->iniRegTutor();
                 $idPersona = $this->personaModel->guardarABM($aReg);
                 $aRegTutor['idpersona'] = $idPersona;
@@ -217,6 +289,8 @@ class Tutor extends CI_Controller {
                 $this->tutorModel->guardar($aRegTutor);
             } else {
                 $aReg = $this->iniReg();
+                list($dia, $mes, $year)=explode("/", $aReg['dtperfechnac']);
+                $aReg['dtperfechnac'] = $year."-".$mes."-".$dia;
                 $aRegTutor = $this->iniRegTutor();
                 $idPersona = $this->personaModel->guardarABM($aReg);
                 $idTutor = $this->tutorModel->guardar($aRegTutor);
@@ -230,6 +304,8 @@ class Tutor extends CI_Controller {
     {
         $aData['idtutor'] = $idtutor;
         $aReg = $this->tutorModel->obtenerUno($aData);
+        list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
+        $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
         $aData = array(
             'aReg' => $aReg,
             'accion' => 'Editar'
@@ -249,5 +325,14 @@ class Tutor extends CI_Controller {
         $this->personaModel->eliminar($aData);
         
         $this->index();
+    }
+
+    public function is_unique_dni($dni) {
+        $count = $this->personaModel->isUnicoDNI($dni);
+        if ((int)$count == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

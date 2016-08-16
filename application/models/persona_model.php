@@ -56,6 +56,18 @@
             
             return array_shift($result);
         }
+
+        public function buscarPersona($aData)
+        {
+            $this->db->select('*');
+            $this->db->from('tpersona');
+            $this->db->join('trol', 'trol.idrol = tpersona.idrol');
+            $this->db->where($aData);
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
+        }
         
         public function obtenerUnoABM($aData)
         {
@@ -67,6 +79,9 @@
             
             return array_shift($result);
         }
+        /*
+
+        */
         
         public function obtenerUno1($aData)
         {
@@ -113,15 +128,27 @@
         public function obtenerTodos($offset, $limit)
         {
             $this->db->limit($limit, $offset);
-            $this->db->select('*');
+            $this->db->select('
+                talumno.*,
+                tpersona.*,
+                tescuela.*,
+                tescuelagrado.*,
+                tparentesco.*,
+                ttutorpersona.vcpernombre AS nombreTutor,
+                ttutorpersona.inperdni AS dniTutor,
+                ttutor.idtutor,
+                ttutalum.idparentesco,
+                ttutalum.idtutalum'
+            );
             $this->db->from('talumno');
             $this->db->join('tpersona', 'tpersona.idpersona = talumno.idpersona');
             $this->db->join('tescuela', 'tescuela.idescuela = talumno.idescuela');
-             //Tutor
+            //Tutor
             $this->db->join('ttutalum', 'ttutalum.idalumno = talumno.idalumno');
             $this->db->join('ttutor', 'ttutor.idtutor = ttutalum.idtutor');
             $this->db->join('tpersona AS ttutorpersona', 'ttutorpersona.idpersona = ttutor.idpersona');
             
+            $this->db->join('tparentesco', 'tparentesco.idparentesco = ttutalum.idparentesco');
             $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');
             $this->db->order_by('tpersona.vcpernombre');
             
@@ -139,8 +166,8 @@
         
         public function eliminar($aData)
         {
-            $this->db->where('idtutor', $aData['idtutor']);
-            $this->db->delete('ttutor'); 
+            $this->db->where('idpersona', $aData['idpersona']);
+            $this->db->delete('tpersona'); 
         }
     }
 // EOF parentesco_model.php

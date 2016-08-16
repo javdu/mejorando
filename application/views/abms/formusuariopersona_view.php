@@ -9,22 +9,25 @@
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
                 <?= $msj; ?>
-                <ol class="breadcrumb">
-                    <li>Registrarme</li>
-                    <li>Datos Personales</li>                    
-                </ol>
-                <form name="personaForm" id="personaForm" method="post">
+                <form action="abms/usuario/guardarpersona" name="personaForm" method="post">
                     <div class="form-group">
-                        <label for="idrol">Vínculo con el/los niños</label>
-                        <?php
-                            $aRol = array('' => 'Seleccionar') + $aRol;
-                            echo form_dropdown('idrol', $aRol, $aReg['idrol'], array('class' => 'form-control')); 
-                        ?>
-                    </div>
-                    <div class="form-group">
-                        <label for="inperdni">DNI</label>
+                        <label for="inperdni">Usuario (DNI)</label>
                         <input type="text" class="form-control" id="inperdni" name="inperdni" placeholder="DNI" value="<?= $aReg['inperdni']; ?>">
                     </div>
+                    <div class="form-group">
+                        <label for="vcusuclave">Contraseña</label>
+                        <input type="password" class="form-control" id="vcusuclave" name="vcusuclave" placeholder="Contraseña" value="<?= $aReg['vcusuclave']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="vcusuclave1">Repita la contraseña</label>
+                        <input type="password" class="form-control" id="vcusuclave1" name="vcusuclave1" placeholder="Contraseña" value="<?= $aReg['vcusuclave1']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="vcusuemail">Email</label>
+                        <input type="text" class="form-control" id="vcusuemail" name="vcusuemail" placeholder="Email" value="<?= $aReg['vcusuemail']; ?>">
+                    </div>
+                    <br>
+                    <br>
                     <div class="form-group">
                         <label for="vcpernombre">Apellido y Nombre</label>
                         <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" placeholder="Apellido y Nombre" style="text-transform: uppercase;" value="<?= $aReg['vcpernombre']; ?>">
@@ -47,10 +50,10 @@
                     <div class="form-group">
                         <label for="vcpertelcodarea">Teléfono</label>
                         <div class="form-inline">
-                            0 <input type="text" class="form-control" style="width: 13.5%;" id="vcpertelcodarea" name="vcpertelcodarea" placeholder="Cod. área" value="<?= $aReg['vcpertelcodarea']; ?>">
-                            <input type="text" class="form-control" style="width: 84%;" id="vcpertel" name="vcpertel" placeholder="Teléfono" value="<?= $aReg['vcpertel']; ?>">
+                            0 <input type="text" class="form-control" style="width: 15%;" id="vcpertelcodarea" name="vcpertelcodarea" placeholder="Cod. área" value="<?= $aReg['vcpertelcodarea']; ?>">
+                            <input type="text" class="form-control" style="width: 82%;" id="vcpertel" name="vcpertel" placeholder="Teléfono" value="<?= $aReg['vcpertel']; ?>">
                         </div>
-                    </div>                                        
+                    </div>                                       
                     <br>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -73,21 +76,6 @@
 </section>
 <script>
     $( document ).ready(function() {
-        
-        $('html, body').animate({ scrollTop: 0 }, 500);
-        
-        $( "#personaForm" ).submit(function( event ) {
-            event.preventDefault();
-            $.ajax({ 
-                url: "abms/usuario/guardarpersona", 
-                type: "post",
-                data: $("#personaForm").serialize(),
-                success: function(result){
-                    $("#box-main").html(result);
-                }
-            })
-        })
-        
         $( "#dtperfechnac" ).datepicker({
             changeMonth: true,
             changeYear: true,

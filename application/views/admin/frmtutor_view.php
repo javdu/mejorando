@@ -13,12 +13,16 @@
                 <hr />
                 <form action="admin/tutor/guardar" method="post">
                     <div class="form-group col-xs-12">
-                        <label for="vcpernombre">Apellido y Nombre/s</label>
-                        <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
+                        <label for="inperdni">DNI</label>
+                        <?php if($aReg['inperdni'] == 0): ?>
+                            <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
+                        <?php else: ?>
+                            <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI" readonly>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group col-xs-12">
-                        <label for="inperdni">DNI</label>
-                        <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
+                        <label for="vcpernombre">Apellido y Nombre/s</label>
+                        <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="dtperfechnac">Fecha Nac.</label>

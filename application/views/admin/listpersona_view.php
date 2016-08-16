@@ -15,8 +15,10 @@
                                 <th></th>
                                 <th>DNI</th>
                                 <th>APELLIDO Y NOMBRE</th>
-                                <th>DOMICILIO</th>
-                                <th>CELULAR</th>
+                                <th>TIPO TUTOR</th>
+                                <th>TUTOR</th>
+                                <th>ESCUELA</th>
+                                <th>GRADO</th>
                             </tr>
                         </thead>
                     <?php foreach($aPersona AS $elemPersona):?>
@@ -27,8 +29,10 @@
                             </td>
                             <td><p style="font-size: 11pt;"><?= $elemPersona['inperdni']; ?></p></td>
                             <td><p style="font-size: 11pt;"><?= $elemPersona['vcpernombre']; ?></p></td>
-                            <td><p style="font-size: 11pt;"><?= $elemPersona['vcperdom']; ?></p></td>
-                            <td><p style="font-size: 11pt;"><?= $elemPersona['vcpercelcodarea'].' - '.$elemPersona['vcpercel']; ?></p></td>
+                            <td><p style="font-size: 11pt;"><?= $elemPersona['vcparentnombre']; ?></p></td>
+                            <td><p style="font-size: 11pt;"><?= $elemPersona['nombreTutor']; ?></p></td>
+                            <td><p style="font-size: 11pt;"><?= $elemPersona['vcescnombre']; ?></p></td>
+                            <td><p style="font-size: 11pt;"><?= $elemPersona['vcescgradnombre']; ?></p></td>
                         </tr>
                     <?php endforeach; ?>
                     </table>

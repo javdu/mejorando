@@ -27,7 +27,7 @@
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <a id="show_form_tutor" href="abms/usuario/index">&raquo; Registrarme.</a>
+                        <a href="abms/usuario/index">&raquo; Registrarme.</a>
                     </div>
                   </div>
                   <div class="form-group">
@@ -44,12 +44,5 @@
 <script>
     $( document ).ready(function() {
         $('html, body').animate({ scrollTop: 0 }, 500);
-        
-        $( "#show_form_tutor" ).bind( "click", function(event) {
-            event.preventDefault();
-            $.ajax({url: "abms/usuario/index", success: function(result){
-                $("#box-main").html(result);
-            }});
-        });
     });
 </script>

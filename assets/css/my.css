@@ -18,7 +18,9 @@ a.active {
     outline: 0;
     color: #18bc9c;
 }
-
+input[type=text] {
+    text-transform: uppercase;
+}
 h1,
 h2,
 h3,

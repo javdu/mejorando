@@ -87,8 +87,7 @@ class Autenticacion extends CI_Controller {
             );
         
             $this->load->view('masterpage', $aData);
-        }
-        else {
+        } else {
             $aUsuario = $this->autenticacionModel->login(
                 array(
                     'vcusunombre' =>  $this->input->post('vcusunombre'), 
