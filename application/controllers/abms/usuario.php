@@ -51,7 +51,7 @@ class Usuario extends CI_Controller {
                 array(
                      'field'   => 'dtperfechnac',
                      'label'   => 'Fecha de nacimiento',
-                     'rules'   => 'trim|required'
+                     'rules'   => 'trim|required|callback_checkDateFormat'
                   ),   
                 array(
                      'field'   => 'vcperdom',
