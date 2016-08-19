@@ -212,28 +212,49 @@ class Tutor extends CI_Controller {
         return $this->aReg;
     }
 
-    public function formularioBuscarPersona($idpersona = 0)
+    public function buscarPersona()
     {
-        $aData = array(
-            'aReg' => array(
-                'inperdni' => null
-            )
-        );
+        $this->form_validation->set_rules($this->aReglas['buscarpersona']);
 
-        $header = $this->load->view('backend/navbar_view', array(), true);
-        $footer = $this->load->view('backend/footer_view', array(), true);
-        $content = $this->load->view('admin/form_buscar_persona_tutor_view', $aData, true);
-        
-        $this->load->view(
-            'masterpage',
-            array(
-                'header' => $header,
-                'content' => $content,
-                'footer' => $footer
-            )
-        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->formulario();
+        } else {
+            $aData = array(
+                'inperdni' => $this->input->post('inperdni')
+            );
+            $aReg = $this->personaModel->obtenerPersona($aData);
+            //echo '<pre>';
+            //var_dump($aData);
+            //die;
+            if ($aReg <> NULL) {
+                list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
+                $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
+                $aRegTutor = $this->iniRegTutor();
+                $aReg = array_merge($aReg, $aRegTutor);
+
+                $aData = array(
+                    'aReg' => $aReg,
+                    'accion' => 'Nuevo'
+                );
+                
+                $header = $this->load->view('backend/navbar_view', array(), true);
+                $footer = $this->load->view('backend/footer_view', array(), true);
+                $content = $this->load->view('admin/frmtutor_view', $aData, true);
+                
+                $this->load->view(
+                    'masterpage',
+                    array(
+                        'header' => $header,
+                        'content' => $content,
+                        'footer' => $footer
+                    )
+                );
+            } else {
+                $this->formulario();
+            }
+        }
     }
-    
+
     public function formulario($idtutor = 0)
     {
         if ($idtutor == 0 || (bool)$this->input->post('idtutor')) {
@@ -337,11 +358,8 @@ class Tutor extends CI_Controller {
     }
 
     function checkDateFormat($date) {
-        if (preg_match("/[0-31]{2}\/[0-12]{2}\/[0-9]{4}/", $date)) {
-            if(checkdate(substr($date, 3, 2), substr($date, 0, 2), substr($date, 6, 4)))
-                return true;
-            else
-                return false;
+        if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $date)) {
+            return true;
         } else {
             return false;
         }

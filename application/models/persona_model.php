@@ -57,6 +57,17 @@
             return array_shift($result);
         }
 
+        public function obtenerPersona($aData)
+        {
+            $this->db->select('*');
+            $this->db->from('tpersona');
+            $this->db->where($aData);
+            
+            $result = $this->db->get()->result_array();
+            
+            return array_shift($result);
+        }
+
         public function buscarPersona($aData)
         {
             $this->db->select('*');

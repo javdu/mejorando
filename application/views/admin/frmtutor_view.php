@@ -14,10 +14,20 @@
                 <form action="admin/tutor/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label for="inperdni">DNI</label>
-                        <?php if($aReg['inperdni'] == 0): ?>
-                            <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
+                        <?php if($aReg['idtutor'] == 0): ?>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal"type="button">Buscar</button>
+                                </span>
+                            </div><!-- /input-group -->
                         <?php else: ?>
-                            <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI" readonly>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI" readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal"type="button">Buscar</button>
+                                </span>
+                            </div><!-- /input-group -->
                         <?php endif; ?>
                     </div>
                     <div class="form-group col-xs-12">
@@ -67,6 +77,28 @@
         </div>
     </div>
 </section>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Buscar Persona</h4>
+      </div>
+      <form action="admin/tutor/buscarpersona" method="post">
+          <div class="modal-body">
+                <label for="inperdni">DNI</label>
+                <input type="text" class="form-control" id="inperdni" name="inperdni" value="" placeholder="DNI">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <input class="btn btn-default" type="submit" value="Buscar">
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- /Modal -->
   <script>
   $(function() {
     $( "#dtperfechnac" ).datepicker({
