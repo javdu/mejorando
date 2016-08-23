@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Tutor extends CI_Controller {
-    
+    var $msj = '';
+
     function __construct()
 	{
         parent::__construct();
@@ -67,7 +68,7 @@ class Tutor extends CI_Controller {
                 array(
                      'field'   => 'dtperfechnac',
                      'label'   => 'Fecha de nacimiento',
-                     'rules'   => 'trim|required'
+                     'rules'   => 'trim|required|callback_checkDateFormat'
                   ),   
                 array(
                      'field'   => 'vcperdom',
@@ -194,17 +195,15 @@ class Tutor extends CI_Controller {
     
     public function iniRegTutor()
     {
-        if ((bool)$this->input->post()) {
+        if ((bool)$this->input->post('form-tutor')) {
             $this->aReg = array(
                 'idtutor' => $this->input->post('idtutor'),
-                'idpersona' => $this->input->post('idpersona'),
                 'botutestado' => 1
             );
         } else {
             $this->aReg = array(
                 'idtutor' => 0,
                 'dttutfecha' => date('Y-m-d'),
-                'idpersona' => 0,
                 'botutestado' => 1
             );
         }
@@ -222,35 +221,41 @@ class Tutor extends CI_Controller {
             $aData = array(
                 'inperdni' => $this->input->post('inperdni')
             );
-            $aReg = $this->personaModel->obtenerPersona($aData);
-            //echo '<pre>';
-            //var_dump($aData);
-            //die;
-            if ($aReg <> NULL) {
-                list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
-                $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
-                $aRegTutor = $this->iniRegTutor();
-                $aReg = array_merge($aReg, $aRegTutor);
-
-                $aData = array(
-                    'aReg' => $aReg,
-                    'accion' => 'Nuevo'
-                );
-                
-                $header = $this->load->view('backend/navbar_view', array(), true);
-                $footer = $this->load->view('backend/footer_view', array(), true);
-                $content = $this->load->view('admin/frmtutor_view', $aData, true);
-                
-                $this->load->view(
-                    'masterpage',
-                    array(
-                        'header' => $header,
-                        'content' => $content,
-                        'footer' => $footer
-                    )
-                );
-            } else {
+            if ($this->tutorModel->existeTutor($aData) > 0) {
+                $this->msj = 'El Tutor ya existe.';
+                $_POST['inperdni'] = '';
                 $this->formulario();
+            } else {
+                $aReg = $this->personaModel->obtenerPersona($aData);
+                //echo '<pre>';
+                //var_dump($aData);
+                //die;
+                if ($aReg <> NULL) {
+                    list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
+                    $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
+                    $aRegTutor = $this->iniRegTutor();
+                    $aReg = array_merge($aReg, $aRegTutor);
+
+                    $aData = array(
+                        'aReg' => $aReg,
+                        'accion' => 'Nuevo'
+                    );
+                    
+                    $header = $this->load->view('backend/navbar_view', array(), true);
+                    $footer = $this->load->view('backend/footer_view', array(), true);
+                    $content = $this->load->view('admin/frmtutor_view', $aData, true);
+                    
+                    $this->load->view(
+                        'masterpage',
+                        array(
+                            'header' => $header,
+                            'content' => $content,
+                            'footer' => $footer
+                        )
+                    );
+                } else {
+                    $this->formulario();
+                }
             }
         }
     }
@@ -271,7 +276,8 @@ class Tutor extends CI_Controller {
         
         $aData = array(
             'aReg' => $aReg,
-            'accion' => ($idtutor == 0)? 'Nuevo' : 'Editar'
+            'accion' => ($idtutor == 0)? 'Nuevo' : 'Editar',
+            'msj' => $this->msj
         );
         
         $header = $this->load->view('backend/navbar_view', array(), true);
@@ -290,7 +296,7 @@ class Tutor extends CI_Controller {
     
     public function guardar()
     {
-        if ($this->input->post('idtutor') == 0){
+        if ($this->input->post('idpersona') == 0){
             $this->form_validation->set_rules($this->aReglas['persona']);
         } else {
             $this->form_validation->set_rules($this->aReglas['persona_editar']);
@@ -342,8 +348,8 @@ class Tutor extends CI_Controller {
     {
         $aData['idtutor'] = $this->input->post('idtutor');
         $this->tutorModel->eliminar($aData);
-        $aData['idpersona'] = $this->input->post('idpersona');
-        $this->personaModel->eliminar($aData);
+        //$aData['idpersona'] = $this->input->post('idpersona');
+        //$this->personaModel->eliminar($aData);
         
         $this->index();
     }

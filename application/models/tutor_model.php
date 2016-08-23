@@ -24,7 +24,8 @@
         
         public function eliminar($aData)
         {
-            $this->db->delete('ttutor', $aData['idtutor']);
+            $this->db->where('idtutor', $aData['idtutor']);
+            $this->db->delete('ttutor');
             
             return $this->db->affected_rows();
         }
@@ -81,6 +82,15 @@
             $result = $this->db->get()->result_array();
             
             return array_shift($result);
+        }
+
+        public function existeTutor($aData)
+        {
+            $this->db->from('ttutor');
+            $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
+            $this->db->where('tpersona.inperdni', $aData['inperdni']);
+            
+            return $this->db->count_all_results();
         }
     }
 // EOF .php

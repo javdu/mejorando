@@ -1,5 +1,5 @@
 <?php
-    $msj = (isset($msj))? $msj : '';
+    $msj = (!empty($msj))? '<div class="alert alert-danger" role="alert">'.$msj.'</div>' : '';
     $errores = validation_errors();
     $errores = (!empty($errores))? '<div class="alert alert-danger" role="alert">'.$errores.'</div>' : ''; 
 ?>
@@ -8,13 +8,12 @@
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
                 <?= $errores; ?>
-                <?= $msj; ?>
                 <h3><?= $accion; ?> Tutor</h3>
                 <hr />
                 <form action="admin/tutor/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label for="inperdni">DNI</label>
-                        <?php if($aReg['idtutor'] == 0): ?>
+                        <?php if($aReg['inperdni'] == 0): ?>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inperdni" name="inperdni" value="<?= $aReg['inperdni']; ?>" placeholder="DNI">
                                 <span class="input-group-btn">
@@ -58,6 +57,7 @@
                     </div>
                     <input type="hidden" name="idtutor" id="idtutor" value="<?= $aReg['idtutor']; ?>" />
                     <input type="hidden" name="idpersona" id="idpersona" value="<?= $aReg['idpersona']; ?>" />
+                    <input type="hidden" name="form-tutor" id="form-tutor" value="form-tutor" />
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -86,10 +86,11 @@
         <h4 class="modal-title" id="myModalLabel">Buscar Persona</h4>
       </div>
       <form action="admin/tutor/buscarpersona" method="post">
-          <div class="modal-body">
+            <div class="modal-body">
+                <?= $msj; ?>
                 <label for="inperdni">DNI</label>
                 <input type="text" class="form-control" id="inperdni" name="inperdni" value="" placeholder="DNI">
-          </div>
+            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             <input class="btn btn-default" type="submit" value="Buscar">
@@ -118,5 +119,9 @@
         weekHeader: 'Sm',
         dateFormat: 'dd/mm/yy'
     });
+
+    if ($('#inperdni').val().length == 0) {
+        $('#myModal').modal('show');
+    }
   });
   </script>
