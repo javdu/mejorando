@@ -21,7 +21,7 @@ class Tutor extends CI_Controller {
                 array(
                      'field'   => 'inperdni',
                      'label'   => 'DNI',
-                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni'
+                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni|callback_existe_tutor'
                   ),
                 array(
                      'field'   => 'vcpernombre',
@@ -100,7 +100,7 @@ class Tutor extends CI_Controller {
                 array(
                     'field'   => 'inperdni',
                     'label'   => 'DNI',
-                    'rules'   => 'trim|required|numeric|exact_length[8]'
+                    'rules'   => 'trim|required|numeric|exact_length[8]|callback_existe_tutor'
                 )
             )
         );
@@ -221,11 +221,11 @@ class Tutor extends CI_Controller {
             $aData = array(
                 'inperdni' => $this->input->post('inperdni')
             );
-            if ($this->tutorModel->existeTutor($aData) > 0) {
+            /*if ($this->tutorModel->existeTutor($aData) > 0) {
                 $this->msj = 'El Tutor ya existe.';
                 $_POST['inperdni'] = '';
                 $this->formulario();
-            } else {
+            } else {*/
                 $aReg = $this->personaModel->obtenerPersona($aData);
                 //echo '<pre>';
                 //var_dump($aData);
@@ -256,7 +256,7 @@ class Tutor extends CI_Controller {
                 } else {
                     $this->formulario();
                 }
-            }
+            //}
         }
     }
 
@@ -357,6 +357,16 @@ class Tutor extends CI_Controller {
     public function is_unique_dni($dni) {
         $count = $this->personaModel->isUnicoDNI($dni);
         if ((int)$count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+     public function existe_tutor($dni) {
+        $count = $this->tutorModel->existeTutor($dni);
+
+        if ((int) $count == 0) {
             return true;
         } else {
             return false;

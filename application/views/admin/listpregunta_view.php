@@ -6,14 +6,14 @@
                 <h3><small>En este modulo se puede agregar, editar y eliminar cada uno de los componentes del cuestionario.</small></h3>
                 <hr />
                 <a class="btn btn-default" style="float: right;" href="admin/pregunta/nuevo">Nueva Pregunta</a>
-                <a class="btn btn-default" style="float: right;" href="admin/subfactor/nuevo">Nuevo Subfactor</a>
-                <a class="btn btn-default" style="float: right;" href="admin/factor/formulario">Nuevo Factor</a>
+                <a class="btn btn-default" style="float: right;" href="admin/subfactor/nuevo/<?= $idencuesta ?>">Nuevo Subfactor</a>
+                <a class="btn btn-default" style="float: right;" href="admin/factor/formulario/0/<?= $idencuesta ?>">Nuevo Factor</a>
                 <br />
                 <br />
                 <?php foreach($aFactor AS $elemFactor): ?>
                         <h3 style="color: #8E9BFF;">
-                            <a href="admin/factor/formulario/<?= $elemFactor['idfactor']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true" style="color: #8E9BFF;"></a>
-                            <a href="admin/factor/baja/<?= $elemFactor['idfactor']; ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #8E9BFF;"></span></a> 
+                            <a href="admin/factor/formulario/<?= $elemFactor['idfactor']; ?>/<?= $idencuesta ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true" style="color: #8E9BFF;"></a>
+                            <a href="admin/factor/baja/<?= $elemFactor['idfactor']; ?>/<?= $idencuesta ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: #8E9BFF;"></span></a> 
                             <?= $elemFactor['vcfactnombre']; ?>
                         </h3>
                         <?php if(isset($elemFactor['subfactor'])):?>

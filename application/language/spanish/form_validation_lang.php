@@ -19,6 +19,7 @@ $lang['matches'] = 'El campo %s no coincide con el campo %s.';
 $lang['is_natural'] = 'El campo %s debe contener s';
 $lang['is_natural_no_zero'] = 'El campo %s debe contener un n';
 $lang['is_unique_dni'] = 'El campo DNI ya existe.';
+$lang['existe_tutor'] = 'El tutor ya existe.';
 $lang['checkDateFormat'] = 'El campo %s debe tener el siguiente formato dd/mm/aaaa.';
 
 ?>

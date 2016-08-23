@@ -34,11 +34,11 @@ class Pregunta extends Ext_Controller {
         );
     }
 
-	public function index()
+	public function index($idencuesta = 0)
 	{
-        $aFactor = $this->factorModel->obtenerTodos();
-        $aSubfactor = $this->subfactorModel->obtenerTodos();
-        $aPregunta = $this->preguntaModel->obtenerTodos();
+        $aFactor = $this->factorModel->obtenerTodos($idencuesta);
+        $aSubfactor = $this->subfactorModel->obtenerTodos($idencuesta);
+        $aPregunta = $this->preguntaModel->obtenerTodos($idencuesta);
         $aAux = array();
         foreach($aFactor AS $elemFactor) {
            $aAux[$elemFactor['idfactor']] = $elemFactor;
@@ -67,7 +67,8 @@ class Pregunta extends Ext_Controller {
         //echo '<pre>';
         //var_dump($aFactor);
         $aData = array(
-            'aFactor' => $aFactor
+            'aFactor' => $aFactor,
+            'idencuesta' => $idencuesta
         );
         $header = $this->load->view('backend/navbar_view', array(), true);
         $footer = $this->load->view('backend/footer_view', array(), true);

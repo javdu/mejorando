@@ -7,14 +7,14 @@
     		parent::__construct();
     	}
         
-        public function obtenerTodos($aData)
+        public function obtenerTodos($idencuesta)
         {
             $this->db->select('
                 idfactor,
                 vcfactnombre
             ');
             $this->db->from('tfactor');
-            $this->db->where($aData);
+            $this->db->where('idencuesta', $idencuesta);
             
             return $this->db->get()->result_array(); 
         }

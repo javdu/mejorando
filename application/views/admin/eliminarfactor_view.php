@@ -22,6 +22,7 @@
                         <input type="text" class="form-control" id="vcfactdescrip" name="vcfactdescrip" value="<?= $aReg['vcfactdescrip']; ?>" placeholder="Descripción">
                     </div>
                     <input type="hidden" name="idfactor" id="idfactor" value="<?= $aReg['idfactor']; ?>">
+                    <input type="hidden" name="idencuesta" id="idencuesta" value="<?= $idencuesta; ?>">
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -29,7 +30,7 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <a class="btn btn-default" href="admin/pregunta/index">Cancelar</a>
+                                        <a class="btn btn-default" href="admin/pregunta/index/<?= $idencuesta; ?>">Cancelar</a>
                                         <input class="btn btn-default" type="submit" value="Eliminar">
                                     </div>
                                 </div>

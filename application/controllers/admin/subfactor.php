@@ -107,10 +107,10 @@ class SubFactor extends Ext_Controller
         return $this->aReg;
     }
     
-    public function nuevo()
+    public function nuevo($idencuesta = 0)
     {
         $aReg = $this->iniReg();
-        $aFactor = $this->factorModel->selectTodos();
+        $aFactor = $this->factorModel->selectTodos($idencuesta);
         
         $aData = array(
             'aFactor' => $aFactor,
@@ -118,8 +118,8 @@ class SubFactor extends Ext_Controller
             'accion' => 'Nuevo'
         );
         
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         
         $content = $this->load->view('admin/frmsubfactor_view', $aData, true);
 		

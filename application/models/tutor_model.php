@@ -84,11 +84,11 @@
             return array_shift($result);
         }
 
-        public function existeTutor($aData)
+        public function existeTutor($dni)
         {
             $this->db->from('ttutor');
             $this->db->join('tpersona', 'tpersona.idpersona = ttutor.idpersona');
-            $this->db->where('tpersona.inperdni', $aData['inperdni']);
+            $this->db->where('tpersona.inperdni', $dni);
             
             return $this->db->count_all_results();
         }

@@ -15,12 +15,7 @@
                     <div class="form-group col-xs-12">
                         <label for="vcpernombre">Apellido y Nombre/s</label>
                         <?php if($aReg['idalumno'] == 0): ?>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" data-toggle="modal" data-target="#myModal"type="button">Buscar</button>
-                                </span>
-                            </div><!-- /input-group -->
+                            <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s">
                         <?php else: ?>
                             <input type="text" class="form-control" id="vcpernombre" name="vcpernombre" value="<?= $aReg['vcpernombre']; ?>" placeholder="Apellido y Nombre/s" readonly>
                         <?php endif; ?>
