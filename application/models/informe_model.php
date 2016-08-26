@@ -34,6 +34,16 @@
             $result = $this->db->get()->result_array();
             return array_shift($result);
         }
+
+        public function obtenerUno($idinforme)
+        {
+            $this->db->select('*');
+            $this->db->from('tinforme');
+            $this->db->where('idinforme', $idinforme);
+            
+            $result = $this->db->get()->result_array();
+            return array_shift($result);
+        }
         
         public function obtenerResultados()
         {   

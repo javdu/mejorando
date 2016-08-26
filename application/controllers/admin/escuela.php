@@ -106,9 +106,9 @@ class Escuela extends Ext_Controller {
         if ((bool)$this->input->post()) {
             $this->aReg = array(
                 'idescuela' => $this->input->post('idescuela'),
-                'vcescnombre' => $this->input->post('vcescnombre'),
+                'vcescnombre' => strtoupper($this->input->post('vcescnombre')),
                 'vcescnro' => $this->input->post('vcescnro'),
-                'vcescdirec' => $this->input->post('vcescdirec'),
+                'vcescdirec' => strtoupper($this->input->post('vcescdirec')),
                 'vcesctel' => $this->input->post('vcesctel'),
                 'vcesccel' => $this->input->post('vcesccel'),
                 'vcescemail' => $this->input->post('vcescemail')

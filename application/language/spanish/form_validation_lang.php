@@ -21,5 +21,5 @@ $lang['is_natural_no_zero'] = 'El campo %s debe contener un n';
 $lang['is_unique_dni'] = 'El campo DNI ya existe.';
 $lang['existe_tutor'] = 'El tutor ya existe.';
 $lang['checkDateFormat'] = 'El campo %s debe tener el siguiente formato dd/mm/aaaa.';
-
+$lang['is_unique_encuesta'] = 'El campo %s ya existe.';
 ?>

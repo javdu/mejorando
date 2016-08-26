@@ -15,19 +15,19 @@
                 <form action="admin/resultresp/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label for="vcresultinfobt">Informacion obtenida:</label>
-                        <textarea name="vcresultinfobt" id="vcresultinfobt" class="form-control" rows="3"><?= $aReg['vcresultinfobt']; ?></textarea>
+                        <textarea name="vcresultinfobt" id="vcresultinfobt" class="form-control" rows="10"><?= $aReg['vcresultinfobt']; ?></textarea>
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcresultsugprof">Sugerencia profesional:</label>
-                        <textarea name="vcresultsugprof" id="vcresultsugprof" class="form-control" rows="3"><?= $aReg['vcresultsugprof']; ?></textarea>
+                        <textarea name="vcresultsugprof" id="vcresultsugprof" class="form-control" rows="10"><?= $aReg['vcresultsugprof']; ?></textarea>
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcresultejepot">Ejercicio de potenciamiento:</label>
-                        <textarea name="vcresultejepot" id="vcresultejepot" class="form-control" rows="3"><?= $aReg['vcresultejepot']; ?></textarea>
+                        <textarea name="vcresultejepot" id="vcresultejepot" class="form-control" rows="10"><?= $aReg['vcresultejepot']; ?></textarea>
                     </div>
                     <div class="form-group col-xs-12">
                         <label for="vcresultorientadult">Orientación del adulto:</label>
-                        <textarea name="vcresultorientadult" id="vcresultorientadult" class="form-control" rows="3"><?= $aReg['vcresultorientadult']; ?></textarea>
+                        <textarea name="vcresultorientadult" id="vcresultorientadult" class="form-control" rows="10"><?= $aReg['vcresultorientadult']; ?></textarea>
                     </div>
                     <hr />
                     <div id="box-respuestas">
@@ -51,6 +51,7 @@
                     <input type="hidden" name="idsubfactor" id="idsubfactor" value="<?= $idsubfactor; ?>" />
                     <input type="hidden" name="idresultado" id="idresultado" value="<?= $aReg['idresultado'];; ?>" />
                     <input type="hidden" name="idcombinacion" id="idcombinacion" value="<?= (isset($elemResp))? $elemResp['idcombinacion'] : 0; ?>" />
+                    <input type="hidden" name="idencuesta" id="idencuesta" value="<?= $idencuesta ?>" />
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -58,7 +59,7 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <a class="btn btn-default" href="admin/resultresp/index/<?= $idsubfactor; ?>">Cancelar</a>
+                                        <a class="btn btn-default" href="admin/resultresp/index/<?= $idsubfactor; ?>/<?= $idencuesta; ?>">Cancelar</a>
                                         <input class="btn btn-default" type="submit" value="Guardar" />
                                     </div>
                                 </div>

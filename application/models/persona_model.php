@@ -100,6 +100,8 @@
                 talumno.*,
                 tpersona.*,
                 tescuela.*,
+                tescuelagrado.*,
+                tparentesco.*,
                 ttutorpersona.vcpernombre AS nombreTutor,
                 ttutorpersona.inperdni AS dniTutor,
                 ttutor.idtutor,
@@ -115,6 +117,7 @@
             $this->db->join('ttutor', 'ttutor.idtutor = ttutalum.idtutor');
             $this->db->join('tpersona AS ttutorpersona', 'ttutorpersona.idpersona = ttutor.idpersona');
             
+            $this->db->join('tparentesco', 'tparentesco.idparentesco = ttutalum.idparentesco');
             $this->db->join('tescuelagrado', 'tescuelagrado.idescuelagrado = talumno.idescuelagrado');
             
             $result = $this->db->get()->result_array();

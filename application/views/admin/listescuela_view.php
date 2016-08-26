@@ -10,6 +10,15 @@
                 <br />
                 <br />
                     <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;"></th>
+                                <th>NOMBRE</th>
+                                <th>NRO.</th>
+                                <th>DIRECCIÓN</th>
+                                <th>TELÉFONO</th>
+                            </tr>
+                        </thead>
                     <?php foreach($aEscuela AS $elemEscuela):?>
                         <tr>
                             <td>

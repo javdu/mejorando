@@ -12,7 +12,7 @@ class Encuesta extends Ext_Controller {
        $this->load->library('pagination');
        
        $this->aReglas = array(
-            'escuela' => array(
+            'encuesta' => array(
                 array(
                      'field'   => 'vcencnombre',
                      'label'   => 'Nombre',
@@ -34,11 +34,11 @@ class Encuesta extends Ext_Controller {
     
     public function listado()
     {
-        $config['base_url'] = 'encuesta/encuesta/listado/';
+        $config['base_url'] = 'admin/encuesta/listado/';
         $config['total_rows'] = $this->encuestaModel->totalEncuesta();
-        $config['per_page'] = '5';
+        $config['per_page'] = '10';
         $config['uri_segment'] = 4;
-        $config['num_links'] = 5;
+        $config['num_links'] = 10;
         
         $config['full_tag_open'] = '<ul class="pagination pagination-md">';
         $config['full_tag_close'] = '</ul>';
@@ -108,7 +108,7 @@ class Encuesta extends Ext_Controller {
     {
         $aData = array();
         
-        if ( (bool) $this->input->post('idencuesta') and $idencuesta == 0) {
+        if ( (bool) $this->input->post('idencuesta') || $idencuesta == 0) {
             $aReg = $this->iniReg();
         } else {
             $aData = array(
@@ -131,7 +131,8 @@ class Encuesta extends Ext_Controller {
     
     public function guardar()
     {
-        $this->form_validation->set_rules($this->aReglas['escuela']);
+        $this->form_validation->set_rules($this->aReglas['encuesta']);
+        
         if ($this->form_validation->run() == FALSE) {
             $this->formulario();
         } else {

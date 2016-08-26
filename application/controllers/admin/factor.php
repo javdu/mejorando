@@ -37,7 +37,7 @@ class Factor extends Ext_Controller
         if ((bool)$this->input->post()) {
             $this->aReg = array(
                 'idfactor' => $this->input->post('idfactor'),
-                'vcfactnombre' => $this->input->post('vcfactnombre'),
+                'vcfactnombre' => strtoupper($this->input->post('vcfactnombre')),
                 'vcfactdescrip' => $this->input->post('vcfactdescrip'),
                 'vcfactestado' => 1,
                 'idencuesta' => $this->input->post('idencuesta')

@@ -51,7 +51,34 @@
         public function eliminar($idencuesta)
         {
             $this->db->where('idencuesta', $idencuesta);
-            $this->db->delete('tencuesta'); 
+            $this->db->delete('tencuesta');
+        }
+
+        public function isUnicoEncuesta($edad)
+        {
+            $this->db->select('
+                tencuesta.idencuesta
+            ');
+            $this->db->from('tencuesta');
+            $this->db->where('tencuesta.intencedad', (int)$edad);
+            $this->db->where('tencuesta.vcencestado', 1);
+            
+            $result = $this->db->count_all_results();
+            
+            return $result;
+        }
+
+        public function obtenerTodosSelect()
+        {
+            $this->db->order_by('vcencnombre');
+            $consulta = $this->db->get('tencuesta');
+            
+            $resultSimple = array();
+            foreach ($consulta->result() as $row){
+                $resultSimple[$row->idencuesta] = $row->vcencnombre;
+            }
+            
+            return $resultSimple;
         }
     }
 // EOF parentesco_model.php

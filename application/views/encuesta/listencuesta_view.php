@@ -10,6 +10,13 @@
                 <br />
                 <br />
                     <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;"></th>
+                                <th>NOMBRE</th>
+                                <th>DESCRIPCIÓN</th>
+                            </tr>
+                        </thead>
                     <?php foreach($aEncuesta AS $elemEncuesta):?>
                         <tr>
                             <td>

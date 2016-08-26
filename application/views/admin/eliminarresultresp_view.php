@@ -50,8 +50,8 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <a class="btn btn-default" href="admin/resultresp/index/<?= $idsubfactor; ?>">Cancelar</a>
-                                        <a class="btn btn-default" href="admin/resultresp/eliminar/<?= $idsubfactor; ?>/<?= $aReg['idresultado']; ?>">Eliminar</a>
+                                        <a class="btn btn-default" href="admin/resultresp/index/<?= $idsubfactor; ?>/<?= $idencuesta; ?>">Cancelar</a>
+                                        <a class="btn btn-default" href="admin/resultresp/eliminar/<?= $idsubfactor; ?>/<?= $aReg['idresultado']; ?>/<?= $idencuesta; ?>">Eliminar</a>
                                     </div>
                                 </div>
                             </div>

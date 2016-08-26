@@ -17,6 +17,7 @@ class Diagnostico extends Ext_Controller {
         $this->load->model('informe_model', 'informeModel');
         $this->load->model('alumno_model', 'alumnoModel');
         $this->load->model('TutAlum_Model', 'tutalumModel');
+        $this->load->model('encuesta_Model', 'encuestaModel');
         
         $this->load->helper('mi_helper');
         
@@ -54,6 +55,13 @@ class Diagnostico extends Ext_Controller {
                      'field'   => 'vcescemail',
                      'label'   => 'Email',
                      'rules'   => 'trim|valid_email'
+                  )
+            ),
+            'select_encuesta' => array(
+                array(
+                     'field'   => 'idencuesta',
+                     'label'   => 'Encuesta',
+                     'rules'   => 'trim|required'
                   )
             )
         );
@@ -99,10 +107,15 @@ class Diagnostico extends Ext_Controller {
             $page = 0;
         }
        
-        $aPersona = $this->personaModel->obtenerTodos($page, $config['num_links']);
+        $aListPersona = $this->personaModel->obtenerTodos($page, $config['num_links']);
+
+        foreach ($aListPersona AS &$aPersona) {
+            $aPersona['edad'] = calculaEdad($aPersona['dtperfechnac']);
+            $aPersona['dtperfechnac'] = date("d/m/Y", strtotime($aPersona['dtperfechnac']));
+        }
         
         $aData = array(
-            'aPersona' => $aPersona
+            'aPersona' => $aListPersona
         );
         
         $content = $this->load->view('admin/listdiagpers_view', $aData, true);
@@ -155,12 +168,18 @@ class Diagnostico extends Ext_Controller {
         else{
             $page = 0;
         }
+
+        $aux = $this->personaModel->obtenerUno1(array('idalumno' => $idalumno));
+        $aux['edad'] = calculaEdad($aux['dtperfechnac']);
+        $aux['dtperfechnac'] = date("d/m/Y", strtotime($aux['dtperfechnac']));
+
         $aDiagnostico = $this->diagnosticoModel->obtenerTodos($page, $config['num_links'], $aData);
         
         $aData = array(
             'aDiagnostico' => $aDiagnostico,
             'idalumno' => $idalumno,
-            'aAlumno' => $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $idalumno))
+            'aAlumno' => $aux,
+            'aEncuestas' => $this->encuestaModel->obtenerTodosSelect()
         );
         
         $content = $this->load->view('admin/listdiagnostico_view', $aData, true);
@@ -191,19 +210,55 @@ class Diagnostico extends Ext_Controller {
     
     public function nuevo($idalumno = 0)
     {
-        //$aPregResp = $this->preguntaModel->obtenerTodosInfResp($idinforme);
-        $aPreg = $this->preguntaModel->obtenerTodos(0, 1000);
-        
-        $aData = array(
-            'aPreg' => $aPreg,
-            'idalumno' => $idalumno
-        ); 
-        
-        $content = $this->load->view('admin/frmdiagnosticonuevo_view', $aData, true);
-        $header = $this->load->view('backend/navbar_view', array(), true);
-        $footer = $this->load->view('backend/footer_view', array(), true);
-        
-        $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+
+        $this->form_validation->set_rules($this->aReglas['select_encuesta']);
+        if ($this->form_validation->run() == FALSE) {
+            $this->listadodiagnostico($idalumno);
+        } else {
+            /*
+            $config['total_rows'] = $this->preguntaModel->totalPreguntaEncuesta($this->input->post('idencuesta'));
+            $config['base_url'] = 'admin/diagnostico/nuevo/'.$idalumno;
+            $config['per_page'] = '5';
+            $config['uri_segment'] = 5;
+            $config['num_links'] = 0;
+            
+            $config['full_tag_open'] = '<ul class="pagination pagination-md">';
+            $config['full_tag_close'] = '</ul>';
+            $config['num_tag_open'] = '<li class="nropaginacion">';
+            $config['num_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active nropaginacion"><span>';
+            $config['cur_tag_close'] = '<span></span></span></li>';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['first_link'] = '«';
+            $config['prev_link'] = '‹';
+            $config['last_link'] = '»';
+            $config['next_link'] = '›';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>'; 
+            
+            $this->pagination->initialize($config);*/
+
+            $aPersona = $this->personaModel->obtenerUno1(array('idalumno' => $idalumno));
+
+            $aPreg = $this->preguntaModel->obtenerTodos(0, 1000, $this->input->post('idencuesta'));
+            
+            $aData = array(
+                'aPreg' => $aPreg,
+                'idalumno' => $idalumno,
+                'idencuesta' => $this->input->post('idencuesta')
+            );
+            
+            $content = $this->load->view('admin/frmdiagnosticonuevo_view', $aData, true);
+            $header = $this->load->view('backend/navbar_view', array(), true);
+            $footer = $this->load->view('backend/footer_view', array(), true);
+            
+            $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
+        }
     }
     
     public function guardar()
@@ -212,14 +267,16 @@ class Diagnostico extends Ext_Controller {
         //SE REGISTRAN LAS RESPUESTA DE LA PREGUNTAS
         $aData = $this->input->post();
         if (isset($aData['idinforme'])) {
+            //editar
             $idinforme = $aData['idinforme'];
         } else {
+            //nuevo
             $aAlumno = $this->alumnoModel->obtenerUnoIdAlumno(array('idalumno' => $aData['idalumno']));
             $aDataInforme = array(
                 'dtinffecha' => date('Y-m-d'),
                 'boinfestado' => 1,
                 'idinfest' => 1,
-                'idencuesta' => 1,
+                'idencuesta' => $this->input->post('idencuesta'),
                 'idalumno' => $aData['idalumno'],
                 'idpersona' => $aAlumno['idpersona']
             );
@@ -244,7 +301,7 @@ class Diagnostico extends Ext_Controller {
         //Se guarda de nuevo el indice
         $this->inffacindiceModel->eliminar(array('idinforme' => $idinforme));
             
-        $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
+        $aFactor = $this->factorModel->obtenerTodos($this->input->post('idencuesta'));
         $aRdo = array();
         foreach($aFactor as $elemFactor) {
             $aData = array(
@@ -262,7 +319,7 @@ class Diagnostico extends Ext_Controller {
             $aCantPregSiempre = $this->graficoModel->totalPreguntasPorFactor($aData);
             
             $aData = array(
-                'idencuesta' => 1,
+                'idencuesta' => $this->input->post('idencuesta'),
                 'idfactor' => $elemFactor['idfactor'],
             );
             $aTotPreg = $this->graficoModel->totalPregunta($aData);
@@ -286,7 +343,7 @@ class Diagnostico extends Ext_Controller {
         //*********************************************************************************
         $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
 
-        $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
+        $aFactor = $this->factorModel->obtenerTodos($this->input->post('idencuesta'));
         $aAuxGraf = array();
         foreach($aFactor as $elemFactor) {
             $aData = array(
@@ -344,6 +401,8 @@ class Diagnostico extends Ext_Controller {
     public function generarinforme($idinforme = 0, $idalumno = 0)
     {
         $aIndinf = $this->inffacindiceModel->obtenerIndiceInforme($idinforme);
+        $aInforme = $this->informeModel->obtenerUno($idinforme);
+        $idencuesta = $aInforme['idencuesta'];
         $aAuxCategorias = array();
         $aAuxPorcentaje = array();
         foreach($aIndinf AS $elemIndInf) {
@@ -351,7 +410,7 @@ class Diagnostico extends Ext_Controller {
             $aAuxPorcentaje[] = $elemIndInf['ininffacvalor'];
         }
         //*********************************************************************************
-        $aFactor = $this->factorModel->obtenerTodos(array('idencuesta' => 1));
+        $aFactor = $this->factorModel->obtenerTodos($idencuesta);
         $aAuxGraf = array();
         foreach($aFactor as $elemFactor) {
             $aData = array(
