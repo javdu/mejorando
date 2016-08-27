@@ -7,11 +7,14 @@
     		parent::__construct();
     	}
         
-        public function obtenerTodos()
+        public function obtenerTodos($idencuesta)
         {
             $this->db->select('*');
             $this->db->from('tpregunta');
-            $this->db->order_by('idsubfactor, vcpregnombre');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tpregunta.idsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
+            $this->db->order_by('tsubfactor.idsubfactor, tpregunta.vcpregnombre');
      
             $result = $this->db->get()->result_array();
             

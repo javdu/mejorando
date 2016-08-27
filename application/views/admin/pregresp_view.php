@@ -1,5 +1,5 @@
 <?php
-    $msj = (isset($msj))? '<div class="alert alert-info"><p>'.$msj.'</p></div>' : '';
+    $msj = (isset($msj))? '<div class="alert alert-danger"><p>'.$msj.'</p></div>' : '';
     $errores = validation_errors();
     $errores = (!empty($errores))? '<div class="alert alert-danger" role="alert">'.$errores.'</div>' : ''; 
 ?>
@@ -11,6 +11,7 @@
                 <h3><small>En este modulo se seleccionan las posibles respuestas.</small></h3>
                 <hr />
                 <?= $msj; ?>
+                <?= $errores; ?>
                 <form action="admin/pregresp/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label>Respuestas</label>
@@ -28,16 +29,17 @@
                         <label>Respuestas elegidas</label>
                         <table class="table table-striped">
                         <?php foreach($aPregResp AS $elemPregResp):?>
-                            <tr><td><a href="admin/pregresp/eliminar/<?= $elemPregResp['idpregunta']; ?>/<?= $elemPregResp['idpregresp']; ?>"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <?= $elemPregResp['vcrespnombre']; ?></td></tr>
+                            <tr><td><a href="admin/pregresp/eliminar/<?= $elemPregResp['idpregunta']; ?>/<?= $elemPregResp['idpregresp']; ?>/<?= $idencuesta; ?>"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <?= $elemPregResp['vcrespnombre']; ?></td></tr>
                         <?php endforeach; ?>
                         </table>
                     </div>
-                    <input type="hidden" name="idpregunta" value="<?= $elemPregResp['idpregunta']; ?>" />
+                    <input type="hidden" name="idpregunta" value="<?= $idpregunta; ?>" />
+                    <input type="hidden" name="idencuesta" value="<?= $idencuesta; ?>" />
                     <div class="form-group col-xs-12">
                         <div id='toolbar' style="padding: 40px 15px;">
                             <div class='wrapper text-center'>
                                 <div class="btn-group">
-                                    <a class="btn btn-default" href="admin/pregunta/index">Volver</a>
+                                    <a class="btn btn-default" href="admin/pregunta/index/<?= $idencuesta; ?>">Volver</a>
                                 </div>
                             </div>
                         </div>

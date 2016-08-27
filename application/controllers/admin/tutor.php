@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Tutor extends CI_Controller {
-    
+    var $msj = '';
+
     function __construct()
 	{
         parent::__construct();
@@ -20,7 +21,7 @@ class Tutor extends CI_Controller {
                 array(
                      'field'   => 'inperdni',
                      'label'   => 'DNI',
-                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni'
+                     'rules'   => 'trim|required|numeric|exact_length[8]|callback_is_unique_dni|callback_existe_tutor'
                   ),
                 array(
                      'field'   => 'vcpernombre',
@@ -67,7 +68,7 @@ class Tutor extends CI_Controller {
                 array(
                      'field'   => 'dtperfechnac',
                      'label'   => 'Fecha de nacimiento',
-                     'rules'   => 'trim|required'
+                     'rules'   => 'trim|required|callback_checkDateFormat'
                   ),   
                 array(
                      'field'   => 'vcperdom',
@@ -99,7 +100,7 @@ class Tutor extends CI_Controller {
                 array(
                     'field'   => 'inperdni',
                     'label'   => 'DNI',
-                    'rules'   => 'trim|required|numeric|exact_length[8]'
+                    'rules'   => 'trim|required|numeric|exact_length[8]|callback_existe_tutor'
                 )
             )
         );
@@ -194,17 +195,15 @@ class Tutor extends CI_Controller {
     
     public function iniRegTutor()
     {
-        if ((bool)$this->input->post()) {
+        if ((bool)$this->input->post('form-tutor')) {
             $this->aReg = array(
                 'idtutor' => $this->input->post('idtutor'),
-                'idpersona' => $this->input->post('idpersona'),
                 'botutestado' => 1
             );
         } else {
             $this->aReg = array(
                 'idtutor' => 0,
                 'dttutfecha' => date('Y-m-d'),
-                'idpersona' => 0,
                 'botutestado' => 1
             );
         }
@@ -212,28 +211,55 @@ class Tutor extends CI_Controller {
         return $this->aReg;
     }
 
-    public function formularioBuscarPersona($idpersona = 0)
+    public function buscarPersona()
     {
-        $aData = array(
-            'aReg' => array(
-                'inperdni' => null
-            )
-        );
+        $this->form_validation->set_rules($this->aReglas['buscarpersona']);
 
-        $header = $this->load->view('backend/navbar_view', array(), true);
-        $footer = $this->load->view('backend/footer_view', array(), true);
-        $content = $this->load->view('admin/form_buscar_persona_tutor_view', $aData, true);
-        
-        $this->load->view(
-            'masterpage',
-            array(
-                'header' => $header,
-                'content' => $content,
-                'footer' => $footer
-            )
-        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->formulario();
+        } else {
+            $aData = array(
+                'inperdni' => $this->input->post('inperdni')
+            );
+            /*if ($this->tutorModel->existeTutor($aData) > 0) {
+                $this->msj = 'El Tutor ya existe.';
+                $_POST['inperdni'] = '';
+                $this->formulario();
+            } else {*/
+                $aReg = $this->personaModel->obtenerPersona($aData);
+                //echo '<pre>';
+                //var_dump($aData);
+                //die;
+                if ($aReg <> NULL) {
+                    list($year, $mes, $dia)=explode("-", $aReg['dtperfechnac']);
+                    $aReg['dtperfechnac'] = $dia."/".$mes."/".$year;
+                    $aRegTutor = $this->iniRegTutor();
+                    $aReg = array_merge($aReg, $aRegTutor);
+
+                    $aData = array(
+                        'aReg' => $aReg,
+                        'accion' => 'Nuevo'
+                    );
+                    
+                    $header = $this->load->view('backend/navbar_view', array(), true);
+                    $footer = $this->load->view('backend/footer_view', array(), true);
+                    $content = $this->load->view('admin/frmtutor_view', $aData, true);
+                    
+                    $this->load->view(
+                        'masterpage',
+                        array(
+                            'header' => $header,
+                            'content' => $content,
+                            'footer' => $footer
+                        )
+                    );
+                } else {
+                    $this->formulario();
+                }
+            //}
+        }
     }
-    
+
     public function formulario($idtutor = 0)
     {
         if ($idtutor == 0 || (bool)$this->input->post('idtutor')) {
@@ -250,7 +276,8 @@ class Tutor extends CI_Controller {
         
         $aData = array(
             'aReg' => $aReg,
-            'accion' => ($idtutor == 0)? 'Nuevo' : 'Editar'
+            'accion' => ($idtutor == 0)? 'Nuevo' : 'Editar',
+            'msj' => $this->msj
         );
         
         $header = $this->load->view('backend/navbar_view', array(), true);
@@ -269,7 +296,7 @@ class Tutor extends CI_Controller {
     
     public function guardar()
     {
-        if ($this->input->post('idtutor') == 0){
+        if ($this->input->post('idpersona') == 0){
             $this->form_validation->set_rules($this->aReglas['persona']);
         } else {
             $this->form_validation->set_rules($this->aReglas['persona_editar']);
@@ -321,8 +348,8 @@ class Tutor extends CI_Controller {
     {
         $aData['idtutor'] = $this->input->post('idtutor');
         $this->tutorModel->eliminar($aData);
-        $aData['idpersona'] = $this->input->post('idpersona');
-        $this->personaModel->eliminar($aData);
+        //$aData['idpersona'] = $this->input->post('idpersona');
+        //$this->personaModel->eliminar($aData);
         
         $this->index();
     }
@@ -336,12 +363,19 @@ class Tutor extends CI_Controller {
         }
     }
 
+     public function existe_tutor($dni) {
+        $count = $this->tutorModel->existeTutor($dni);
+
+        if ((int) $count == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function checkDateFormat($date) {
-        if (preg_match("/[0-31]{2}\/[0-12]{2}\/[0-9]{4}/", $date)) {
-            if(checkdate(substr($date, 3, 2), substr($date, 0, 2), substr($date, 6, 4)))
-                return true;
-            else
-                return false;
+        if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $date)) {
+            return true;
         } else {
             return false;
         }

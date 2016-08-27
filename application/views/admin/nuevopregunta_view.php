@@ -1,3 +1,8 @@
+<?php
+    $msj = (isset($msj))? $msj : '';
+    $errores = validation_errors();
+    $errores = (!empty($errores))? '<div class="alert alert-danger" role="alert">'.$errores.'</div>' : ''; 
+?>
 <section id="resultresp">
     <div class="container">
         <div class="row">
@@ -5,6 +10,8 @@
                 <h3><?= $accion; ?> Pregunta</h3>
                 <h3><small>En este modulo se crea una pregunta nueva.</small></h3>
                 <hr />
+                <?= $errores; ?>
+                <?= $msj; ?>
                 <form action="admin/pregunta/guardar" method="post">
                     <div class="form-group col-xs-12">
                         <label>Factor</label>
@@ -29,6 +36,7 @@
                         <input type="text" class="form-control" id="vcpregnombre" name="vcpregnombre" value="<?= $aReg['vcpregnombre']; ?>" placeholder="Nombre">
                     </div>
                     <input type="hidden" name="idpregunta" id="idpregunta" value="<?= $aReg['idpregunta']; ?>">
+                    <input type="hidden" name="idencuesta" id="idencuesta" value="<?= $idencuesta; ?>">
                     <br/>
                     <div class="clearfix"></div>
                     <div class="row">
@@ -36,7 +44,7 @@
                             <div id='toolbar' style="padding: 40px 15px;">
                                 <div class='wrapper text-center'>
                                     <div class="btn-group">
-                                        <a class="btn btn-default" href="admin/pregunta/index">Cancelar</a>
+                                        <a class="btn btn-default" href="admin/pregunta/index/<?= $idencuesta ?>">Cancelar</a>
                                         <input class="btn btn-default" type="submit" value="Guardar">
                                     </div>
                                 </div>

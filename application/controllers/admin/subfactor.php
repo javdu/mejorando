@@ -107,36 +107,38 @@ class SubFactor extends Ext_Controller
         return $this->aReg;
     }
     
-    public function nuevo()
+    public function nuevo($idencuesta = 0)
     {
         $aReg = $this->iniReg();
-        $aFactor = $this->factorModel->selectTodos();
+        $aFactor = $this->factorModel->selectTodos($idencuesta);
         
         $aData = array(
             'aFactor' => $aFactor,
             'aReg' => $aReg,
+            'idencuesta' => $idencuesta,
             'accion' => 'Nuevo'
         );
         
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         
         $content = $this->load->view('admin/frmsubfactor_view', $aData, true);
 		
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
     
-    public function editar($idsubfactor)
+    public function editar($idsubfactor, $idencuesta)
     {
         $aData = array();
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $aReg = $this->subfactorModel->obtenerUno($idsubfactor);
-        $aFactor = $this->factorModel->selectTodos();
+        $aFactor = $this->factorModel->selectTodos($idencuesta);
         
         $aData = array(
             'aFactor' => $aFactor,
             'aReg' => $aReg,
+            'idencuesta' => $idencuesta,
             'accion' => 'Editar'
         );
         
@@ -149,24 +151,26 @@ class SubFactor extends Ext_Controller
     {
         $this->form_validation->set_rules($this->aReglas['subfactor']);
         if ($this->form_validation->run() == FALSE) {
-            $this->nuevo();
+            $this->nuevo($this->input->post('idencuesta'));
         } else {
             $aReg = $this->iniReg();
             $this->subfactorModel->guardar(array('aReg' => $aReg));
             
             //$this->index();
-            redirect('/admin/pregunta/index', 'location');
+            redirect('/admin/pregunta/index/'.$this->input->post('idencuesta'), 'location');
         }
     }
     
-    public function baja($idPregunta)
+    public function baja($idsubfactor, $idencuesta)
     {
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        $aReg = $this->subfactorModel->obtenerUno($idPregunta);
+        $aReg = $this->subfactorModel->obtenerUno($idsubfactor);
         $aData = array(
-            'aReg' => $aReg
+            'aReg' => $aReg,
+            'idencuesta' => $idencuesta
         );
+
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/eliminarsubfactor_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
@@ -177,6 +181,6 @@ class SubFactor extends Ext_Controller
         $this->subfactorModel->eliminar($this->input->post('idsubfactor'));
         
         //$this->index();
-        redirect('/admin/pregunta/index', 'location');
+        redirect('/admin/pregunta/index/'.$this->input->post('idencuesta'), 'location');
     }
 }

@@ -19,6 +19,8 @@
     <script src="<?= base_url(); ?>assets/js/highcharts.js"></script>
     <script src="<?= base_url(); ?>assets/js/exporting.js"></script>
     <script src="<?= base_url(); ?>assets/js/jquery-ui.min.js"></script>
+    <script src="<?= base_url(); ?>assets/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
 </head>
 <body id="page-top" class="index" style="margin:0; padding:0;">
 <div style="margin:0; padding:0; position:relative;">

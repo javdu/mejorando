@@ -19,10 +19,12 @@
             return array_shift($result);
         }
         
-        public function obtenerTodos()
+        public function obtenerTodos($idencuesta)
         {
             $this->db->select('*');
             $this->db->from('tsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
             $this->db->order_by('vcsubfactnombre');
      
             $result = $this->db->get()->result_array();

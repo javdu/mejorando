@@ -14,7 +14,7 @@ class ResultResp extends Ext_Controller
        $this->load->model('Resultado_model', 'resultadoModel');
     }
     
-    public function index($idsubfactor = 0)
+    public function index($idsubfactor = 0, $idencuesta = 0)
     {
         
         $aResultado = $this->resultadoModel->obtenerTodosElementos($idsubfactor);
@@ -35,6 +35,7 @@ class ResultResp extends Ext_Controller
         
         $aData = array(
             'idsubfactor' => $idsubfactor,
+            'idencuesta' => $idencuesta,
             'aResultResp' => $aAuxList
         );
         $header = $this->load->view('backend/navbar_view', array(), true);
@@ -174,11 +175,8 @@ echo <<<EOT
 EOT;
     }
     
-    public function formulario($idsubfactor = 0, $idresultado = 0)
+    public function formulario($idsubfactor = 0, $idresultado = 0, $idencuesta = 0)
     {
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        
         if ($idresultado > 0) {
             $aResultado = $this->resultadoModel->obtenerUno($idresultado);
         } else {
@@ -191,18 +189,19 @@ EOT;
             'aRespuestas' => $aRespuestas,
             'accion' => 'Nuevo',
             'idsubfactor' => $idsubfactor,
+            'idencuesta' => $idencuesta,
             'aRespuesta' => $this->respuestaModel->obtenerTodos()
         );
+
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/frmresultresp_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
     
-    public function baja($idsubfactor = 0, $idresultado = 0)
+    public function baja($idsubfactor = 0, $idresultado = 0, $idencuesta = 0)
     {
-        $header = '';
-        $footer = '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
-        
         $aResultado = $this->resultadoModel->obtenerUno($idresultado);
         $aRespuestas = $this->resultrespModel->obtenerRespuestas($idresultado);
         
@@ -211,19 +210,23 @@ EOT;
             'aRespuestas' => $aRespuestas,
             'accion' => 'Eliminar',
             'idsubfactor' => $idsubfactor,
+            'idencuesta' => $idencuesta,
             'aRespuesta' => $this->respuestaModel->obtenerTodos()
         );
+
+        $header = $this->load->view('backend/navbar_view', array(), true);
+        $footer = $this->load->view('backend/footer_view', array(), true);
         $content = $this->load->view('admin/eliminarresultresp_view', $aData, true);
         
         $this->load->view('masterpage', array('header' => $header, 'content' => $content, 'footer' => $footer));
     }
     
-    public function eliminar($idsubfactor = 0, $idresultado = 0)
+    public function eliminar($idsubfactor = 0, $idresultado = 0, $idencuesta = 0)
     {
         $aReg = $this->resultadoModel->eliminar($idresultado);
         $aReg = $this->resultrespModel->eliminar($idresultado);
         
-        $this->index($idsubfactor);
+        $this->index($idsubfactor, $idencuesta);
     }
 
 	public function index1($idpregunta = 0)
@@ -320,7 +323,7 @@ EOT;
         }
         
         
-        $this->index($aReg['idsubfactor']);
+        $this->index($aReg['idsubfactor'], $this->input->post('idencuesta'));
     }
     
     public function guardar1()

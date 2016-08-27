@@ -7,10 +7,11 @@
     		parent::__construct();
     	}
         
-        public function obtenerTodos()
+        public function obtenerTodos($idencuesta)
         {
             $this->db->select('*');
             $this->db->from('tfactor');
+            $this->db->where('idencuesta', $idencuesta);
             $this->db->order_by("vcfactnombre"); 
      
             $result = $this->db->get()->result_array();
@@ -18,10 +19,11 @@
             return $result;
         }
         
-        public function selectTodos()
+        public function selectTodos($idencuesta)
         {
             $this->db->select('*');
             $this->db->from('tfactor');
+            $this->db->where('idencuesta', $idencuesta);
             $this->db->order_by("vcfactnombre"); 
             
             $consulta = $this->db->get();

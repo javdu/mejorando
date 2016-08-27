@@ -13,11 +13,27 @@
             
             return $this->db->count_all_results();
         }
+
+        public function totalPreguntaEncuesta($idencuesta = 0)
+        {
+            $this->db->from('tpregunta');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tpregunta.idsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
+            
+            return $this->db->count_all_results();
+        }
         
-        public function obtenerTodos($offset, $limit)
+        public function obtenerTodos($offset, $limit, $idencuesta)
         {
             $this->db->limit($limit, $offset);
-            $aPregunta = $this->db->get('tpregunta')->result_array();
+            $this->db->select('tpregunta.*');
+            $this->db->from('tpregunta');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tpregunta.idsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
+
+            $aPregunta = $this->db->get()->result_array();
             
             $this->db->select(
                 'tpregresp.idpregresp, 
@@ -28,8 +44,6 @@
             $this->db->from('tpregresp');
             $this->db->join('trespuesta', 'trespuesta.idrespuesta = tpregresp.idrespuesta');
             $aRespuesta = $this->db->get()->result_array();
-            
-            
             
             $auxPregunta = array();
             $auxRespuesta = array();

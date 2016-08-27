@@ -24,6 +24,7 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="admin/escuela">Escuela</a></li>
                         <li><a href="admin/diagnostico">Diagnostico</a></li>
+                        <li><a href="admin/encuesta">Encuestas</a></li>
                     </ul>
                 </li>
             </ul>
