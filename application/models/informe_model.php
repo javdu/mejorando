@@ -192,7 +192,7 @@
             return $aSalida;
         }
         
-        public function obtenerResultados2($idinforme = 0, $idalumno = 0)
+        public function obtenerResultados2($idinforme = 0, $idalumno = 0, $idencuesta = 0)
         {   
             $this->db->select('
                 tpregunta.idsubfactor,
@@ -207,20 +207,26 @@
             ');
             $this->db->from('tpregresp');
             $this->db->join('tpregunta', 'tpregunta.idpregunta = tpregresp.idpregunta');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tpregunta.idsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
             $this->db->group_by(array("tpregunta.idsubfactor","tpregresp.idrespuesta"));
             $this->db->order_by('idsubfactor, idrespuesta');
-            
+              
             $aResult = $this->db->get()->result_array();
             
             $this->db->select('
-           	    idsubfactor,
+           	    tsubfactor.idsubfactor,
                 idrespuesta,
                 idresultrespcontador,
                 idcombinacion,
                 idresultado
             ');
             $this->db->from('tresultresp');
-            $this->db->order_by('idsubfactor, idrespuesta');
+            $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tresultresp.idsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
+            $this->db->order_by('tsubfactor.idsubfactor, idrespuesta');
             $aResultado = $this->db->get()->result_array();
             
             $aAux = array();
@@ -252,6 +258,7 @@
                 vcfactnombre
             ');
             $this->db->from('tfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
             $this->db->order_by('idfactor');
             $aFactor = $this->db->get()->result_array();
   
@@ -266,6 +273,8 @@
             ');
             $this->db->from('tresultado');
             $this->db->join('tsubfactor', 'tsubfactor.idsubfactor = tresultado.idsubfactor');
+            $this->db->join('tfactor', 'tfactor.idfactor = tsubfactor.idfactor');
+            $this->db->where('tfactor.idencuesta', $idencuesta);
             $this->db->order_by('idfactor', 'idsubfactor');
             $aDetalleResultado = $this->db->get()->result_array();
             

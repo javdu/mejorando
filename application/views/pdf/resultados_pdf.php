@@ -35,16 +35,18 @@
         <?php if (isset($aElemResultado['resultado'])):?>
             <?php $aAux = $aElemResultado['resultado']; ?>
             <h4>INFORMACION OBTENIDA</h4>
+            <ul>
             <?php foreach($aAux as $aElemAux): ?>
-                <p><?= isset($aElemAux[0]['vcresultinfobt'])? $aElemAux[0]['vcresultinfobt']: ''; ?></p>
+                <li><?= isset($aElemAux[0]['vcresultinfobt'])? $aElemAux[0]['vcresultinfobt']: ''; ?></li>
             <?php endforeach; ?>
+            </ul>
             <h4>SUGERENCIAS PROFESIONALES PERSONALIZADAS</h4>
             <?php foreach($aAux as $aElemAux): ?>
-                <p><?= isset($aElemAux[0]['vcresultsugprof'])? $aElemAux[0]['vcresultsugprof']: ''; ?></p>
+                <?= isset($aElemAux[0]['vcresultsugprof'])? $aElemAux[0]['vcresultsugprof']: ''; ?>
             <?php endforeach; ?>
             <h4>EJERCICIOS DE POTENCIAMIENTO</h4>
             <?php foreach($aAux as $aElemAux): ?>
-                <p><?= isset($aElemAux[0]['vcresultejepot'])? sprintf($aElemAux[0]['vcresultejepot']) : ''; ?></p>
+                <?= isset($aElemAux[0]['vcresultejepot'])? sprintf($aElemAux[0]['vcresultejepot']) : ''; ?>
             <?php endforeach; ?>           
             
         <?php endif; ?>

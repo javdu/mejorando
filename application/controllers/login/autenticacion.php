@@ -104,8 +104,7 @@ class Autenticacion extends CI_Controller {
                 );
                 $this->session->set_userdata($nuevosdatos);
                 
-                redirect('login/seleccionarbd/index');
-                //redirect('preguntas/index');
+                redirect('preguntas/index');
             } else {
                 $this->_message = 'El usuario no existe, verifique su nombre de usuario y contraseña.';
                 $this->index();

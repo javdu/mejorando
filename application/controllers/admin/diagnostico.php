@@ -454,7 +454,7 @@ class Diagnostico extends Ext_Controller {
         $this->graficocomparativo($aAuxGraf, $idinforme);
         //********************************************************************************
         
-        $this->hacerPDF($idinforme, $idalumno);
+        $this->hacerPDF($idinforme, $idalumno, $idencuesta);
     }
     
     public function estadoactual($aAuxPorcentaje = null, $idinforme = 0)
@@ -683,7 +683,7 @@ class Diagnostico extends Ext_Controller {
         $graph->Stroke("./assets/img/estadisticos/".$nombImagen);
     }
     
-    function hacerPDF($idinforme = 0, $idalumno = 0)
+    function hacerPDF($idinforme = 0, $idalumno = 0, $idencuesta = 0)
     {
         $this->load->library('Reporte');
         
@@ -691,7 +691,7 @@ class Diagnostico extends Ext_Controller {
         
         $pdf->AddPage();
         
-        $aResultados = $this->informeModel->obtenerResultados2($idinforme, $idalumno);
+        $aResultados = $this->informeModel->obtenerResultados2($idinforme, $idalumno, $idencuesta);
         
         $aInforme = $this->informeModel->obtener(array('idinforme' => $idinforme));
         $aInforme['dtinffecha'] = date("d/m/Y", strtotime($aInforme['dtinffecha']));

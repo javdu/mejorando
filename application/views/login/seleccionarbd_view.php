@@ -1,4 +1,4 @@
-<?php
+?php
     $msj = (isset($msj))? '<div class="alert alert-info"><p>'.$msj.'</p></div>' : '';
     $errores = validation_errors();
     $errores = (!empty($errores))? '<div class="alert alert-danger" role="alert">'.$errores.'</div>' : ''; 
