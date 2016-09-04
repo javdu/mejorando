@@ -65,12 +65,13 @@
             unset($aReg['idresultado']);
             if ($idresultado == 0) {
                 $this->db->insert('tresultado', $aReg);
+                $idresultado = $this->db->insert_id();
             } else {
                 $this->db->where('idresultado', $idresultado);
                 $this->db->update('tresultado', $aReg);
             }
             
-            return $this->db->insert_id();
+            return $idresultado;
         }
         
         public function eliminar($idresultado)

@@ -184,6 +184,7 @@ EOT;
         }
         
         $aRespuestas = $this->resultrespModel->obtenerRespuestas($idresultado);
+        
         $aData = array(
             'aReg' => $aResultado,
             'aRespuestas' => $aRespuestas,
@@ -304,9 +305,11 @@ EOT;
             }
         } else {
             $idresultado = $this->resultadoModel->guardar($aReg);
+
             $tam = count($aResp);
             $i = 0;
-            $this->resultrespModel->eliminarSubFactor($aReg['idsubfactor'], $this->input->post('idcombinacion'));
+
+            $this->resultrespModel->eliminarResulResp($idresultado);
             while ($i < $tam) {
                 $idresultado = $this->resultrespModel->guardar(
                     array(
@@ -319,6 +322,7 @@ EOT;
                     )
                 );
                 $i++;
+                
             }
         }
         

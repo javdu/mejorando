@@ -63,6 +63,12 @@
             
             return $maxElem;
         }
+
+        public function eliminarResulResp($idresultado)
+        {
+            $this->db->where('idresultado', $idresultado);
+            $this->db->delete('tresultresp'); 
+        }
         
         public function eliminarSubFactor($idsubfactor, $idcombinacion)
         {
